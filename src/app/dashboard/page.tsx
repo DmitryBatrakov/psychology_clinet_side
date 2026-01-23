@@ -1,7 +1,7 @@
 "use client";
 
 import { useAtomValue } from "jotai";
-import { authAtom } from "@/src/store/authAtom";
+import { authAtom } from "@/src/store/auth/authAtom";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -11,8 +11,10 @@ export default function Dashboard() {
 
     useEffect(() => {
         if (!loading && !user) {
-            router.push("/register");
+            router.push("/dashboard");
         }
+
+        console.log(user);
     }, [user, loading, router]);
 
     // if (loading)

@@ -1,13 +1,13 @@
 "use client";
-import { useAppNavigation } from "@/src/hooks/useAppNavigation";
-import { authAtom } from "@/src/store/authAtom";
+import { authAtom } from "@/src/store/auth/authAtom";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { CircleUser } from "lucide-react";
 
 export const Header = () => {
     const { user } = useAtomValue(authAtom);
-    const { goToLogin, goToProfile } = useAppNavigation();
+    const router = useRouter();
 
     return (
         <header className="flex items-center justify-between p-4 ">
@@ -18,19 +18,20 @@ export const Header = () => {
                 <Link href="/dashboard">Home</Link>
                 <Link href="/about">About</Link>
                 <Link href="/catalog">Catalog</Link>
+                <Link href="/specialists">For Specialist</Link>
             </nav>
             <div className="flex items-center justify-center">
                 {user ? (
-                    <button 
-                        className="p-4 rounded-full border-2 border-black text-sm"
-                        onClick={() => goToProfile()}
-                        >
-                        Avatar
+                    <button
+                        className="cursor-pointer"
+                        onClick={() => router.push("/account/profile")}
+                    >
+                        <CircleUser size={40} color="gray" />
                     </button>
                 ) : (
                     <button
                         className="px-4 py-2 bg-blue-500 text-white rounded"
-                        onClick={() => goToLogin()}
+                        onClick={() => router.push("/login")}
                     >
                         Sign In
                     </button>

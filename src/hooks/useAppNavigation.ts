@@ -20,10 +20,6 @@ export function useAppNavigation() {
         goToDashboard: () => navigateTo("/dashboard"),
         goToAdmin: () => navigateTo('/admin'),
         goToProfile: () => navigateTo("/profile"),
-
-        goToInvite: (token: string) =>
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            router.push(`/invite?token=${token}` as any),
         goBack: () => router.back(),
     };
 }

@@ -2,12 +2,12 @@
 import { useAtomValue } from "jotai";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { authAtom } from "../store/authAtom";
+import { authAtom } from "../store/auth/authAtom";
 
 export function useRoleAccess(allowedRoles: string[]) {
     const { user, role, loading } = useAtomValue(authAtom);
     const router = useRouter();
-    
+
     useEffect(() => {
         if (!loading) {
             if (!user) router.push("/login");

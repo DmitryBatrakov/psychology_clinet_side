@@ -1,75 +1,149 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
-import { useAppNavigation } from "@/src/hooks/useAppNavigation";
-import { useAuthActions } from "@/src/hooks/useAuthActions";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useAuthActions } from "@/src/hooks/auth/useAuthActions";
+import {
+    RegisterFormValues,
+    registerSchema,
+} from "@/src/app/validation/validation.user";
+
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { useRouter } from "next/navigation";
 
 export default function RegisterPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(false);
-    const { goToDashboard } = useAppNavigation();
+    const [serverError, setServerError] = useState("");
+
     const { register } = useAuthActions();
+    const router = useRouter()
 
-    const handleRegister = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-        setError("");
+    const form = useForm<RegisterFormValues>({
+        resolver: zodResolver(registerSchema),
+        defaultValues: {
+            email: "",
+            password: "",
+        },
+        mode: "onTouched",
+    });
 
+    const onSubmit = async (data: RegisterFormValues) => {
+        setServerError("");
         try {
-            // 1. Создаем пользователя в Firebase Auth
-            await register(email, password)
+            const user = await register(data.email, data.password);
 
-            // 2. После успеха триггер 'onUserCreate' на бэкенде создаст профиль в БД.
-            // Перенаправляем пользователя на главную или в личный кабинет.
-            goToDashboard();
+            if (user) {
+                router.push("/onboarding");
+            }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setLoading(false);
+            setServerError(err.message || "Ошибка при регистрации");
         }
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-            <form
-                onSubmit={handleRegister}
-                className="p-8 bg-white shadow-md rounded-lg w-96"
-            >
-                <h1 className="text-2xl font-bold mb-6 text-center text-gray-800">
-                    Регистрация
-                </h1>
+        <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
+            <Card className="w-full max-w-md">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-bold text-center">
+                        Регистрация
+                    </CardTitle>
+                    <CardDescription className="text-center">
+                        Создайте аккаунт, чтобы продолжить
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <Form {...form}>
+                        <form
+                            onSubmit={form.handleSubmit(onSubmit)}
+                            className="space-y-4"
+                        >
+                            {serverError && (
+                                <Alert variant="destructive">
+                                    <AlertDescription>
+                                        {serverError}
+                                    </AlertDescription>
+                                </Alert>
+                            )}
 
-                {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+                            <FormField
+                                control={form.control}
+                                name="email"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Email</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="example@gmail.com"
+                                                type="email"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                <input
-                    type="email"
-                    placeholder="Email"
-                    className="w-full p-2 mb-4 border rounded text-black outline-none focus:ring-2 focus:ring-blue-400"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
+                            <FormField
+                                control={form.control}
+                                name="password"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Пароль</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="********"
+                                                type="password"
+                                                {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
 
-                <input
-                    type="password"
-                    placeholder="Пароль"
-                    className="w-full p-2 mb-6 border rounded text-black outline-none focus:ring-2 focus:ring-blue-400"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                            <Button
+                                type="submit"
+                                className="w-full"
+                                disabled={form.formState.isSubmitting}
+                            >
+                                {form.formState.isSubmitting
+                                    ? "Создание..."
+                                    : "Зарегистрироваться"}
+                            </Button>
+                        </form>
+                    </Form>
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 transition disabled:bg-gray-400"
-                >
-                    {loading ? "Загрузка..." : "Создать аккаунт"}
-                </button>
-            </form>
+                    <div className="mt-4 text-center text-sm text-gray-500">
+                        Уже есть профиль?{" "}
+                        <button
+                            type="button"
+                            className="text-primary hover:underline font-medium"
+                            onClick={() => router.push('/login')}
+                        >
+                            Войти
+                        </button>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
 }

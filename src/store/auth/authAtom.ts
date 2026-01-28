@@ -1,5 +1,5 @@
 import { atom } from "jotai";
-import { AuthState } from "@/src/model/auth/auth";
+import { AuthState } from "@/features/auth/types";
 
 export const authAtom = atom<AuthState>({
     user: null,

@@ -1,8 +1,7 @@
 "use client";
 
-import { useAuthActions } from "@/src/hooks/auth/useAuthActions";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
     UserPen,
     BriefcaseBusiness,
@@ -11,10 +10,20 @@ import {
     Mail,
     LogOut,
 } from "lucide-react";
+import { logout } from "@/features/auth/hooks";
 
 export const Sidebar = () => {
     const pathname = usePathname();
-    const { logout } = useAuthActions();
+    const router = useRouter();
+
+    const handlLogout = async () => {
+        try {
+            await logout();
+            router.replace('/');
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    }
 
     const menuItems = [
         {
@@ -72,7 +81,7 @@ export const Sidebar = () => {
             <div className="w-full flex justify-center items-center mb-10 ">
                 <button
                     className="text-white bg-white/15 p-2 rounded-xl hover:bg-white/25 cursor-context-menu"
-                    onClick={logout}
+                    onClick={handlLogout}
                 >
                     <LogOut size={30} />
                 </button>

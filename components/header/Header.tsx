@@ -31,7 +31,7 @@ export const Header = () => {
                 ) : (
                     <button
                         className="px-4 py-2 bg-blue-500 text-white rounded"
-                        onClick={() => router.push("/login")}
+                        onClick={() => router.push("/auth/login")}
                     >
                         Sign In
                     </button>

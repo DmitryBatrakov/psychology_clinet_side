@@ -1,0 +1,30 @@
+export type Languages = "he" | "ru" | "en" | "uk" | "ar";
+export type Gender = "male" | "female";
+
+export interface UserData {
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    photoUrl?: string | null;
+    birthDate: Date;
+    gender: Gender;
+    languages: Languages[];
+}
+
+export interface UserRegisterData {
+    email: string;
+    password: string;
+}
+
+// export interface UserUIData {
+//   firstName: string;
+//   lastName: string;
+//   phoneNumber: string;
+//   birthDate: string;   
+//   gender: Gender;
+//   languages: Languages[];
+//   photoUrl: string | null;
+//   balance: number;  
+//   role: "user" | "specialist" | "admin"; 
+//   profileComplete: boolean;  
+// }

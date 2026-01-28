@@ -1,8 +1,7 @@
 "use client";
 
-import { useUserData } from "@/src/hooks/user/useUserData";
+import { useUserData } from "@/features/user/hooks";
 import { authAtom } from "@/src/store/auth/authAtom";
-import { Timestamp } from "firebase/firestore";
 import { useAtomValue } from "jotai";
 import {
     CircleUserRound,
@@ -16,12 +15,15 @@ import Image from "next/image";
 export default function Profile() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
 
-    const { data: dbUser, isPending, isError, error } = useUserData(user?.uid);
+    const uid = user?.uid ?? null
 
-     const toJsDate = (v: Timestamp | Date) => {
-        return v instanceof Timestamp ? v.toDate() : v;
-    };
-    
+    const {
+        data: dbUser,
+        isPending,
+        isError,
+        error,
+    } = useUserData(uid, !!uid && !authLoading);
+
     if (authLoading || isPending) return <div>טוען...</div>;
 
     if (!user) return <div>Нет доступа</div>;
@@ -43,9 +45,9 @@ export default function Profile() {
                 </div>
                 <div className="bg-gray-200 rounded-2xl grid grid-cols-2 justify-around w-full items-center gap-10 min-h-60 p-5">
                     <div className="w-full p-2 flex justify-center items-center">
-                        {dbUser.photo ? (
+                        {dbUser.photoUrl ? (
                             <Image
-                                src={dbUser.photo}
+                                src={dbUser.photoUrl}
                                 alt="Photo"
                                 width={250}
                                 height={250}
@@ -72,11 +74,7 @@ export default function Profile() {
                                 <div className="bg-black/10 p-1.5 rounded-lg">
                                     <Calendar size={20} />
                                 </div>
-                                <span>
-                                    {toJsDate(
-                                        dbUser.birthDate
-                                    ).toLocaleDateString("he-IL")}
-                                </span>
+                                {/* <span>{dbUser.birthDate}</span> */}
                             </div>
                             <div className="flex items-center justify-start gap-2">
                                 <div className="bg-black/10 p-1.5 rounded-lg">

@@ -1,0 +1,27 @@
+import "server-only";
+import * as admin from "firebase-admin";
+
+const projectId = process.env.FIREBASE_PROJECT_ID;
+const clientEmail = process.env.FIREBASE_CLIENT_EMAIL;
+let privateKey = process.env.FIREBASE_PRIVATE_KEY;
+
+if (!projectId || !clientEmail || !privateKey) {
+  throw new Error("Missing Firebase Admin env vars");
+}
+
+// исправляем \n в ключе
+privateKey = privateKey.replace(/\\n/g, "\n");
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId,
+      clientEmail,
+      privateKey,
+    }),
+  });
+}
+
+export const adminAuth = admin.auth();
+export const adminDb = admin.firestore();
+export const adminFieldValue = admin.firestore.FieldValue;

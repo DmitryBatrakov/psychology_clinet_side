@@ -9,7 +9,6 @@ if (!projectId || !clientEmail || !privateKey) {
   throw new Error("Missing Firebase Admin env vars");
 }
 
-// исправляем \n в ключе
 privateKey = privateKey.replace(/\\n/g, "\n");
 
 if (!admin.apps.length) {

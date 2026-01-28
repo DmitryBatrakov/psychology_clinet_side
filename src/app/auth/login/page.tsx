@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/card";
 import { fetchAuthUser } from "@/features/user/api";
 import { login } from "@/features/auth/hooks";
-
+import { ForgotPasswordDialog } from "@/components/modal/ResetPasswordModal";
 
 export default function LoginPage() {
     const [serverError, setServerError] = useState("");
@@ -50,12 +50,12 @@ export default function LoginPage() {
             const me = await fetchAuthUser();
 
             if (!me.profileComplete) {
-                router.replace("/onboarding");
+                router.replace("/auth/onboarding");
                 return;
             }
 
-            router.push('/dashboard')
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            router.push("/dashboard");
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             setServerError("Неверный логин или пароль");
             console.error(err);
@@ -123,15 +123,19 @@ export default function LoginPage() {
                                 )}
                             />
 
-                            <Button
-                                type="submit"
-                                className="w-full"
-                                disabled={form.formState.isSubmitting}
-                            >
-                                {form.formState.isSubmitting
-                                    ? "Вход..."
-                                    : "Войти"}
-                            </Button>
+                            <div>
+                                <ForgotPasswordDialog />
+
+                                <Button
+                                    type="submit"
+                                    className="w-full"
+                                    disabled={form.formState.isSubmitting}
+                                >
+                                    {form.formState.isSubmitting
+                                        ? "Вход..."
+                                        : "Войти"}
+                                </Button>
+                            </div>
                         </form>
                     </Form>
 
@@ -140,7 +144,7 @@ export default function LoginPage() {
                         <button
                             type="button"
                             className="text-primary hover:underline font-medium"
-                            onClick={() => router.push('/auth/register')}
+                            onClick={() => router.push("/auth/register")}
                         >
                             Зарегистрироваться
                         </button>

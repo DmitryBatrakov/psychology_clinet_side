@@ -15,9 +15,11 @@ export async function GET(req: Request) {
     return NextResponse.json({ uid, ...snap.data() }, { status: 200 });
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
+    const msg = e?.message ?? "Unknown error";
+    const status = msg.includes("Missing Authorization") || msg.includes("Unauthorized") ? 401 : 500;
     return NextResponse.json(
-      { error: e?.message ?? "Unauthorized" },
-      { status: 401 }
+      { error: msg },
+      { status }
     );
   }
 }

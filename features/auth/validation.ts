@@ -12,7 +12,7 @@ const hasSpecial = (s: string) =>
     });
 
 export const registerSchema = z.object({
-    email: z.email(),
+    email: z.string().email(),
     password: z
         .string()
         .min(8, "Пароль должен быть не менее 8 символов")
@@ -58,7 +58,7 @@ export const photoSchema = z.object({
 });
 
 export const loginSchema = z.object({
-    email: z.email("Неверный формат email"),
+    email: z.string().email("Неверный формат email"),
     password: z.string().min(8).max(16),
 });
 

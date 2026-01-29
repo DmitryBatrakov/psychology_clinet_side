@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -19,7 +18,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
     Card,
     CardContent,
@@ -28,12 +26,14 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import { register } from "@/features/auth/hooks";
+import {  useRegister } from "@/features/auth/hooks";
+import { notify } from "@/lib/notify";
+import { getErrorMessage } from "@/lib/api-error";
 
 export default function RegisterPage() {
-    const [serverError, setServerError] = useState("");
-
     const router = useRouter();
+
+     const registerMutation = useRegister();
 
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
@@ -44,15 +44,27 @@ export default function RegisterPage() {
         mode: "onTouched",
     });
 
-    const onSubmit = async (data: RegisterFormValues) => {
-        setServerError("");
-        try {
-            await register(data.email, data.password);
-            router.push("/auth/onboarding");
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } catch (err: any) {
-            setServerError(err.message || "Ошибка при регистрации");
-        }
+    // const onSubmit = async (data: RegisterFormValues) => {
+    //     setServerError("");
+    //     try {
+    //         await register(data.email, data.password);
+    //         router.push("/auth/onboarding");
+    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    //     } catch (err: any) {
+    //         setServerError(err.message || "Ошибка при регистрации");
+    //     }
+    // };
+
+     const onSubmit = (data: RegisterFormValues) => {
+        registerMutation.mutate(data, {
+            onSuccess: () => {
+                notify.success("Регистрация успешна!");
+                router.push("/auth/onboarding");
+            },
+            onError: (error) => {
+                notify.error(getErrorMessage(error));
+            },
+        });
     };
 
     return (
@@ -72,14 +84,6 @@ export default function RegisterPage() {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-4"
                         >
-                            {serverError && (
-                                <Alert variant="destructive">
-                                    <AlertDescription>
-                                        {serverError}
-                                    </AlertDescription>
-                                </Alert>
-                            )}
-
                             <FormField
                                 control={form.control}
                                 name="email"

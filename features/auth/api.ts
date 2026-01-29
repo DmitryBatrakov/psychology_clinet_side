@@ -2,19 +2,6 @@
 
 import { auth } from "@/lib/firebase";
 
-export async function fetchRegister(email: string, password: string) {
-    const res = await fetch("/api/auth/register", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-    });
-
-    const json = await res.json().catch(() => ({}));
-    if (!res.ok) throw new Error(json?.error ?? "Register failed");
-
-    return json as { customToken: string };
-}
-
 export async function fetchDeleteAccount() {
   const user = auth.currentUser;
   if (!user) throw new Error("Не авторизован");
@@ -35,4 +22,31 @@ export async function fetchDeleteAccount() {
   }
 
   return res.json();
+}
+
+//-----------------
+import { signInWithCustomToken } from "firebase/auth";
+
+export async function registerUser(email: string, password: string) {
+    // 1. Отправляем запрос на сервер
+    const res = await fetch("/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+    });
+
+    const json = await res.json().catch(() => ({}));
+    
+    // 2. Проверяем ошибки
+    if (!res.ok) {
+        throw new Error(json?.error ?? "Register failed");
+    }
+
+    // 3. Получаем customToken
+    const { customToken } = json as { customToken: string };
+    
+    // 4. Логиним пользователя с customToken
+    await signInWithCustomToken(auth, customToken);
+    
+    return json;
 }

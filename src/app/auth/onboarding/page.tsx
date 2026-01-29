@@ -32,6 +32,8 @@ import { onboardingSchema } from "@/features/onboarding/validation";
 import { completeOnboarding } from "@/features/onboarding/hooks";
 import { UserData } from "@/features/user/types";
 import { notify } from "@/lib/notify";
+import { useAtomValue } from "jotai";
+import { authAtom } from "@/src/store/auth/authAtom";
 
 const languagesList = [
     { id: "he", label: "Hebrew" },
@@ -44,6 +46,8 @@ const languagesList = [
 export default function OnboardingPage() {
     const router = useRouter();
     const queryClient = useQueryClient();
+    const { user } = useAtomValue(authAtom);
+    const uid = user?.uid ?? null;
 
     const { mutate } = useMutation({
         mutationFn: (data: UserData) => completeOnboarding(data),
@@ -51,13 +55,13 @@ export default function OnboardingPage() {
         onSuccess: () => {
             notify.success("Onboarding completed successfully");
             queryClient.refetchQueries({
-                queryKey: ["user"],
+                queryKey: ["user", uid],
             });
             router.replace("/dashboard");
         },
         onError: (error) => {
             notify.error(error?.message ?? "Failed to complete onboarding");
-        }
+        },
     });
 
     const form = useForm<UserData>({
@@ -76,7 +80,7 @@ export default function OnboardingPage() {
         mutate({
             ...data,
             birthDate: format(data.birthDate, "yyyy-MM-dd"),
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } as any);
     };
 

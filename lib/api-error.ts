@@ -1,0 +1,14 @@
+// @/types/api.ts или @/lib/api-error.ts
+export interface ApiError {
+    message: string;
+    status?: number;
+    code?: string;
+}
+
+export const getErrorMessage = (error: unknown): string => {
+    if (error instanceof Error) return error.message;
+    if (typeof error === "object" && error !== null && "message" in error) {
+        return String(error.message);
+    }
+    return "Произошла неизвестная ошибка";
+};

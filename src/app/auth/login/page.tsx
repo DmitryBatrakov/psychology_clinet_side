@@ -28,11 +28,13 @@ import {
 import { fetchAuthUser } from "@/features/user/api";
 import { login } from "@/features/auth/hooks";
 import { ForgotPasswordDialog } from "@/components/modal/ResetPasswordModal";
+import { useQueryClient } from "@tanstack/react-query";
+import { auth } from "@/lib/firebase";
 
 export default function LoginPage() {
     const [serverError, setServerError] = useState("");
-
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
@@ -46,6 +48,16 @@ export default function LoginPage() {
         setServerError("");
         try {
             await login(data.email, data.password);
+
+            queryClient.invalidateQueries({ queryKey: ["user"] });
+
+           
+            const newUid = auth.currentUser?.uid;
+            if (newUid) {
+                await queryClient.refetchQueries({
+                    queryKey: ["user", newUid],
+                });
+            }
 
             const me = await fetchAuthUser();
 

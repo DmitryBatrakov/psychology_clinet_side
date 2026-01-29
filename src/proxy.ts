@@ -2,10 +2,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function proxy(req: NextRequest) {
-    const { pathname } = req.nextUrl;
-
-    
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function proxy(_req: NextRequest) {
+    // const { pathname } = req.nextUrl; // TODO: Uncomment when implementing route protection
 
     // 1) ГОСТЬ
     //  if ((pathname.startsWith("/account") || pathname === "/auth/onboarding")) {

@@ -57,9 +57,8 @@ const addons = [
 ] as const;
 
 const formSchema = z.object({
-    // Замените z.string().refine(...) на z.enum
     plan: z.enum(["basic", "pro"], {
-        errorMap: () => ({ message: "Please select Basic or Pro plan" }),
+        message: "Please select Basic or Pro plan",
     }),
 
     billingPeriod: z.string().min(1, "Please select a billing period"),

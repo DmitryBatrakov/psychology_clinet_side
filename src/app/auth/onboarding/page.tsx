@@ -31,6 +31,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { onboardingSchema } from "@/features/onboarding/validation";
 import { completeOnboarding } from "@/features/onboarding/hooks";
 import { UserData } from "@/features/user/types";
+import { notify } from "@/lib/notify";
 
 const languagesList = [
     { id: "he", label: "Hebrew" },
@@ -47,13 +48,16 @@ export default function OnboardingPage() {
     const { mutate } = useMutation({
         mutationFn: (data: UserData) => completeOnboarding(data),
 
-        onSuccess: (data) => {
-            console.log("Onboarding completed", data);
+        onSuccess: () => {
+            notify.success("Onboarding completed successfully");
             queryClient.refetchQueries({
                 queryKey: ["user"],
             });
             router.replace("/dashboard");
         },
+        onError: (error) => {
+            notify.error(error?.message ?? "Failed to complete onboarding");
+        }
     });
 
     const form = useForm<UserData>({
@@ -65,7 +69,6 @@ export default function OnboardingPage() {
             languages: [],
             gender: "male",
             photoUrl: null,
-            // birthDate не задаём — пользователь выберет
         },
     });
 

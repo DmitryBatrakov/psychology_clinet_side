@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
@@ -17,26 +18,41 @@ import {
     AlertDialogDescription,
     AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
+import { notify } from "@/lib/notify";
 
 export function DeleteAccountModal() {
     const [open, setOpen] = useState(false);
     const deleteAccountMutation = useDeleteAccount();
     const router = useRouter();
+    const isLoading = deleteAccountMutation.isPending;
 
     const handleDelete = () => {
-        deleteAccountMutation.mutate();
-        setOpen(false);
-        router.replace("/dashboard");
+        deleteAccountMutation.mutate(undefined, {
+            onSuccess: () => {
+                notify.success("Account successfully deleted");
+                setOpen(false);
+                router.replace("/dashboard");
+            },
+            onError: (error: any) => {
+                notify.error(error?.message ?? "Failed to delete account");
+            },
+        });
     };
 
+
     return (
-        <AlertDialog>
+        <AlertDialog
+            open={open}
+            onOpenChange={(next) => {
+                if (isLoading) return;
+                setOpen(next);
+            }}
+        >
             <AlertDialogTrigger asChild>
                 <Button variant="destructive">Удалить аккаунт</Button>
             </AlertDialogTrigger>
 
-            <AlertDialogContent>    
-                {/* ✅ ОБЯЗАТЕЛЬНО: Header с Title + Description */}
+            <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle className="font-bold text-xl">
                         Удалить аккаунт навсегда?
@@ -47,30 +63,19 @@ export function DeleteAccountModal() {
                     </AlertDialogDescription>
                 </AlertDialogHeader>
 
-                {/* ✅ Кнопки */}
                 <AlertDialogFooter>
-                    {/* <AlertDialogCancel className="bg-blue-400 px-3 py-2 text-white rounded-lg">Отмена</AlertDialogCancel> */}
                     <AlertDialogCancel asChild>
-                        <Button variant="outline" size="sm" onClick={() => {}}>
+                        <Button variant="outline" size="sm" disabled={isLoading}>
                             Отмена
                         </Button>
                     </AlertDialogCancel>
-                    {/* <AlertDialogAction
-                        onClick={() => deleteAccountMutation.mutate()}
-                        disabled={deleteAccountMutation.isPending}
-                        className="bg-red-600 px-3 py-2 text-white rounded-lg"
-                    >
-                        {deleteAccountMutation.isPending
-                            ? "Удаляем..."
-                            : "Удалить навсегда"}
-                    </AlertDialogAction> */}
                     <AlertDialogAction asChild>
                         <Button
                             variant="destructive"
                             size="sm"
                             onClick={() => handleDelete()}
                         >
-                            {deleteAccountMutation.isPending
+                            {isLoading
                                 ? "Удаляем..."
                                 : "Удалить навсегда"}
                         </Button>

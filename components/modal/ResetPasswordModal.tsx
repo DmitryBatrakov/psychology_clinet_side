@@ -1,77 +1,104 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useState } from "react";
 import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { usePasswordReset } from "@/features/auth/hooks";
+import { notify } from "@/lib/notify";
 
 export function ForgotPasswordDialog() {
-  const [email, setEmail] = useState("");
-  const passwordResetMutation = usePasswordReset();
+    const [email, setEmail] = useState("");
+    const [isOpen, setIsOpen] = useState(false);
 
-  const handleReset = () => {
-    if (email) {
-      passwordResetMutation.mutate(email);
-    }
-  };
+    const passwordResetMutation = usePasswordReset();
 
-  return (
-    <Dialog>
-      {/* ✅ DialogTrigger — внутри Dialog */}
-      <DialogTrigger asChild>
-        <Button variant="link" className="p-0 h-auto text-sm">
-          Забыли пароль?
-        </Button>
-      </DialogTrigger>
-      
-      {/* ✅ DialogContent — внутри Dialog */}
-      <DialogContent className="sm:max-w-md">
-        <DialogHeader>
-          <DialogTitle>Сбросить пароль</DialogTitle>
-          <DialogDescription>
-            Введите email — отправим инструкции для смены пароля
-          </DialogDescription>
-        </DialogHeader>
-        
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="reset-email">Email</Label>
-            <Input
-              id="reset-email"
-              type="email"
-              placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </div>
-        
-        <DialogFooter>
-          <Button 
-            variant="outline" 
-            type="button"
-            onClick={() => passwordResetMutation.reset()} 
-          >
-            Отмена
-          </Button>
-          <Button
-            onClick={handleReset}
-            disabled={passwordResetMutation.isPending || !email}
-          >
-            {passwordResetMutation.isPending ? "Отправляем..." : "Отправить"}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-  );
+    const closeAndReset = () => {
+        setEmail("");
+        passwordResetMutation.reset();
+        setIsOpen(false);
+    };
+
+    const handleReset = () => {
+        if (email) {
+            passwordResetMutation.mutate(email, {
+                onSuccess: () => {
+                    notify.success("The letter has been sent by mail ");
+                    closeAndReset();
+                },
+                onError: (error: any) => {
+                    notify.error(error?.message ?? "Something went wrong");
+                },
+            });
+        }
+    };
+
+    const isLoading = passwordResetMutation.isPending;
+
+    return (
+        <Dialog
+            open={isOpen}
+            onOpenChange={(next) => {
+                if (isLoading) return;
+                setIsOpen(next);
+                if (!next) {
+                    setEmail("");
+                    passwordResetMutation.reset();
+                }
+            }}
+        >
+            <DialogTrigger asChild>
+                <Button variant="link" className="p-0 h-auto text-sm">
+                    Забыли пароль?
+                </Button>
+            </DialogTrigger>
+
+            <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                    <DialogTitle>Сбросить пароль</DialogTitle>
+                    <DialogDescription>
+                        Введите email — отправим инструкции для смены пароля
+                    </DialogDescription>
+                </DialogHeader>
+                <div className="space-y-4">
+                    <div className="space-y-2">
+                        <Label htmlFor="reset-email">Email</Label>
+                        <Input
+                            id="reset-email"
+                            type="email"
+                            placeholder="your@email.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            disabled={isLoading}
+                        />
+                    </div>
+                </div>
+                <DialogFooter>
+                    <Button
+                        variant="outline"
+                        type="button"
+                        onClick={closeAndReset}
+                    >
+                        Отмена
+                    </Button>
+                    <Button
+                        onClick={handleReset}
+                        disabled={isLoading || !email}
+                    >
+                        {isLoading ? "Отправляем..." : "Отправить"}
+                    </Button>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    );
 }

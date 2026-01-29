@@ -1,9 +1,9 @@
 "use client";
 
 import { auth } from "@/lib/firebase";
+import { UserData } from "../user/types";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function fetchOnboarding(data: any) {
+export async function fetchOnboarding(data: UserData) {
     const user = auth.currentUser;
     if (!user) throw new Error("Not authenticated");
 

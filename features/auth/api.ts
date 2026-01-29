@@ -15,7 +15,7 @@ export async function fetchRegister(email: string, password: string) {
     return json as { customToken: string };
 }
 
-export async function deleteAccount() {
+export async function fetchDeleteAccount() {
   const user = auth.currentUser;
   if (!user) throw new Error("Не авторизован");
 

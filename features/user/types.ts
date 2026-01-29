@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export type Languages = "he" | "ru" | "en" | "uk" | "ar";
 export type Gender = "male" | "female";
 
@@ -16,15 +18,16 @@ export interface UserRegisterData {
     password: string;
 }
 
-// export interface UserUIData {
-//   firstName: string;
-//   lastName: string;
-//   phoneNumber: string;
-//   birthDate: string;   
-//   gender: Gender;
-//   languages: Languages[];
-//   photoUrl: string | null;
-//   balance: number;  
-//   role: "user" | "specialist" | "admin"; 
-//   profileComplete: boolean;  
-// }
+export type UserProfile = {
+    uid: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    birthDate: string;
+    gender: Gender;
+    languages: Languages[];
+    photoUrl: string | null;
+    balance: number;
+    profileComplete: boolean;
+  };
+

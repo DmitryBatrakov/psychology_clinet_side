@@ -1,3 +1,27 @@
+// import { NextResponse } from "next/server";
+// import { requireAuth } from "@/src/server/authToken/requireAuth";
+// import { adminDb } from "@/src/server/firebase/admin";
+
+// export async function GET(req: Request) {
+//   try {
+//     const decoded = await requireAuth(req);
+//     const uid = decoded.uid;
+
+//     const snap = await adminDb.collection("users").doc(uid).get();
+//     if (!snap.exists) {
+//       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+//     }
+
+//     return NextResponse.json({ uid, ...snap.data() }, { status: 200 });
+//   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//   } catch (e: any) {
+//     return NextResponse.json(
+//       { error: e?.message ?? "Unauthorized" },
+//       { status: 401 }
+//     );
+//   }
+// }
+
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/src/server/authToken/requireAuth";
 import { adminDb } from "@/src/server/firebase/admin";
@@ -11,8 +35,36 @@ export async function GET(req: Request) {
     if (!snap.exists) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
+    const data = snap.data();
+    if (!data) {
+      return NextResponse.json({ error: "Profile not found" }, { status: 404 });
+    }
 
-    return NextResponse.json({ uid, ...snap.data() }, { status: 200 });
+    // Convert Firestore Timestamp to ISO string for birthDate
+    let birthDate: string | null = null;
+    if (data.birthDate) {
+      if (
+        data.birthDate.toDate &&
+        typeof data.birthDate.toDate === "function"
+      ) {
+        // Firestore Timestamp
+        birthDate = data.birthDate.toDate().toISOString();
+      } else if (data.birthDate instanceof Date) {
+        birthDate = data.birthDate.toISOString();
+      } else if (typeof data.birthDate === "string") {
+        birthDate = data.birthDate;
+      }
+    }
+
+    return NextResponse.json(
+      {
+        uid,
+        ...data,
+        birthDate,
+      },
+      { status: 200 }
+      );
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     const msg = e?.message ?? "Unknown error";
@@ -21,5 +73,5 @@ export async function GET(req: Request) {
       { error: msg },
       { status }
     );
-  }
+  } 
 }

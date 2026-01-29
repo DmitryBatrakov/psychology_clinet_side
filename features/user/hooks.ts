@@ -1,22 +1,7 @@
 'use client'
 import { fetchUserData } from "@/features/user/api";
-import { Gender, Languages } from "@/features/user/types";
-
 import { useQuery } from "@tanstack/react-query";
-import { Timestamp } from "firebase/firestore";
-
-export type UserProfile = {
-  uid: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-  birthDate: Timestamp;
-  gender: Gender;
-  languages: Languages[];
-  photoUrl: string | null;
-  balance: number;
-  profileComplete: boolean;
-};
+import { UserProfile } from "./types";
 
 export const useUserData = ( uid: string | null,  authLoading: boolean) => {
     return useQuery<UserProfile>({

@@ -3,19 +3,13 @@
 import { auth } from "@/lib/firebase";
 import {
     sendPasswordResetEmail,
-    signInWithCustomToken,
     signInWithEmailAndPassword,
     signOut,
 } from "firebase/auth";
-import { fetchRegister } from "./api";
 
 import { useMutation } from "@tanstack/react-query";
 import { fetchDeleteAccount } from "./api";
 
-export const register = async (email: string, password: string) => {
-    const { customToken } = await fetchRegister(email, password);
-    await signInWithCustomToken(auth, customToken);
-};
 
 export const login = async (email: string, password: string) => {
     await signInWithEmailAndPassword(auth, email, password);
@@ -44,14 +38,38 @@ export function usePasswordReset() {
                 rawEmail.length <= 254;
 
             if (!isValidEmail) {
-                return;
+                throw new Error("Неверный формат email");
             }
 
             try {
                 await sendPasswordResetEmail(auth, rawEmail);
             } catch (error) {
-                
+                // Firebase will handle the error silently if email doesn't exist
+                // This prevents email enumeration attacks
+                console.error("Password reset error:", error);
+                throw error;
             }
         }
     });
 }
+
+
+
+
+
+
+//----------------
+import { registerUser } from "./api";
+import { ApiError } from "@/lib/api-error";
+
+
+interface RegisterCredentials {
+    email: string;
+    password: string;
+}
+
+export const useRegister = () => {
+    return useMutation<unknown, ApiError, RegisterCredentials>({
+        mutationFn: ({ email, password }) => registerUser(email, password),
+    });
+};

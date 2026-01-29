@@ -16,14 +16,14 @@ import { format } from "date-fns";
 export default function Profile() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
 
-    const uid = user?.uid ?? null
+    const uid = user?.uid ?? null;
 
     const {
         data: dbUser,
         isPending,
         isError,
         error,
-    } = useUserData(uid, !!uid && !authLoading);
+    } = useUserData(uid, authLoading);
 
     if (authLoading || isPending) return <div>טוען...</div>;
 

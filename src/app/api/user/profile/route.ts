@@ -35,7 +35,6 @@ export async function GET(req: Request) {
     if (!snap.exists) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
     }
-
     const data = snap.data();
     if (!data) {
       return NextResponse.json({ error: "Profile not found" }, { status: 404 });
@@ -63,15 +62,16 @@ export async function GET(req: Request) {
         ...data,
         birthDate,
       },
-      { status: 200 },
-    );
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      { status: 200 }
+      );
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (e: any) {
     const msg = e?.message ?? "Unknown error";
-    const status =
-      msg.includes("Missing Authorization") || msg.includes("Unauthorized")
-        ? 401
-        : 500;
-    return NextResponse.json({ error: msg }, { status });
-  }
+    const status = msg.includes("Missing Authorization") || msg.includes("Unauthorized") ? 401 : 500;
+    return NextResponse.json(
+      { error: msg },
+      { status }
+    );
+  } 
 }

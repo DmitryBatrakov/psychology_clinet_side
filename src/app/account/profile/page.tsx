@@ -11,6 +11,7 @@ import {
     Phone,
 } from "lucide-react";
 import Image from "next/image";
+import { format } from "date-fns";
 
 export default function Profile() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
@@ -74,7 +75,11 @@ export default function Profile() {
                                 <div className="bg-black/10 p-1.5 rounded-lg">
                                     <Calendar size={20} />
                                 </div>
-                                {/* <span>{dbUser.birthDate}</span> */}
+                                <span>
+                                    {dbUser.birthDate 
+                                        ? format(new Date(dbUser.birthDate), "dd.MM.yyyy")
+                                        : "Не указана"}
+                                </span>
                             </div>
                             <div className="flex items-center justify-start gap-2">
                                 <div className="bg-black/10 p-1.5 rounded-lg">

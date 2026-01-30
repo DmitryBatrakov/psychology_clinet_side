@@ -143,7 +143,7 @@ export default function OnboardingPage() {
                                         <FormLabel>Номер телефона</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="+79991234567"
+                                                placeholder="+972..."
                                                 {...field}
                                             />
                                         </FormControl>

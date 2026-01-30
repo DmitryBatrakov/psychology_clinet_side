@@ -58,8 +58,8 @@ export function ForgotPasswordDialog() {
             }}
         >
             <DialogTrigger asChild>
-                <Button variant="link" className="p-0 h-auto text-sm">
-                    Забыли пароль?
+                <Button variant="link" className="pl-3 h-auto text-sm">
+                    Forgot the password?
                 </Button>
             </DialogTrigger>
 

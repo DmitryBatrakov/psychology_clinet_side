@@ -1,4 +1,3 @@
-// @/types/api.ts или @/lib/api-error.ts
 export interface ApiError {
     message: string;
     status?: number;

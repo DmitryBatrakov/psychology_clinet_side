@@ -1,5 +1,3 @@
-import { Timestamp } from "firebase/firestore";
-
 export type Languages = "he" | "ru" | "en" | "uk" | "ar";
 export type Gender = "male" | "female";
 

@@ -2,6 +2,7 @@
 import { NextResponse } from "next/server";
 import { requireAuth } from "@/src/server/authToken/requireAuth";
 import { adminDb } from "@/src/server/firebase/admin";
+import { ApiError, getErrorMessage } from "@/lib/api-error";
 
 export async function GET(req: Request) {
     try {
@@ -27,9 +28,18 @@ export async function GET(req: Request) {
             },
             { status: 200 },
         );
-    } catch (e: any) {
-        const msg = e?.message ?? "Unknown error";
-        const status = msg.includes("Missing Authorization") ? 401 : 500;
-        return NextResponse.json({ error: msg }, { status });
-    }
+    } catch (error: unknown) {
+        console.error('Google login error:', error);
+        
+        const errorMessage = getErrorMessage(error);
+        
+        return NextResponse.json(
+          { 
+            message: errorMessage,
+            code: error instanceof Error && 'code' in error ? error.code : undefined,
+            status: 500 
+          } as ApiError,
+          { status: 500 }
+        );
+      }
 }

@@ -5,6 +5,7 @@ import {
     adminFieldValue,
 } from "@/src/server/firebase/admin";
 import { registerSchema } from "@/features/auth/validation";
+import { ApiError, getErrorMessage } from "@/lib/api-error";
 
 export async function POST(req: Request) {
     try {
@@ -20,15 +21,22 @@ export async function POST(req: Request) {
             balance: 0,
             createdAt: adminFieldValue.serverTimestamp(),
         });
-
+        
         const customToken = await adminAuth.createCustomToken(uid);
         return NextResponse.json({ customToken }, { status: 201 });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-        const status = e?.code === "auth/email-already-exists" ? 409 : 500;
+    } catch (error: unknown) {
+        console.error('Google login error:', error);
+        
+        const errorMessage = getErrorMessage(error);
+        
         return NextResponse.json(
-            { error: e?.message ?? "Unknown error" },
-            { status },
+          { 
+            message: errorMessage,
+            code: error instanceof Error && 'code' in error ? error.code : undefined,
+            status: 500 
+          } as ApiError,
+          { status: 500 }
         );
-    }
+      }
 }

@@ -5,3 +5,12 @@ export type AuthState = {
     role: "user" | "psychologist" | null;
     loading: boolean;
 };
+
+export interface RegisterCredentials {
+    email: string;
+    password: string;
+}
+
+export interface GoogleAuthResponse {
+    customToken: string;
+  }

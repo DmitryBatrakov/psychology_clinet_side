@@ -44,17 +44,6 @@ export default function RegisterPage() {
         mode: "onTouched",
     });
 
-    // const onSubmit = async (data: RegisterFormValues) => {
-    //     setServerError("");
-    //     try {
-    //         await register(data.email, data.password);
-    //         router.push("/auth/onboarding");
-    //         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    //     } catch (err: any) {
-    //         setServerError(err.message || "Ошибка при регистрации");
-    //     }
-    // };
-
      const onSubmit = (data: RegisterFormValues) => {
         registerMutation.mutate(data, {
             onSuccess: () => {

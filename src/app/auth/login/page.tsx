@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-
+import { FcGoogle } from "react-icons/fc";
 import { LoginFormValues, loginSchema } from "@/features/auth/validation";
 
 import {
@@ -26,15 +26,13 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { fetchAuthUser } from "@/features/user/api";
-import { login } from "@/features/auth/hooks";
+import { login, useGoogleAuth } from "@/features/auth/hooks";
 import { ForgotPasswordDialog } from "@/components/modal/ResetPasswordModal";
-import { useQueryClient } from "@tanstack/react-query";
-import { auth } from "@/lib/firebase";
 
 export default function LoginPage() {
     const [serverError, setServerError] = useState("");
     const router = useRouter();
-    const queryClient = useQueryClient();
+    const googleMutation = useGoogleAuth();
 
     const form = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
@@ -48,16 +46,6 @@ export default function LoginPage() {
         setServerError("");
         try {
             await login(data.email, data.password);
-
-            queryClient.invalidateQueries({ queryKey: ["user"] });
-
-           
-            const newUid = auth.currentUser?.uid;
-            if (newUid) {
-                await queryClient.refetchQueries({
-                    queryKey: ["user", newUid],
-                });
-            }
 
             const me = await fetchAuthUser();
 
@@ -79,10 +67,10 @@ export default function LoginPage() {
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-center">
-                        Вход
+                        Login
                     </CardTitle>
                     <CardDescription className="text-center">
-                        Добро пожаловать! Введите свои данные для входа
+                        Welcome back! Please sign in to your account
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -122,7 +110,7 @@ export default function LoginPage() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Пароль</FormLabel>
+                                        <FormLabel>Password</FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="********"
@@ -144,21 +132,35 @@ export default function LoginPage() {
                                     disabled={form.formState.isSubmitting}
                                 >
                                     {form.formState.isSubmitting
-                                        ? "Вход..."
-                                        : "Войти"}
+                                        ? "Logining..."
+                                        : "Sign In"}
                                 </Button>
                             </div>
                         </form>
                     </Form>
 
+                    <Button
+                        type="button"
+                        variant="default"
+                        className="w-full mt-4 gap-2"
+                        onClick={() => googleMutation.mutate()}
+                        disabled={googleMutation.isPending}
+                    >
+                        <span>
+                            {googleMutation.isPending
+                                ? "Loading..."
+                                : "Sign In with Google"}
+                        </span>
+                        <FcGoogle />
+                    </Button>
                     <div className="mt-4 text-center text-sm text-gray-500">
-                        Нет аккаунта?{" "}
+                        <span>Already have an account? </span>
                         <button
                             type="button"
                             className="text-primary hover:underline font-medium"
                             onClick={() => router.push("/auth/register")}
                         >
-                            Зарегистрироваться
+                            Sign up
                         </button>
                     </div>
                 </CardContent>

@@ -9,4 +9,9 @@ export interface SpecialistData extends UserData {
     profession: Profession;
     meetingFormat: MeetingFormat;
     experience: number;
+    services: string[];
+    //amountSessions: number 0
 }
+  
+//return type для типиов услуг (ПТСП, тревога и тд)
+

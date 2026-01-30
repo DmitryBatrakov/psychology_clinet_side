@@ -1,6 +1,7 @@
 "use client";
 
 import { auth } from "@/lib/firebase";
+import { signInWithCustomToken } from "firebase/auth";
 
 export async function fetchDeleteAccount() {
   const user = auth.currentUser;
@@ -24,11 +25,8 @@ export async function fetchDeleteAccount() {
   return res.json();
 }
 
-//-----------------
-import { signInWithCustomToken } from "firebase/auth";
 
 export async function registerUser(email: string, password: string) {
-    // 1. Отправляем запрос на сервер
     const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -37,15 +35,12 @@ export async function registerUser(email: string, password: string) {
 
     const json = await res.json().catch(() => ({}));
     
-    // 2. Проверяем ошибки
     if (!res.ok) {
         throw new Error(json?.error ?? "Register failed");
     }
 
-    // 3. Получаем customToken
     const { customToken } = json as { customToken: string };
     
-    // 4. Логиним пользователя с customToken
     await signInWithCustomToken(auth, customToken);
     
     return json;

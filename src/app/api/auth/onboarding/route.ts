@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { adminDb, adminFieldValue } from "@/src/server/firebase/admin";
 import { requireAuth } from "@/src/server/authToken/requireAuth";
 import { onboardingApiSchema } from "@/features/onboarding/validation";
+import { ApiError, getErrorMessage } from "@/lib/api-error";
 
 export async function POST(req: Request) {
     try {
@@ -30,10 +31,18 @@ export async function POST(req: Request) {
             });
 
         return NextResponse.json({ ok: true }, { status: 200 });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-        const msg = e?.message ?? "Unknown error";
-        const status = msg.includes("Missing Authorization") ? 401 : 400;
-        return NextResponse.json({ error: msg }, { status });
-    }
+    } catch (error: unknown) {
+        console.error('Google login error:', error);
+        
+        const errorMessage = getErrorMessage(error);
+        
+        return NextResponse.json(
+          { 
+            message: errorMessage,
+            code: error instanceof Error && 'code' in error ? error.code : undefined,
+            status: 500 
+          } as ApiError,
+          { status: 500 }
+        );
+      }
 }

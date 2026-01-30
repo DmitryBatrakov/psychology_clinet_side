@@ -15,5 +15,5 @@ export interface Session {
     createdAt: FieldValue;
     income: number;
     desription: string | undefined;
-    meetingUrl: string | undefined; 
+    meetingUrl: string | undefined;
 }

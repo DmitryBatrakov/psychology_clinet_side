@@ -27,5 +27,4 @@ export type UserProfile = {
     photoUrl: string | null;
     balance: number;
     profileComplete: boolean;
-  };
-
+};

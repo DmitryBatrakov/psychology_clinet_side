@@ -20,7 +20,6 @@ import { getErrorMessage } from "@/lib/api-error";
 import { useRouter } from "next/navigation";
 import { fetchAuthUser } from "../user/api";
 
-
 export const useRegister = () => {
     return useMutation<unknown, ApiError, RegisterCredentials>({
         mutationFn: ({ email, password }) => registerUser(email, password),
@@ -34,46 +33,48 @@ export const login = async (email: string, password: string) => {
 export const useGoogleAuth = () => {
     const router = useRouter();
     const queryClient = useQueryClient();
-  
+
     return useMutation<void, Error, void>({
-      mutationFn: async () => {
-        const provider = new GoogleAuthProvider();
-        const result = await signInWithPopup(auth, provider);
-        
-        const idToken = await result.user.getIdToken();
-        
-        const res = await fetch("/api/auth/google-login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ idToken }),
-        });
-  
-        const json = await res.json();
-  
-        if (!res.ok) {
-          throw new Error(json?.error ?? json?.message ?? "Google login failed");
-        }
-  
-        if (json.customToken) {
-          await signInWithCustomToken(auth, json.customToken);
-        }
-  
-        const userData = await fetchAuthUser();
-        
-        queryClient.invalidateQueries({ queryKey: ["user"] });
-        
-        if (!userData.profileComplete) {
-          router.replace("/auth/onboarding");
-        } else {
-          router.replace("/dashboard");
-        }
-      },
-      onSuccess: () => {
-        notify.success("Login with Google successful!");
-      },
-      onError: (error) => {
-        notify.error(getErrorMessage(error));
-      },
+        mutationFn: async () => {
+            const provider = new GoogleAuthProvider();
+            const result = await signInWithPopup(auth, provider);
+
+            const idToken = await result.user.getIdToken();
+
+            const res = await fetch("/api/auth/google-login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idToken }),
+            });
+
+            const json = await res.json();
+
+            if (!res.ok) {
+                throw new Error(
+                    json?.error ?? json?.message ?? "Google login failed",
+                );
+            }
+
+            if (json.customToken) {
+                await signInWithCustomToken(auth, json.customToken);
+            }
+
+            const userData = await fetchAuthUser();
+
+            queryClient.invalidateQueries({ queryKey: ["user"] });
+
+            if (!userData.profileComplete) {
+                router.replace("/auth/onboarding");
+            } else {
+                router.replace("/dashboard");
+            }
+        },
+        onSuccess: () => {
+            notify.success("Login with Google successful!");
+        },
+        onError: (error) => {
+            notify.error(getErrorMessage(error));
+        },
     });
 };
 
@@ -109,6 +110,6 @@ export function usePasswordReset() {
                 console.error("Password reset error:", error);
                 throw error;
             }
-        }
+        },
     });
 }

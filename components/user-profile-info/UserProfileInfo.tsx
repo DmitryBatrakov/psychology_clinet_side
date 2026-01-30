@@ -1,16 +1,9 @@
-
 "use client";
 
 import { useUserData } from "@/features/user/hooks";
 import { authAtom } from "@/src/store/auth/authAtom";
 import { useAtomValue } from "jotai";
-import {
-    CircleUserRound,
-    Calendar,
-    AtSign,
-    VenusAndMars,
-    Phone,
-} from "lucide-react";
+import { CircleUserRound, Calendar, AtSign, VenusAndMars, Phone } from "lucide-react";
 import Image from "next/image";
 import { format } from "date-fns";
 
@@ -19,12 +12,7 @@ export const UserProfileInfo = () => {
 
     const uid = user?.uid ?? null;
 
-    const {
-        data: dbUser,
-        isPending,
-        isError,
-        error,
-    } = useUserData(uid, authLoading);
+    const { data: dbUser, isPending, isError, error } = useUserData(uid, authLoading);
 
     if (authLoading || isPending) return <div>טוען...</div>;
 
@@ -41,19 +29,12 @@ export const UserProfileInfo = () => {
         <div className="flex items-center justify-center">
             <div className="w-full max-w-4xl min-h-full flex flex-col gap-5 items-center justify-center ">
                 <div className="w-full my-5">
-                    <h1 className="text-5xl font-medium">
-                        היי, {dbUser?.firstName} !
-                    </h1>
+                    <h1 className="text-5xl font-medium">היי, {dbUser?.firstName} !</h1>
                 </div>
                 <div className="bg-gray-200 rounded-2xl grid grid-cols-2 justify-around w-full items-center gap-10 min-h-60 p-5">
                     <div className="w-full p-2 flex justify-center items-center">
                         {dbUser.photoUrl ? (
-                            <Image
-                                src={dbUser.photoUrl}
-                                alt="Photo"
-                                width={250}
-                                height={250}
-                            />
+                            <Image src={dbUser.photoUrl} alt="Photo" width={250} height={250} />
                         ) : (
                             <CircleUserRound size={250} color="white" />
                         )}
@@ -77,9 +58,7 @@ export const UserProfileInfo = () => {
                                     <Calendar size={20} />
                                 </div>
                                 <span>
-                                    {dbUser.birthDate 
-                                        ? format(new Date(dbUser.birthDate), "dd.MM.yyyy")
-                                        : "Не указана"}
+                                    {dbUser.birthDate ? format(new Date(dbUser.birthDate), "dd.MM.yyyy") : "Не указана"}
                                 </span>
                             </div>
                             <div className="flex items-center justify-start gap-2">
@@ -120,4 +99,4 @@ export const UserProfileInfo = () => {
             </div>
         </div>
     );
-}
+};

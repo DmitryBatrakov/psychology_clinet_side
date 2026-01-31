@@ -45,3 +45,34 @@ export async function fetchUserData() {
 
     return json;
 }
+
+// export async function updateUserProfile(data: Partial<{
+//     firstName: string;
+//        lastName: string;
+//        phoneNumber: string;
+//        birthDate: string;
+//       //  gender: Gender;
+//       //  languages: Languages[];
+// }>) {
+//     const user = auth.currentUser;
+//     if (!user) throw new Error("Not authenticated");
+
+//     const idToken = await user.getIdToken();
+
+//     const res = await fetch("/api/user/profile", {
+//         method: "PUT",
+//         headers: {
+//             Authorization: `Bearer ${idToken}`,
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(data),
+//     });
+
+//     const json = await res.json().catch(() => ({}));
+
+//     if (!res.ok) {
+//         throw new Error(json?.error ?? "Failed to update profile");
+//     }
+
+//     return json;
+// }

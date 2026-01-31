@@ -29,17 +29,20 @@ export async function GET(req: Request) {
             { status: 200 },
         );
     } catch (error: unknown) {
-        console.error('Google login error:', error);
-        
+        console.error("Saving error:", error);
+
         const errorMessage = getErrorMessage(error);
-        
+
         return NextResponse.json(
-          { 
-            message: errorMessage,
-            code: error instanceof Error && 'code' in error ? error.code : undefined,
-            status: 500 
-          } as ApiError,
-          { status: 500 }
+            {
+                message: errorMessage,
+                code:
+                    error instanceof Error && "code" in error
+                        ? error.code
+                        : undefined,
+                status: 500,
+            } as ApiError,
+            { status: 500 },
         );
-      }
+    }
 }

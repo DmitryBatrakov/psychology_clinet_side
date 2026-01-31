@@ -3,23 +3,25 @@
 import { useUserData } from "@/features/user/hooks";
 import { authAtom } from "@/src/store/auth/authAtom";
 import { useAtomValue } from "jotai";
-import { CircleUserRound, Calendar, AtSign, VenusAndMars, Phone } from "lucide-react";
+import { CircleUserRound } from "lucide-react";
 import Image from "next/image";
-import { format } from "date-fns";
+import Link from "next/link";
+import { MdOutlineKeyboardArrowLeft } from "react-icons/md";
+
+const menuItems = [
+    { title: "Time zone", href: "/account/profile/time-zone", id: 1 },
+    { title: "Personal information", href: "/account/profile/personal-info", id: 2 },
+    { title: "Support", href: "/account/profile/suport", id: 3 },
+    { title: "Privacy policy rules", href: "/account/profile/privacy-policy", id: 4 },
+] as const;
 
 export const UserProfileInfo = () => {
     const { user, loading: authLoading } = useAtomValue(authAtom);
-
     const uid = user?.uid ?? null;
-
     const { data: dbUser, isPending, isError, error } = useUserData(uid, authLoading);
 
     if (authLoading || isPending) return <div>טוען...</div>;
-
     if (!user) return <div>Нет доступа</div>;
-
-    if (isPending) return <div>טוען...</div>;
-
     if (isError) {
         return <div>Ошибка загрузки профиля: {(error as Error).message}</div>;
     }
@@ -28,6 +30,39 @@ export const UserProfileInfo = () => {
     return (
         <div className="flex items-center justify-center">
             <div className="w-full max-w-4xl min-h-full flex flex-col gap-5 items-center justify-center ">
+                <div className="w-full p-2 flex flex-col justify-center items-center border-2 border-black">
+                    {dbUser.photoUrl ? (
+                        <Image src={dbUser.photoUrl} alt="Photo" width={100} height={100} />
+                    ) : (
+                        <CircleUserRound size={100} color="purple" />
+                    )}
+                    <h1 className="text-2xl font-semibold text-gray-800">
+                        {dbUser?.firstName} {dbUser.lastName}
+                    </h1>
+                    <h2 className="text-sm opacity-60">{user.email}</h2>
+                </div>
+                <div className="w-full max-w-lg">
+                    <h2 className="py-3 -mr-2" >Personal information</h2>
+                    <div className=" rounded-lg overflow-hidden">
+                        {menuItems.map((item) => (
+                            <div key={item.id} className="border-b last:border-b-0 w-full">
+                                <Link href={item.href} className="flex justify-between items-center p-4 bg-gray-100 hover:bg-gray-200 ">
+                                    <div>{item.title}</div>
+                                    <div>
+                                        <MdOutlineKeyboardArrowLeft />
+                                    </div>
+                                </Link>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+{
+    /* <div className="w-full max-w-4xl min-h-full flex flex-col gap-5 items-center justify-center ">
                 <div className="w-full my-5">
                     <h1 className="text-5xl font-medium">היי, {dbUser?.firstName} !</h1>
                 </div>
@@ -96,7 +131,5 @@ export const UserProfileInfo = () => {
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    );
-};
+            </div> */
+}

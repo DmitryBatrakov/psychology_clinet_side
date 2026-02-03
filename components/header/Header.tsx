@@ -24,7 +24,7 @@ export const Header = () => {
                 {user ? (
                     <button
                         className="cursor-pointer"
-                        onClick={() => router.push("/account/profile")}
+                        onClick={() => router.push("/account/therapy")}
                     >
                         <CircleUser size={40} color="gray" />
                     </button>

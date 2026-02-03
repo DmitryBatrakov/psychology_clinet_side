@@ -1,4 +1,4 @@
-import { UserData } from "../user/types";
+import { UserData } from "@/features/user/model/types";
 
 
 type Profession = "psychologist" | "therapist" | "coach";
@@ -13,5 +13,8 @@ export interface SpecialistData extends UserData {
     //amountSessions: number 0
 }
   
+export type SpecialistDTO = Omit<SpecialistData, 'birthDate'> & {
+    birthDate: string;
+};
 //return type для типиов услуг (ПТСП, тревога и тд)
 

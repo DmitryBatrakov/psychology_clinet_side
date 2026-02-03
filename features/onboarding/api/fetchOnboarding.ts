@@ -1,7 +1,7 @@
 "use client";
 
+import { UserData } from "@/features/user/model/types";
 import { auth } from "@/lib/firebase";
-import { UserData } from "../user/types";
 
 export async function fetchOnboarding(data: UserData) {
     const user = auth.currentUser;

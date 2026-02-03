@@ -21,22 +21,24 @@ export async function POST(req: Request) {
             balance: 0,
             createdAt: adminFieldValue.serverTimestamp(),
         });
-        
+
         const customToken = await adminAuth.createCustomToken(uid);
         return NextResponse.json({ customToken }, { status: 201 });
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: unknown) {
-        console.error('Google login error:', error);
-        
+        console.error("register error:", error);
+
         const errorMessage = getErrorMessage(error);
-        
+
         return NextResponse.json(
-          { 
-            message: errorMessage,
-            code: error instanceof Error && 'code' in error ? error.code : undefined,
-            status: 500 
-          } as ApiError,
-          { status: 500 }
+            {
+                message: errorMessage,
+                code:
+                    error instanceof Error && "code" in error
+                        ? error.code
+                        : undefined,
+                status: 500,
+            } as ApiError,
+            { status: 500 },
         );
-      }
+    }
 }

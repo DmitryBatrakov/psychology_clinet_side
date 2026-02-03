@@ -25,9 +25,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { fetchAuthUser } from "@/features/user/api";
-import { login, useGoogleAuth } from "@/features/auth/hooks";
+import { useGoogleAuth } from "@/features/auth/hooks/useGoogleAuth";
 import { ForgotPasswordDialog } from "@/components/modal/ResetPasswordModal";
+import { fetchAuthUser } from "@/features/user/api/fetchAuthUser";
+import { login } from "@/features/auth/hooks/useLogin";
+import { notify } from "@/lib/notify";
+import { getErrorMessage } from "@/lib/api-error";
 
 export default function LoginPage() {
     const [serverError, setServerError] = useState("");
@@ -143,7 +146,14 @@ export default function LoginPage() {
                         type="button"
                         variant="default"
                         className="w-full mt-4 gap-2"
-                        onClick={() => googleMutation.mutate()}
+                        onClick={() =>
+                            googleMutation.mutate(undefined, {
+                                onSuccess: () =>
+                                    notify.success("Login with Google successful!"),
+                                onError: (error) =>
+                                    notify.error(getErrorMessage(error)),
+                            })
+                        }
                         disabled={googleMutation.isPending}
                     >
                         <span>

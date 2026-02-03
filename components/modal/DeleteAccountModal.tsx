@@ -2,7 +2,6 @@
 "use client";
 
 import { useState } from "react";
-import { useDeleteAccount } from "@/features/auth/hooks";
 import { Button } from "@/components/ui/button";
 import {
     AlertDialog,
@@ -19,6 +18,7 @@ import {
     AlertDialogTitle,
 } from "@radix-ui/react-alert-dialog";
 import { notify } from "@/lib/notify";
+import { useDeleteAccount } from "@/features/auth/hooks/useDeleteFunction";
 
 export function DeleteAccountModal() {
     const [open, setOpen] = useState(false);

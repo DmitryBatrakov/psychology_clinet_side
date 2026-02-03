@@ -23,14 +23,12 @@ export async function GET(req: Request) {
             );
         }
 
-        // Convert Firestore Timestamp to ISO string for birthDate
         let birthDate: string | null = null;
         if (data.birthDate) {
             if (
                 data.birthDate.toDate &&
                 typeof data.birthDate.toDate === "function"
             ) {
-                // Firestore Timestamp
                 birthDate = data.birthDate.toDate().toISOString();
             } else if (data.birthDate instanceof Date) {
                 birthDate = data.birthDate.toISOString();
@@ -59,7 +57,6 @@ export async function GET(req: Request) {
                     error instanceof Error && "code" in error
                         ? error.code
                         : undefined,
-                status: 500,
             } as ApiError,
             { status: 500 },
         );

@@ -29,8 +29,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { onboardingSchema } from "@/features/onboarding/validation";
-import { completeOnboarding } from "@/features/onboarding/hooks";
-import { UserData } from "@/features/user/types";
+import { completeOnboarding } from "@/features/onboarding/hooks/completeOnboarding";
+import { UserData } from "@/features/user/model/types";
 import { notify } from "@/lib/notify";
 import { useAtomValue } from "jotai";
 import { authAtom } from "@/src/store/auth/authAtom";
@@ -167,7 +167,7 @@ export default function OnboardingPage() {
                                                         className={cn(
                                                             "w-full pl-3 text-left font-normal",
                                                             !field.value &&
-                                                                "text-muted-foreground",
+                                                            "text-muted-foreground",
                                                         )}
                                                     >
                                                         {field.value ? (
@@ -196,9 +196,9 @@ export default function OnboardingPage() {
                                                     disabled={(date) =>
                                                         date > new Date() ||
                                                         date <
-                                                            new Date(
-                                                                "1920-01-01",
-                                                            )
+                                                        new Date(
+                                                            "1920-01-01",
+                                                        )
                                                     }
                                                     initialFocus
                                                 />
@@ -281,20 +281,20 @@ export default function OnboardingPage() {
                                                                         ) => {
                                                                             return checked
                                                                                 ? field.onChange(
-                                                                                      [
-                                                                                          ...field.value,
-                                                                                          lang.id,
-                                                                                      ],
-                                                                                  )
+                                                                                    [
+                                                                                        ...field.value,
+                                                                                        lang.id,
+                                                                                    ],
+                                                                                )
                                                                                 : field.onChange(
-                                                                                      field.value?.filter(
-                                                                                          (
-                                                                                              value,
-                                                                                          ) =>
-                                                                                              value !==
-                                                                                              lang.id,
-                                                                                      ),
-                                                                                  );
+                                                                                    field.value?.filter(
+                                                                                        (
+                                                                                            value,
+                                                                                        ) =>
+                                                                                            value !==
+                                                                                            lang.id,
+                                                                                    ),
+                                                                                );
                                                                         }}
                                                                     />
                                                                 </FormControl>

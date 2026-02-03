@@ -14,8 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { usePasswordReset } from "@/features/auth/hooks";
 import { notify } from "@/lib/notify";
+import { usePasswordReset } from "@/features/auth/hooks/usePasswordReset";
 
 export function ForgotPasswordDialog() {
     const [email, setEmail] = useState("");

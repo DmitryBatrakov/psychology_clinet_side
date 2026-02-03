@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UserPen, BriefcaseBusiness, CreditCard, Settings, Mail, LogOut } from "lucide-react";
-import { logout } from "@/features/auth/hooks";
+import { logout } from "@/features/auth/hooks/useLogout";
 
 export const Sidebar = () => {
     const pathname = usePathname();

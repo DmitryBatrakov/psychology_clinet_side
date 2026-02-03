@@ -6,7 +6,6 @@ import { auth } from "@/lib/firebase";
 import { useAtomValue, useSetAtom } from "jotai";
 import { authAtom } from "@/src/store/auth/authAtom";
 import { usePathname, useRouter } from "next/navigation";
-import { useUserData } from "@/features/user/hooks";
 
 const isAccount = (p: string) => p.startsWith("/account");
 const isOnboarding = (p: string) => p.startsWith("/auth/onboarding");

@@ -26,9 +26,9 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
-import {  useRegister } from "@/features/auth/hooks";
 import { notify } from "@/lib/notify";
 import { getErrorMessage } from "@/lib/api-error";
+import { useRegister } from "@/features/auth/hooks/userRegister";
 
 export default function RegisterPage() {
     const router = useRouter();

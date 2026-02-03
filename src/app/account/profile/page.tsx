@@ -1,12 +1,12 @@
 "use client";
 
 import { Spinner } from "@/components/ui/spinner";
-import { UserProfileHeader } from "@/components/userProfile/user-profile-header/UserProfileHeader";
-import { UserProfileActions } from "@/components/userProfile/user-profile-actions/UserProfileActions";
-import { useUserData } from "@/features/user/hooks";
+import { UserProfileHeader } from "@/features/user/ui/profile/user-profile-header/UserProfileHeader";
+import { UserProfileActions } from "@/features/user/ui/profile/user-profile-actions/UserProfileActions";
+import { useUserData } from "@/features/user/hooks/useUserData";
 import { authAtom } from "@/src/store/auth/authAtom";
 import { useAtomValue } from "jotai";
-import { UserProfileInfo } from "@/components/userProfile/user-profile-info/UserProfileInfo";
+import { UserProfileSummary } from "@/features/user/ui/profile/user-profile-summary/UserProfileSummary";
 import { useSearchParams } from "next/navigation";
 
 export default function Profile() {
@@ -32,14 +32,10 @@ export default function Profile() {
 
     return (
         <div className="flex flex-col gap-5">
-            {/* <UserProfileHeader />
-            <UserProfileInfo />
-
-            <UserProfileActions /> */}
             {!section && (
                 <>
                     <UserProfileHeader />
-                    <UserProfileInfo />
+                    <UserProfileSummary />
                 </>
             )}
             <UserProfileActions />

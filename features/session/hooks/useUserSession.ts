@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { sessionData } from "@/mockData/sessionData";
+import { sessionData } from "@/mockData/sessions/sessionData";
 import { SessionDto } from "../model/types";
 
 

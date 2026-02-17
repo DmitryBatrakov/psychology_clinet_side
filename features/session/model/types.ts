@@ -2,9 +2,10 @@ import { FieldValue } from "firebase/firestore";
 
 type SessionStatus = "upcoming" | "completed" | "canceled";
 
+export type MeetingFormat = "online" | "offline";
 
 export interface Session {
-    id: string; 
+    id: string;
     userId: string;
     specialistId: string;
     startAt: Date;
@@ -15,6 +16,7 @@ export interface Session {
     income: number;
     desription: string | undefined;
     meetingUrl: string | undefined;
+    meetingFormat: MeetingFormat;
 }
 
 

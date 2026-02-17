@@ -1,6 +1,7 @@
 "use client";
 
 import { useTherapyData } from "@/features/therapy/hooks/useTherapyData";
+import { TherapistFaq } from "@/features/therapy/ui/therapy-faq/TherapistFaq";
 import { TherapyOverview } from "@/features/therapy/ui/user-therapy-overview/TherapyOverview";
 
 export default function Therapy() {
@@ -33,11 +34,12 @@ export default function Therapy() {
     console.log("therapyData", therapyData);
 
     return (
-        <div className="flex flex-col gap-5 ">
+        <div className="flex flex-col gap-10 ">
             <TherapyOverview
                 userData={therapyData.dbUser}
                 specialistData={therapyData.specialist}
             />
+            <TherapistFaq />
         </div>
     );
 }

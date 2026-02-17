@@ -4,6 +4,7 @@
 import { TherapyData } from "../../hooks/useTherapyData";
 import { CircleUserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 type TherapyDataProps = {
     userData: TherapyData["dbUser"];
@@ -15,7 +16,7 @@ export const TherapyOverview = ({
     specialistData,
 }: TherapyDataProps) => {
     // console.log("user", userData.data);
-    // console.log("specialist",specialistData.data);
+    // console.log("specialist photo url",specialistData.data?.photoUrl);
 
     const specialist = specialistData.data;
     return (
@@ -25,17 +26,26 @@ export const TherapyOverview = ({
                     <h1 className="text-3xl font-bold">My Therapy</h1>
                 </div>
                 <div className="grid w-full gap-5 grid-cols-1 sm:grid-cols-2">
-                    <div className="rounded-md bg-gray-200 min-w-20 flex flex-col justify-between items-center gap-8 p-4">
+                    <div className="rounded-md bg-gray-200 min-w-20 flex flex-col justify-between items-center gap-6 p-4">
+                    <h1 className="text-rihgt w-full p-0 m-0">Last session</h1>
                         {specialist ? (
                             <div className="flex gap-4 justify-between items-start w-full">
                                 <div className="shrink-0 flex justify-center items-center h-full px-3">
-                                    {/* <Image
-                                    src={specialist.photoUrl ?? "/placeholder.png"}
-                                    alt="Specialist Photo"
-                                    width={100}
-                                    height={100}
-                                    /> */}
-                                    <CircleUserRound size={70} color="purple" />
+                                    {specialist.photoUrl ? (
+                                        <Image
+                                            src={
+                                                specialist.photoUrl
+                                            }
+                                            alt="Specialist Photo"
+                                            width={100}
+                                            height={100}
+                                        />
+                                    ) : (
+                                        <CircleUserRound
+                                            size={70}
+                                            color="purple"
+                                        />
+                                    )}
                                 </div>
                                 <div className="flex-1 flex flex-col">
                                     <span>{specialist.firstName}</span>

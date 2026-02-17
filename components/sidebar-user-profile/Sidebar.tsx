@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { UserPen, BriefcaseBusiness, CreditCard, Settings, Mail, LogOut } from "lucide-react";
+import { UserPen, BriefcaseBusiness, CreditCard, Settings, Mail, LogOut, BookHeart} from "lucide-react";
 import { logout } from "@/features/auth/hooks/useLogout";
 
 export const Sidebar = () => {
@@ -22,7 +22,7 @@ export const Sidebar = () => {
         {
             name: "טיפול שלי",
             href: "/account/therapy",
-            icon: <UserPen size={20} />,
+            icon: <BookHeart size={20} />,
         },
         {
             name: "הפרופיל שלי",
@@ -30,13 +30,13 @@ export const Sidebar = () => {
             icon: <UserPen size={20} />,
         },
         {
-            name: "מומחה",
-            href: "/account/specialist",
+            name: "מומחים",
+            href: "/catalog",
             icon: <BriefcaseBusiness size={20} />,
         },
         {
             name: "תשלומים ופגישות",
-            href: "/account/billing",
+            href: "/account/activity",
             icon: <CreditCard size={20} />,
         },
         {

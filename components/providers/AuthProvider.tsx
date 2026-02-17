@@ -1,12 +1,17 @@
 "use client";
 
-import { useEffect } from "react";
-import { useAtomValue, useSetAtom } from "jotai";
+import { useEffect, useLayoutEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { authAtom } from "@/src/store/auth/authAtom";
 import { auth } from "@/lib/firebase";
-import { useUserData } from "@/src/hooks/user/useUserData";
+import { useAtomValue, useSetAtom } from "jotai";
+import { authAtom } from "@/src/store/auth/authAtom";
 import { usePathname, useRouter } from "next/navigation";
+
+const isAccount = (p: string) => p.startsWith("/account");
+const isOnboarding = (p: string) => p.startsWith("/auth/onboarding");
+const isLogin = (p: string) => p.startsWith("/auth/login");
+const isRegister = (p: string) => p.startsWith("/auth/register");
+const isAuthPages = (p: string) => isLogin(p) || isRegister(p);
 
 export default function AuthProvider({
     children,
@@ -14,47 +19,40 @@ export default function AuthProvider({
     children: React.ReactNode;
 }) {
     const setAuth = useSetAtom(authAtom);
-
-    const { user, loading: authLoading } = useAtomValue(authAtom);
-
-    const { data: dbUser, isLoading: dbLoading } = useUserData(user?.uid);
-
+    const { user, loading: authLoading } = useAtomValue(authAtom); 
     const router = useRouter();
     const pathname = usePathname();
+    // const uid = user?.uid ?? null
+    // const {
+    //     data: dbUser,
+    //     isLoading: dbUserLoading,
+    //     isError: dbUserError,
+    // } = useUserData(uid, authLoading);
 
-    const ACCOUNT = "/account";
-
-    console.log(authAtom);
-
-    useEffect(() => {
+    useLayoutEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-            const expires = new Date(
-                Date.now() + 7 * 24 * 60 * 60 * 1000
-            ).toUTCString();
-
             if (currentUser) {
-                document.cookie = `session=true; expires=${expires}; path=/; SameSite=Lax`;
-
                 setAuth({ user: currentUser, role: "user", loading: false });
+                //cookies
             } else {
-                document.cookie =
-                    "session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
                 setAuth({ user: null, role: null, loading: false });
+                router.push("/auth/login");
+                //delete cookies
             }
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [setAuth, router]);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
+
+        console.log(user, authLoading, isAuthPages(pathname),pathname)
         if (authLoading) return;
-        if (!user) return; 
-        if (dbLoading) return;
 
-        if (!dbUser && pathname.startsWith(ACCOUNT)) {
-            router.replace("/onboarding");
+        if (!user && !isAuthPages(pathname)) {
+            router.replace("/auth/login");
         }
-    }, [authLoading, user, dbLoading, dbUser, pathname, router]);
+    }, [user, authLoading, pathname, router]);
 
     return <>{children}</>;
 }

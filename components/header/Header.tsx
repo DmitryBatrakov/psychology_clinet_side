@@ -24,14 +24,14 @@ export const Header = () => {
                 {user ? (
                     <button
                         className="cursor-pointer"
-                        onClick={() => router.push("/account/profile")}
+                        onClick={() => router.push("/account/therapy")}
                     >
                         <CircleUser size={40} color="gray" />
                     </button>
                 ) : (
                     <button
                         className="px-4 py-2 bg-blue-500 text-white rounded"
-                        onClick={() => router.push("/login")}
+                        onClick={() => router.push("/auth/login")}
                     >
                         Sign In
                     </button>

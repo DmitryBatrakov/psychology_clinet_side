@@ -1,35 +1,42 @@
 "use client";
 
-import { useAuthActions } from "@/src/hooks/auth/useAuthActions";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import {
-    UserPen,
-    BriefcaseBusiness,
-    CreditCard,
-    Settings,
-    Mail,
-    LogOut,
-} from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { UserPen, BriefcaseBusiness, CreditCard, Settings, Mail, LogOut, BookHeart} from "lucide-react";
+import { logout } from "@/features/auth/hooks/useLogout";
 
 export const Sidebar = () => {
     const pathname = usePathname();
-    const { logout } = useAuthActions();
+    const router = useRouter();
+
+    const handlLogout = async () => {
+        try {
+            await logout();
+            router.replace("/");
+        } catch (error) {
+            console.error("Logout failed", error);
+        }
+    };
 
     const menuItems = [
+        {
+            name: "טיפול שלי",
+            href: "/account/therapy",
+            icon: <BookHeart size={20} />,
+        },
         {
             name: "הפרופיל שלי",
             href: "/account/profile",
             icon: <UserPen size={20} />,
         },
         {
-            name: "מומחה",
-            href: "/account/specialist",
+            name: "מומחים",
+            href: "/catalog",
             icon: <BriefcaseBusiness size={20} />,
         },
         {
             name: "תשלומים ופגישות",
-            href: "/account/billing",
+            href: "/account/activity",
             icon: <CreditCard size={20} />,
         },
         {
@@ -45,16 +52,10 @@ export const Sidebar = () => {
     ];
 
     return (
-        <aside
-            className="w-64 bg-blue-500 text-white p-4 flex h-full flex-col justify-between rounded-l-[50px]"
-            dir="rtl"
-        >
+        <aside className="w-64 bg-blue-500 text-white p-4 flex h-full flex-col justify-between" dir="rtl">
             <nav className="flex flex-col gap-3 mt-20">
                 {menuItems.map((item) => (
-                    <div
-                        key={item.href}
-                        className="flex items-center justify-center"
-                    >
+                    <div key={item.href} className="flex items-center justify-center">
                         <Link
                             href={item.href}
                             className={`p-3 rounded-xl flex gap-4 items-center w-full ${
@@ -72,7 +73,7 @@ export const Sidebar = () => {
             <div className="w-full flex justify-center items-center mb-10 ">
                 <button
                     className="text-white bg-white/15 p-2 rounded-xl hover:bg-white/25 cursor-context-menu"
-                    onClick={logout}
+                    onClick={handlLogout}
                 >
                     <LogOut size={30} />
                 </button>

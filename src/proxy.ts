@@ -2,21 +2,19 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function proxy(req: NextRequest) {
-    const { pathname } = req.nextUrl;
-
-    const session = req.cookies.get("session");
-    const isLoggedIn = session?.value === "true";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export function proxy(_req: NextRequest) {
+    // const { pathname } = req.nextUrl; // TODO: Uncomment when implementing route protection
 
     // 1) ГОСТЬ
-     if (!isLoggedIn && (pathname.startsWith("/account") || pathname === "/onboarding")) {
-         return NextResponse.redirect(new URL("/login", req.url));
-     }
+    //  if ((pathname.startsWith("/account") || pathname === "/auth/onboarding")) {
+    //      return NextResponse.redirect(new URL("/auth/login", req.url));
+    //  }
 
     // 2) АВТОРИЗОВАН
-    if (isLoggedIn && (pathname === "/login" || pathname === "/register")) {
-        return NextResponse.redirect(new URL("/", req.url));
-    }
+    // if (isLoggedIn && (pathname === "/auth/login" || pathname === "/auth/register")) {
+    //     return NextResponse.redirect(new URL("/", req.url));
+    // }
 
     return NextResponse.next();
 }
@@ -24,8 +22,8 @@ export function proxy(req: NextRequest) {
 export const config = {
     matcher: [
         "/account/:path*",
-        "/login",
-        "/register",
-        "/onboarding",
+        "/auth/login",
+        "/auth/register",
+        "/auth/onboarding",
     ],
 };

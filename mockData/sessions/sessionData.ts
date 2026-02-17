@@ -16,6 +16,7 @@ export const sessionData: SessionMock[] = [
         income: 120,
         desription: "Initial intake session",
         meetingUrl: "https://meet.example.com/session-1",
+        meetingFormat: "online",
     },
     {
         id: "session-2",
@@ -29,6 +30,7 @@ export const sessionData: SessionMock[] = [
         income: 140,
         desription: "CBT follow-up",
         meetingUrl: "https://meet.example.com/session-2",
+        meetingFormat: "offline",
     },
     {
         id: "session-3",
@@ -42,6 +44,7 @@ export const sessionData: SessionMock[] = [
         income: 130,
         desription: "Next steps planning",
         meetingUrl: "https://meet.example.com/session-3",
+        meetingFormat: "online",
     },
     {
         id: "session-4",
@@ -55,6 +58,7 @@ export const sessionData: SessionMock[] = [
         income: 0,
         desription: "Canceled by client",
         meetingUrl: "https://meet.example.com/session-4",
+        meetingFormat: "offline",
     },
     {
         id: "session-5",
@@ -68,5 +72,6 @@ export const sessionData: SessionMock[] = [
         income: 150,
         desription: "Stress management",
         meetingUrl: "https://meet.example.com/session-5",
+        meetingFormat: "online",
     },
 ];

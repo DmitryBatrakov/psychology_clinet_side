@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { FcGoogle } from "react-icons/fc";
+
 import { LoginFormValues, loginSchema } from "@/features/auth/validation";
 
 import {
@@ -31,6 +32,7 @@ import { fetchAuthUser } from "@/features/user/api/fetchAuthUser";
 import { login } from "@/features/auth/hooks/useLogin";
 import { notify } from "@/lib/notify";
 import { getErrorMessage } from "@/lib/api-error";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function LoginPage() {
     const [serverError, setServerError] = useState("");
@@ -135,7 +137,7 @@ export default function LoginPage() {
                                     disabled={form.formState.isSubmitting}
                                 >
                                     {form.formState.isSubmitting
-                                        ? "Logining..."
+                                        ? <Spinner />
                                         : "Sign In"}
                                 </Button>
                             </div>

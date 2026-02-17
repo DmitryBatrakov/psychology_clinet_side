@@ -29,6 +29,8 @@ import { useRouter } from "next/navigation";
 import { notify } from "@/lib/notify";
 import { getErrorMessage } from "@/lib/api-error";
 import { useRegister } from "@/features/auth/hooks/userRegister";
+import { Spinner } from "@/components/ui/spinner";
+
 
 export default function RegisterPage() {
     const router = useRouter();
@@ -112,10 +114,10 @@ export default function RegisterPage() {
                             <Button
                                 type="submit"
                                 className="w-full"
-                                disabled={form.formState.isSubmitting}
+                                disabled={registerMutation.isPending}
                             >
-                                {form.formState.isSubmitting
-                                    ? "Создание..."
+                                {registerMutation.isPending
+                                    ? <Spinner/>
                                     : "Зарегистрироваться"}
                             </Button>
                         </form>

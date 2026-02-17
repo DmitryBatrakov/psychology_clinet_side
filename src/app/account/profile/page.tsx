@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { UserProfileHeader } from "@/features/user/ui/profile/user-profile-header/UserProfileHeader";
 import { UserProfileActions } from "@/features/user/ui/profile/user-profile-actions/UserProfileActions";
@@ -9,7 +10,7 @@ import { useAtomValue } from "jotai";
 import { UserProfileSummary } from "@/features/user/ui/profile/user-profile-summary/UserProfileSummary";
 import { useSearchParams } from "next/navigation";
 
-export default function Profile() {
+function ProfileContent() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
     const uid = user?.uid ?? null;
     const { isPending, isError, error } = useUserData(uid, authLoading);
@@ -40,5 +41,19 @@ export default function Profile() {
             )}
             <UserProfileActions />
         </div>
+    );
+}
+
+export default function Profile() {
+    return (
+        <Suspense
+            fallback={
+                <div className="w-full flex justify-center items-center min-h-[90vh]">
+                    <Spinner className="size-8 text-gray-600" />
+                </div>
+            }
+        >
+            <ProfileContent />
+        </Suspense>
     );
 }

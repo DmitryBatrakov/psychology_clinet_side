@@ -15,8 +15,6 @@ export const TherapyOverview = ({
     userData,
     specialistData,
 }: TherapyDataProps) => {
-    // console.log("user", userData.data);
-    // console.log("specialist photo url",specialistData.data?.photoUrl);
 
     const specialist = specialistData.data;
     return (

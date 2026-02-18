@@ -1,4 +1,3 @@
-import { FieldValue } from "firebase/firestore";
 
 type SessionStatus = "upcoming" | "completed" | "canceled";
 
@@ -12,7 +11,7 @@ export interface Session {
     endAt: Date | undefined;
     date: Date;
     status: SessionStatus;
-    createdAt: FieldValue;
+    createdAt: string;
     income: number;
     desription: string | undefined;
     meetingUrl: string | undefined;
@@ -21,7 +20,7 @@ export interface Session {
 
 
 
-export type SessionDto = Omit<Session, 'startAt' | 'endAt' | 'date'> & {
+export type SessionDTO = Omit<Session, 'startAt' | 'endAt' | 'date'> & {
     startAt: string,
     endAt: string | undefined,
     date: string,

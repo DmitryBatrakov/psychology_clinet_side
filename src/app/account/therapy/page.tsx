@@ -6,8 +6,8 @@ import { TherapyOverview } from "@/features/therapy/ui/user-therapy-overview/The
 
 export default function Therapy() {
     const therapyData = useTherapyData();
+ 
 
-    // Проверка загрузки
     if (
         therapyData.dbUser.isPending ||
         therapyData.specialist.isPending ||
@@ -16,7 +16,6 @@ export default function Therapy() {
         return <div>Loading...</div>;
     }
 
-    // Проверка ошибок
     if (
         therapyData.dbUser.isError ||
         therapyData.specialist.isError ||
@@ -25,7 +24,7 @@ export default function Therapy() {
         return <div>Error loading data</div>;
     }
 
-    // Проверка только критичных данных (user обязателен)
+
     if (!therapyData.dbUser.data) {
         return <div>User data not found</div>;
     }

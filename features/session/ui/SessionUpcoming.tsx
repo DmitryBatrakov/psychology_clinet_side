@@ -1,31 +1,29 @@
-import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { sessionData } from "@/mockData/sessions/sessionData";
-import type { SessionDto } from "@/features/session/model/types";
+import type { SessionDTO } from "@/features/session/model/types";
+import type { SpecialistDTO } from "@/features/specialist/model/types";
 import { formatSessionDate, formatSessionTime } from "../lib/formatSession";
 import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import Image from "next/image";
+import { CircleUserRound } from "lucide-react";
 
-const upcomingSessions: SessionDto[] = sessionData
-    .filter((session) => session.status === "upcoming")
-    .sort(
-        (a, b) =>
-            new Date(a.startAt).getTime() - new Date(b.startAt).getTime()
-    );
+type SessionUpcomingProps = {
+    sessionList: SessionDTO[];
+    specialistsMap: Map<string, SpecialistDTO>;
+};
 
-function handleCancel(sessionId: string) {
-    void sessionId;
-    // TODO: cancel session
-}
+export function SessionUpcoming({
+    sessionList,
+    specialistsMap,
+}: SessionUpcomingProps) {
+    const now = new Date();
+    const upcomingSessions = sessionList
+        .filter((s) => s.status === "upcoming" && new Date(s.startAt) > now)
+        .sort(
+            (a, b) =>
+                new Date(a.startAt).getTime() - new Date(b.startAt).getTime(),
+        );
 
-export function SessionUpcoming() {
     if (upcomingSessions.length === 0) {
         return (
             <div className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">
@@ -38,61 +36,77 @@ export function SessionUpcoming() {
     }
 
     return (
-        <Table>
-            <TableCaption>Upcoming sessions</TableCaption>
-            <TableHeader>
-                <TableRow>
-                    <TableHead className="w-[100px]">Date</TableHead>
-                    <TableHead className="text-center">Time</TableHead>
-                    <TableHead className="text-center">Format</TableHead>
-                    <TableHead className="text-center">Specialist</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {upcomingSessions.map((session) => (
-                    <TableRow key={session.id}>
-                        <TableCell className="font-medium">
-                            {formatSessionDate(session.startAt)}
-                        </TableCell>
-                        <TableCell className="text-center">
-                            {formatSessionTime(session.startAt)}
-                        </TableCell>
-                        <TableCell className="text-center capitalize">
-                            {session.meetingFormat === "online"
-                                ? "Онлайн"
-                                : "Офлайн"}
-                        </TableCell>
-                        <TableCell className="text-center">
-                            {session.specialistId}
-                        </TableCell>
-                        <TableCell className="text-right">
-                            <div className="flex justify-end gap-2">
-                                {session.meetingFormat === "online" &&
-                                    session.meetingUrl && (
-                                        <Button variant="outline" size="sm" asChild className="bg-green-400 text-white">
-                                            <Link
-                                                href={session.meetingUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                            >
-                                                Connect
-                                            </Link>
-                                        </Button>
+        <div className="grid grid-cols-1 gap-5  overflow-y-auto" dir="rtl">
+            {upcomingSessions.map((s) => {
+                const specialist = specialistsMap.get(s.specialistId);
+                const specialistName = specialist
+                    ? `${specialist.firstName} ${specialist.lastName}`
+                    : s.specialistId;
+                return (
+                    <Card key={s.id}>
+                        <CardHeader>
+                            <CardTitle className="text-center">
+                                Upcomig Session
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-3 gap-5">
+                                <div className="flex flex-col gap-2 justify-center items-center">
+                                    {specialist?.photoUrl ? (
+                                        <Image
+                                            src={specialist.photoUrl}
+                                            alt={specialistName}
+                                            width={100}
+                                            height={100}
+                                        />
+                                    ) : (
+                                        <CircleUserRound
+                                            size={100}
+                                            color="purple"
+                                        />
                                     )}
-                                <Button
-                                    className="bg-red-400 text-white"
-                                    variant="ghost"
-                                    size="sm"
-                                    onClick={() => handleCancel(session.id)}
-                                >
-                                    Cancel
-                                </Button>
+                                    <div>
+                                        <p className="text-lg font-semibold">
+                                            {specialistName}
+                                        </p>
+                                        <p>{specialist?.profession}</p>
+                                        <p>
+                                            {specialist?.experience} years of
+                                            experience
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className=" flex flex-col gap-2 justify-center items-center">
+                                    <p>Date: {formatSessionDate(s.startAt)}</p>
+                                    <p>Time: {formatSessionTime(s.startAt)}</p>
+                                </div>
+                                <div className="flex flex-col gap-2 justify-center items-left">
+                                    <div className="flex gap-2">
+                                        <span>Theme:</span>
+                                        <span>{s.desription}</span>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <span>Meeting format:</span>
+                                        <span>{s.meetingFormat}</span>
+                                    </div>
+                                </div>
+
+                                <div className="col-start-2 flex flex-col gap-2">
+                                    <Button
+                                        variant="default"
+                                        className=" bg-blue-700"
+                                    >
+                                        Join
+                                    </Button>
+                                    <Button variant="destructive" className="">
+                                        Cancel
+                                    </Button>
+                                </div>
                             </div>
-                        </TableCell>
-                    </TableRow>
-                ))}
-            </TableBody>
-        </Table>
+                        </CardContent>
+                    </Card>
+                );
+            })}
+        </div>
     );
 }

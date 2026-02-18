@@ -24,6 +24,9 @@ export function CatalogSpecialistCard({ specialist }: CatalogSpecialistCardProps
     const name = `${specialist.firstName} ${specialist.lastName}`;
     const professionLabel = PROFESSION_LABELS[specialist.profession];
 
+    console.log(specialist.id);
+    
+
     return (
         <Card className="overflow-hidden">
             <CardHeader className="p-0">

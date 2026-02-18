@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useCatalogSpecialists } from "@/features/catalog/hooks/useCatalogSpecialists";
 import type { CatalogSort } from "@/features/catalog/model/types";
@@ -10,8 +11,9 @@ import {
 import { PAGE_SIZE } from "@/features/catalog/model/catalogFilterOptions";
 import { CatalogFilters } from "@/features/catalog/ui/CatalogFilters";
 import { CatalogGrid } from "@/features/catalog/ui/CatalogGrid";
+import { CatalogSkeleton } from "@/features/catalog/ui/CatalogSkeleton";
 
-export default function CatalogPage() {
+function CatalogPageContent() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -107,5 +109,29 @@ export default function CatalogPage() {
                 />
             </div>
         </div>
+    );
+}
+
+function CatalogPageFallback() {
+    return (
+        <div className="flex flex-col w-full max-w-7xl mx-auto px-4 pb-20" dir="rtl">
+            <div className="w-full h-52 flex flex-col items-center justify-center">
+                <h1 className="text-2xl font-bold text-right mb-5">Catalog</h1>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-5 w-full">
+                <div className="col-span-1 min-h-[400px] rounded-xl border bg-muted/50 animate-pulse" />
+                <div className="col-span-3">
+                    <CatalogSkeleton count={PAGE_SIZE} />
+                </div>
+            </div>
+        </div>
+    );
+}
+
+export default function CatalogPage() {
+    return (
+        <Suspense fallback={<CatalogPageFallback />}>
+            <CatalogPageContent />
+        </Suspense>
     );
 }

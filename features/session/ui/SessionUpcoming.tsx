@@ -28,9 +28,9 @@ export function SessionUpcoming({
         return (
             <div className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">
                 <p className="text-sm">
-                    You don`t have any upcoming sessions yet.
+                    אין לך פגישות קרובות.
                 </p>
-                Optional: <Link href="/catalog">Book a session</Link>
+                אפשרות: <Link href="/catalog">קבע פגישה</Link>
             </div>
         );
     }
@@ -46,7 +46,7 @@ export function SessionUpcoming({
                     <Card key={s.id}>
                         <CardHeader>
                             <CardTitle className="text-center">
-                                Upcomig Session
+                                פגישה קרובה
                             </CardTitle>
                         </CardHeader>
                         <CardContent>
@@ -71,22 +71,21 @@ export function SessionUpcoming({
                                         </p>
                                         <p>{specialist?.profession}</p>
                                         <p>
-                                            {specialist?.experience} years of
-                                            experience
+                                            {specialist?.experience} שנות ניסיון
                                         </p>
                                     </div>
                                 </div>
                                 <div className=" flex flex-col gap-2 justify-center items-center">
-                                    <p>Date: {formatSessionDate(s.startAt)}</p>
-                                    <p>Time: {formatSessionTime(s.startAt)}</p>
+                                    <p>תאריך: {formatSessionDate(s.startAt)}</p>
+                                    <p>שעה: {formatSessionTime(s.startAt)}</p>
                                 </div>
                                 <div className="flex flex-col gap-2 justify-center items-left">
                                     <div className="flex gap-2">
-                                        <span>Theme:</span>
+                                        <span>נושא:</span>
                                         <span>{s.desription}</span>
                                     </div>
                                     <div className="flex gap-2">
-                                        <span>Meeting format:</span>
+                                        <span>פורמט פגישה:</span>
                                         <span>{s.meetingFormat}</span>
                                     </div>
                                 </div>
@@ -96,10 +95,10 @@ export function SessionUpcoming({
                                         variant="default"
                                         className=" bg-blue-700"
                                     >
-                                        Join
+                                        הצטרף
                                     </Button>
                                     <Button variant="destructive" className="">
-                                        Cancel
+                                        ביטול
                                     </Button>
                                 </div>
                             </div>

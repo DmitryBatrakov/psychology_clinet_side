@@ -13,7 +13,7 @@ export default function Therapy() {
         therapyData.specialist.isPending ||
         therapyData.session.isPending
     ) {
-        return <div>Loading...</div>;
+        return <div>טוען...</div>;
     }
 
     if (
@@ -21,12 +21,12 @@ export default function Therapy() {
         therapyData.specialist.isError ||
         therapyData.session.isError
     ) {
-        return <div>Error loading data</div>;
+        return <div>שגיאה בטעינת הנתונים</div>;
     }
 
 
     if (!therapyData.dbUser.data) {
-        return <div>User data not found</div>;
+        return <div>נתוני המשתמש לא נמצאו</div>;
     }
 
 

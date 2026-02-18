@@ -65,9 +65,9 @@ export function ForgotPasswordDialog() {
 
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle>Сбросить пароль</DialogTitle>
+                    <DialogTitle>איפוס סיסמה</DialogTitle>
                     <DialogDescription>
-                        Введите email — отправим инструкции для смены пароля
+                        הזן אימייל — נשלח הוראות לאיפוס הסיסמה
                     </DialogDescription>
                 </DialogHeader>
                 <div className="space-y-4">
@@ -89,13 +89,13 @@ export function ForgotPasswordDialog() {
                         type="button"
                         onClick={closeAndReset}
                     >
-                        Отмена
+                        ביטול
                     </Button>
                     <Button
                         onClick={handleReset}
                         disabled={isLoading || !email}
                     >
-                        {isLoading ? "Отправляем..." : "Отправить"}
+                        {isLoading ? "שולח..." : "שלח"}
                     </Button>
                 </DialogFooter>
             </DialogContent>

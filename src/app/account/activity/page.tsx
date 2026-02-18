@@ -40,10 +40,10 @@ export default function ActivityPage() {
     const sessionList = sessionData.data ?? [];
 
     if (sessionData.isPending || specialistsData.isPending) {
-        return <div>Loading...</div>;
+        return <div>טוען...</div>;
     }
     if (sessionData.isError || specialistsData.isError) {
-        return <div>Error loading data</div>;
+        return <div>שגיאה בטעינת הנתונים</div>;
     }
 
     return (
@@ -51,10 +51,10 @@ export default function ActivityPage() {
             <Tabs defaultValue={TAB.SESSIONS} className="w-full max-w-4xl">
                 <TabsList variant="line" className="w-full">
                     <TabsTrigger value={TAB.PAYMENTS} className="flex-1">
-                        Session Completed
+                        פגישות שהסתיימו
                     </TabsTrigger>
                     <TabsTrigger value={TAB.SESSIONS} className="flex-1">
-                        Session Upcoming
+                        פגישות קרובות
                     </TabsTrigger>
                 </TabsList>
 

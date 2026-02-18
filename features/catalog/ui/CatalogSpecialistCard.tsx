@@ -9,6 +9,10 @@ import {
 import type { SpecialistDTO } from "@/features/specialist/model/types";
 import { getServiceLabel } from "@/features/catalog/model/serviceTopics";
 import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Link } from "lucide-react";
+import { useRouter } from "next/navigation";
+
 
 const PROFESSION_LABELS: Record<SpecialistDTO["profession"], string> = {
     psychologist: "פסיכולוג/ית",
@@ -20,12 +24,14 @@ interface CatalogSpecialistCardProps {
     specialist: SpecialistDTO;
 }
 
-export function CatalogSpecialistCard({ specialist }: CatalogSpecialistCardProps) {
+export function CatalogSpecialistCard({
+    specialist,
+}: CatalogSpecialistCardProps) {
     const name = `${specialist.firstName} ${specialist.lastName}`;
     const professionLabel = PROFESSION_LABELS[specialist.profession];
+    const router = useRouter();
 
     console.log(specialist.id);
-    
 
     return (
         <Card className="overflow-hidden">
@@ -51,23 +57,40 @@ export function CatalogSpecialistCard({ specialist }: CatalogSpecialistCardProps
                 <p className="font-semibold text-right" dir="rtl">
                     {name}
                 </p>
-                <p className="text-sm text-muted-foreground text-right" dir="rtl">
+                <p
+                    className="text-sm text-muted-foreground text-right"
+                    dir="rtl"
+                >
                     {professionLabel}
                 </p>
                 <p className="text-sm text-muted-foreground text-right">
                     ניסיון: {specialist.experience} שנים
                 </p>
                 {specialist.services.length > 0 && (
-                    <p className="text-xs text-muted-foreground text-right truncate" dir="rtl">
-                        {specialist.services.slice(0, 2).map(getServiceLabel).join(" • ")}
+                    <p
+                        className="text-xs text-muted-foreground text-right truncate"
+                        dir="rtl"
+                    >
+                        {specialist.services
+                            .slice(0, 2)
+                            .map(getServiceLabel)
+                            .join(" • ")}
                     </p>
                 )}
             </CardContent>
             <CardFooter className="p-4 pt-0 flex justify-end">
-                <span className="font-medium">
-                    ₪{specialist.pricePerSession}
-                    <span className="text-muted-foreground text-sm font-normal"> / פגישה</span>
-                </span>
+                <div className="flex items-center justify-between w-full gap-2">
+                    <span className="font-medium">
+                        ₪{specialist.pricePerSession}
+                        <span className="text-muted-foreground text-sm font-normal">
+                            {" "}
+                            / פגישה
+                        </span>
+                    </span>
+                    <Button variant="default" onClick={() => router.push(`/specialist/${specialist.id}`)}>
+                        View Profile
+                    </Button>
+                </div>
             </CardFooter>
         </Card>
     );

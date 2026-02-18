@@ -16,7 +16,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 9,
         pricePerSession: 120,
-        services: ["Anxiety", "Stress", "PTSD"],
+        services: ["trevozhnost", "stress", "travmaticheskij-opyt"],
     },
     {
         id: "spec-2",
@@ -31,7 +31,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 12,
         pricePerSession: 180,
-        services: ["Depression", "Burnout", "Self-esteem"],
+        services: ["depressivnye-sostoyaniya", "emotional-burnout", "nizkaya-samoocenka"],
     },
     {
         id: "spec-3",
@@ -46,7 +46,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 6,
         pricePerSession: 140,
-        services: ["Life goals", "Career", "Motivation"],
+        services: ["postanovka-tselej", "kariernyj-rost", "dostizhenie-tselej"],
     },
     {
         id: "spec-4",
@@ -61,7 +61,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 10,
         pricePerSession: 200,
-        services: ["Family therapy", "Relationships", "Anger"],
+        services: ["semeynaya-terapiya", "problemy-v-otnosheniyah", "konflikty-v-pare"],
     },
     {
         id: "spec-5",
@@ -76,7 +76,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 8,
         pricePerSession: 160,
-        services: ["Trauma", "Sleep", "Mindfulness"],
+        services: ["travmaticheskij-opyt", "poterya-blizkogo", "samoprinyatie"],
     },
     {
         id: "spec-6",
@@ -91,7 +91,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 11,
         pricePerSession: 220,
-        services: ["Anxiety", "OCD", "Phobias"],
+        services: ["trevozhnost", "navyazchivye-mysli", "psihosomatika"],
     },
     {
         id: "spec-7",
@@ -106,7 +106,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 7,
         pricePerSession: 150,
-        services: ["Depression", "Grief", "Life transitions"],
+        services: ["depressivnye-sostoyaniya", "poterya-blizkogo", "vozrastnye-krizisy"],
     },
     {
         id: "spec-8",
@@ -121,7 +121,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 14,
         pricePerSession: 260,
-        services: ["PTSD", "Trauma", "Anxiety"],
+        services: ["travmaticheskij-opyt", "trevozhnost", "stress"],
     },
     {
         id: "spec-9",
@@ -136,7 +136,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 5,
         pricePerSession: 130,
-        services: ["Career", "Leadership", "Productivity"],
+        services: ["kariernyj-rost", "liderstvo", "tajm-menedzhment"],
     },
     {
         id: "spec-10",
@@ -151,7 +151,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 18,
         pricePerSession: 280,
-        services: ["Family therapy", "Couples", "Parenting"],
+        services: ["semeynaya-terapiya", "supruzheskaya-terapiya", "vospitanie-detej"],
     },
     {
         id: "spec-11",
@@ -166,7 +166,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 6,
         pricePerSession: 145,
-        services: ["Stress", "Identity", "Cultural issues"],
+        services: ["stress", "samoopredelenie", "adaptatsiya-pereezd"],
     },
     {
         id: "spec-12",
@@ -181,7 +181,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 9,
         pricePerSession: 190,
-        services: ["Eating disorders", "Body image", "Self-esteem"],
+        services: ["nizkaya-samoocenka", "samoprinyatie", "chuvstvo-viny-styda"],
     },
     {
         id: "spec-13",
@@ -196,7 +196,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 8,
         pricePerSession: 165,
-        services: ["Motivation", "Goals", "Habits"],
+        services: ["dostizhenie-tselej", "plan-dejstvij", "privychki-rutina"],
     },
     {
         id: "spec-14",
@@ -211,7 +211,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 4,
         pricePerSession: 110,
-        services: ["Anxiety", "Panic", "Social anxiety"],
+        services: ["trevozhnye-rasstrojstva", "panicheskie-ataki", "sotsialnaya-trevozhnost"],
     },
     {
         id: "spec-15",
@@ -226,7 +226,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 20,
         pricePerSession: 300,
-        services: ["Addiction", "PTSD", "Depression"],
+        services: ["travmaticheskij-opyt", "poterya-blizkogo", "razvod-rasstavanie"],
     },
     {
         id: "spec-16",
@@ -241,7 +241,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 3,
         pricePerSession: 100,
-        services: ["Work-life balance", "Burnout", "Stress"],
+        services: ["work-life-balance", "profilaktika-vygoraniya", "energiya-resursnost"],
     },
     {
         id: "spec-17",
@@ -256,7 +256,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 13,
         pricePerSession: 240,
-        services: ["Depression", "Anxiety", "Relationships"],
+        services: ["depressivnye-sostoyaniya", "trevozhnost", "problemy-v-otnosheniyah"],
     },
     {
         id: "spec-18",
@@ -271,7 +271,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 10,
         pricePerSession: 205,
-        services: ["Child psychology", "ADHD", "Learning difficulties"],
+        services: ["detskaya-psihoterapiya", "podrostkovaya-psihoterapiya", "trudnosti-povedeniya-adaptatsii"],
     },
     {
         id: "spec-19",
@@ -286,7 +286,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 6,
         pricePerSession: 142,
-        services: ["Career change", "Interview skills", "Networking"],
+        services: ["smena-professii", "sobesedovaniya", "kariernyj-rost"],
     },
     {
         id: "spec-20",
@@ -301,7 +301,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 16,
         pricePerSession: 270,
-        services: ["Trauma", "EMDR", "PTSD"],
+        services: ["ptsr", "emdr-travma", "silnye-travmaticheskie-sobytiya"],
     },
     {
         id: "spec-21",
@@ -316,7 +316,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 4,
         pricePerSession: 115,
-        services: ["Youth", "Identity", "Anxiety"],
+        services: ["podrostkovaya-psihoterapiya", "samoopredelenie", "trevozhnost"],
     },
     {
         id: "spec-22",
@@ -331,7 +331,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 12,
         pricePerSession: 225,
-        services: ["Perinatal", "Postpartum", "Parenting"],
+        services: ["vospitanie-detej", "semeynaya-terapiya", "adaptatsiya-pereezd"],
     },
     {
         id: "spec-23",
@@ -346,7 +346,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 11,
         pricePerSession: 215,
-        services: ["Anger", "Stress", "Communication"],
+        services: ["razdrazhitelnost-zlost", "stress", "konflikty-v-pare"],
     },
     {
         id: "spec-24",
@@ -361,7 +361,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 7,
         pricePerSession: 155,
-        services: ["Confidence", "Public speaking", "Assertiveness"],
+        services: ["uverennost-kouching", "publichnye-vystupleniya", "kommunikatsiya-soft-skills"],
     },
     {
         id: "spec-25",
@@ -376,7 +376,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 9,
         pricePerSession: 185,
-        services: ["Men's issues", "Relationships", "Anxiety"],
+        services: ["problemy-v-otnosheniyah", "trevozhnost", "lichnye-granitsy"],
     },
     {
         id: "spec-26",
@@ -391,7 +391,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 8,
         pricePerSession: 170,
-        services: ["Depression", "Self-esteem", "Boundaries"],
+        services: ["depressivnye-sostoyaniya", "nizkaya-samoocenka", "lichnye-granitsy"],
     },
     {
         id: "spec-27",
@@ -406,7 +406,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 15,
         pricePerSession: 265,
-        services: ["Existential", "Meaning", "Life crises"],
+        services: ["vozrastnye-krizisy", "samoopredelenie", "apatia-ustalost"],
     },
     {
         id: "spec-28",
@@ -421,7 +421,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 5,
         pricePerSession: 135,
-        services: ["Mindfulness", "Resilience", "Emotional regulation"],
+        services: ["psihosomatika", "stress", "perepady-nastroyeniya"],
     },
     {
         id: "spec-29",
@@ -436,7 +436,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 10,
         pricePerSession: 195,
-        services: ["Family", "Conflict", "Cross-cultural"],
+        services: ["konflikty-v-seme", "semeynaya-terapiya", "adaptatsiya-pereezd"],
     },
     {
         id: "spec-30",
@@ -451,7 +451,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 11,
         pricePerSession: 218,
-        services: ["OCD", "Anxiety", "Phobias"],
+        services: ["okr", "trevozhnye-rasstrojstva", "fobii"],
     },
     {
         id: "spec-31",
@@ -466,7 +466,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 4,
         pricePerSession: 112,
-        services: ["Startup mindset", "Decision making", "Focus"],
+        services: ["prinyatie-reshenij", "biznes-kouching", "strategiya-razvitiya"],
     },
     {
         id: "spec-32",
@@ -481,7 +481,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 9,
         pricePerSession: 188,
-        services: ["Grief", "Loss", "Chronic illness"],
+        services: ["poterya-blizkogo", "vozrastnye-krizisy", "depressivnye-sostoyaniya"],
     },
     {
         id: "spec-33",
@@ -496,7 +496,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 14,
         pricePerSession: 255,
-        services: ["Sport psychology", "Performance", "Anxiety"],
+        services: ["trevozhnost", "stress", "uverennost-kouching"],
     },
     {
         id: "spec-34",
@@ -511,7 +511,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 6,
         pricePerSession: 148,
-        services: ["Depression", "Anxiety", "Sleep"],
+        services: ["depressivnye-sostoyaniya", "trevozhnost", "apatia-ustalost"],
     },
     {
         id: "spec-35",
@@ -526,7 +526,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 19,
         pricePerSession: 290,
-        services: ["Couples", "Sex therapy", "Intimacy"],
+        services: ["supruzheskaya-terapiya", "seksualnye-trudnosti", "problemy-v-otnosheniyah"],
     },
     {
         id: "spec-36",
@@ -541,7 +541,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 8,
         pricePerSession: 168,
-        services: ["Time management", "Priorities", "Delegation"],
+        services: ["tajm-menedzhment", "delegirovanie", "plan-dejstvij"],
     },
     {
         id: "spec-37",
@@ -556,7 +556,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 13,
         pricePerSession: 245,
-        services: ["Addiction", "Recovery", "Relapse prevention"],
+        services: ["emotsii-impulsivnost", "rasstrojstva-lichnosti", "prl"],
     },
     {
         id: "spec-38",
@@ -571,7 +571,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 10,
         pricePerSession: 198,
-        services: ["Borderline", "Attachment", "DBT"],
+        services: ["prl", "rasstrojstva-lichnosti", "schema-terapiya"],
     },
     {
         id: "spec-39",
@@ -586,7 +586,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 3,
         pricePerSession: 105,
-        services: ["Personal branding", "LinkedIn", "Career growth"],
+        services: ["lichnyj-brend", "kariernyj-rost", "peregovory-zarplata"],
     },
     {
         id: "spec-40",
@@ -601,7 +601,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 12,
         pricePerSession: 230,
-        services: ["Elderly", "Retirement", "Aging"],
+        services: ["vozrastnye-krizisy", "samoopredelenie", "adaptatsiya-pereezd"],
     },
     {
         id: "spec-41",
@@ -616,7 +616,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 7,
         pricePerSession: 158,
-        services: ["LGBTQ+", "Identity", "Relationships"],
+        services: ["samoprinyatie", "samoopredelenie", "problemy-v-otnosheniyah"],
     },
     {
         id: "spec-42",
@@ -631,7 +631,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 9,
         pricePerSession: 182,
-        services: ["Procrastination", "Perfectionism", "Self-criticism"],
+        services: ["prokrastinatsiya", "nizkaya-samoocenka", "chuvstvo-viny-styda"],
     },
     {
         id: "spec-43",
@@ -646,7 +646,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 6,
         pricePerSession: 138,
-        services: ["Women leadership", "Negotiation", "Confidence"],
+        services: ["liderstvo", "peregovory-zarplata", "uverennost-kouching"],
     },
     {
         id: "spec-44",
@@ -661,7 +661,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 22,
         pricePerSession: 295,
-        services: ["Crisis intervention", "Suicide prevention", "Acute stress"],
+        services: ["panicheskie-ataki", "depressivnye-sostoyaniya", "ptsr"],
     },
     {
         id: "spec-45",
@@ -676,7 +676,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 5,
         pricePerSession: 128,
-        services: ["Art therapy", "Creative expression", "Trauma"],
+        services: ["emdr-travma", "travmaticheskij-opyt", "geshtalt"],
     },
     {
         id: "spec-46",
@@ -691,7 +691,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 10,
         pricePerSession: 210,
-        services: ["Executive coaching", "Team dynamics", "Conflict"],
+        services: ["upravlenie-komandoj", "liderstvo", "biznes-kouching"],
     },
     {
         id: "spec-47",
@@ -706,7 +706,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 11,
         pricePerSession: 212,
-        services: ["Pregnancy", "Fertility", "Parenthood"],
+        services: ["vospitanie-detej", "semeynaya-terapiya", "vozrastnye-krizisy"],
     },
     {
         id: "spec-48",
@@ -721,7 +721,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "offline",
         experience: 14,
         pricePerSession: 258,
-        services: ["Veterans", "PTSD", "Transition to civilian life"],
+        services: ["ptsr", "emdr-travma", "adaptatsiya-pereezd"],
     },
     {
         id: "spec-49",
@@ -736,7 +736,7 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 6,
         pricePerSession: 144,
-        services: ["Social anxiety", "Shyness", "Assertiveness"],
+        services: ["trevozhnost", "neuverennost-v-sebe", "lichnye-granitsy"],
     },
     {
         id: "spec-50",
@@ -751,6 +751,6 @@ export const specialistData: SpecialistMock[] = [
         meetingFormat: "online",
         experience: 9,
         pricePerSession: 175,
-        services: ["Retirement planning", "Second career", "Purpose"],
+        services: ["dolgosrochnoe-planirovanie", "smena-professii", "samoopredelenie"],
     },
 ];

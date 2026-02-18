@@ -162,7 +162,7 @@ export function CatalogFilters({
                             <ChevronDownIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-(--radix-popover-trigger-width) p-0" align="start">
+                    <PopoverContent className="w-(--radix-popover-trigger-width) px-1" align="start" side="bottom"  sideOffset={5}  avoidCollisions={false}>
                         <div className="max-h-[min(60vh,400px)] overflow-y-auto p-2">
                             {serviceGroups.map((group) => (
                                 <div key={group.groupLabel} className="mb-3 last:mb-0">

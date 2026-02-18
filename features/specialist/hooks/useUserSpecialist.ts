@@ -1,6 +1,6 @@
 // 2. useUserSpecialists.ts - ВСЕ специалисты пользователя
 import { useQuery } from "@tanstack/react-query";
-import { specialistData } from "@/mockData/sessions/specialistData";
+import { specialistData } from "@/mockData/specialist/specialistData";
 import { sessionData } from "@/mockData/sessions/sessionData";
 import { SpecialistDTO } from "../model/types";
 

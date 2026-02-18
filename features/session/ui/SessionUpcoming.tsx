@@ -1,4 +1,4 @@
-import type { SessionDto } from "@/features/session/model/types";
+import type { SessionDTO } from "@/features/session/model/types";
 import type { SpecialistDTO } from "@/features/specialist/model/types";
 import { formatSessionDate, formatSessionTime } from "../lib/formatSession";
 import Link from "next/link";
@@ -8,16 +8,16 @@ import Image from "next/image";
 import { CircleUserRound } from "lucide-react";
 
 type SessionUpcomingProps = {
-    sessionData: SessionDto[];
+    sessionList: SessionDTO[];
     specialistsMap: Map<string, SpecialistDTO>;
 };
 
 export function SessionUpcoming({
-    sessionData,
+    sessionList,
     specialistsMap,
 }: SessionUpcomingProps) {
     const now = new Date();
-    const upcomingSessions = sessionData
+    const upcomingSessions = sessionList
         .filter((s) => s.status === "upcoming" && new Date(s.startAt) > now)
         .sort(
             (a, b) =>

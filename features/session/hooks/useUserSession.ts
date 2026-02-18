@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { sessionData } from "@/mockData/sessions/sessionData";
-import { SessionDto } from "../model/types";
+import { SessionDTO } from "../model/types";
 
 
 export const useUserSession = (uid: string | null, authLoading: boolean) => {
-  return useQuery<SessionDto[]>({
+  return useQuery<SessionDTO[]>({
     queryKey: ["sessions", uid],
     queryFn: async () => sessionData, 
     enabled: !authLoading && !!uid,

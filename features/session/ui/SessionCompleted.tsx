@@ -7,21 +7,22 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import type { SessionDto } from "@/features/session/model/types";
+import type { SessionDTO } from "@/features/session/model/types";
 import type { SpecialistDTO } from "@/features/specialist/model/types";
 import { formatSessionDate, formatSessionTime } from "../lib/formatSession";
 
 type SessionCompletedProps = {
-    sessionData: SessionDto[];
+    sessionList: SessionDTO[];
     specialistsMap: Map<string, SpecialistDTO>;
 };
 
 export function SessionCompleted({
-    sessionData,
+    sessionList,
     specialistsMap,
 }: SessionCompletedProps) {
+
     const now = new Date();
-    const completedSessions = sessionData
+    const completedSessions = sessionList
         .filter((session) => session.status === "completed" && new Date(session.startAt) < now)
         .sort(
             (a, b) =>

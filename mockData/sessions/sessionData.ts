@@ -1,7 +1,6 @@
-import { serverTimestamp } from "firebase/firestore";
-import type { SessionDto } from "@/features/session/model/types";
+import type { SessionDTO } from "@/features/session/model/types";
 
-type SessionMock = SessionDto;
+type SessionMock = SessionDTO;
 
 export const sessionData: SessionMock[] = [
     {
@@ -12,7 +11,7 @@ export const sessionData: SessionMock[] = [
         endAt: "2024-06-10T09:50:00.000Z",
         date: "2024-06-10T09:00:00.000Z",
         status: "completed",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 120,
         desription: "Initial intake session",
         meetingUrl: "https://meet.example.com/session-1",
@@ -26,7 +25,7 @@ export const sessionData: SessionMock[] = [
         endAt: "2024-06-18T14:50:00.000Z",
         date: "2024-06-10T09:00:00.000Z",
         status: "completed",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 140,
         desription: "CBT follow-up",
         meetingUrl: "https://meet.example.com/session-2",
@@ -40,7 +39,7 @@ export const sessionData: SessionMock[] = [
         endAt: undefined,
         date: "2025-02-20T09:00:00.000Z",
         status: "upcoming",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 130,
         desription: "Anxiety and coping strategies",
         meetingUrl: "https://meet.example.com/session-3",
@@ -54,7 +53,7 @@ export const sessionData: SessionMock[] = [
         endAt: "2024-06-22T17:10:00.000Z",
         date: "2024-06-10T09:00:00.000Z",
         status: "canceled",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 0,
         desription: "Canceled by client",
         meetingUrl: "https://meet.example.com/session-4",
@@ -68,7 +67,7 @@ export const sessionData: SessionMock[] = [
         endAt: "2024-07-05T08:45:00.000Z",
         date: "2024-06-10T09:00:00.000Z",
         status: "completed",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 150,
         desription: "Stress management",
         meetingUrl: "https://meet.example.com/session-5",
@@ -82,7 +81,7 @@ export const sessionData: SessionMock[] = [
         endAt: undefined,
         date: "2025-02-22T14:30:00.000Z",
         status: "upcoming",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 140,
         desription: "Burnout and work-life balance",
         meetingUrl: "https://meet.example.com/session-6",
@@ -96,7 +95,7 @@ export const sessionData: SessionMock[] = [
         endAt: undefined,
         date: "2025-02-25T11:00:00.000Z",
         status: "upcoming",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 120,
         desription: "Career goals and motivation",
         meetingUrl: "https://meet.example.com/session-7",
@@ -110,7 +109,7 @@ export const sessionData: SessionMock[] = [
         endAt: undefined,
         date: "2025-03-01T16:00:00.000Z",
         status: "upcoming",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 150,
         desription: "Relationships and communication",
         meetingUrl: "https://meet.example.com/session-8",
@@ -124,7 +123,7 @@ export const sessionData: SessionMock[] = [
         endAt: undefined,
         date: "2025-03-05T10:15:00.000Z",
         status: "upcoming",
-        createdAt: serverTimestamp(),
+        createdAt: "2024-06-10T08:00:00.000Z",
         income: 135,
         desription: "Sleep and mindfulness",
         meetingUrl: "https://meet.example.com/session-9",

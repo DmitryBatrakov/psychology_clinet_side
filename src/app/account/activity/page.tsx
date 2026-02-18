@@ -4,9 +4,11 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { SessionCompleted } from "@/features/session/ui/SessionCompleted";
 import { SessionUpcoming } from "@/features/session/ui/SessionUpcoming";
 import { useUserSpecialists } from "@/features/specialist/hooks/useUserSpecialist";
-import { useTherapyData } from "@/features/therapy/hooks/useTherapyData";
 import { useMemo } from "react";
 import type { SpecialistDTO } from "@/features/specialist/model/types";
+import { useAtomValue } from "jotai";
+import { authAtom } from "@/src/store/auth/authAtom";
+import { useUserSession } from "@/features/session/hooks/useUserSession";
 
 const TAB = {
     PAYMENTS: "payments",
@@ -16,29 +18,31 @@ const TAB = {
 const MOCK_UID = "user-1";
 
 export default function ActivityPage() {
-    const therapyData = useTherapyData();
-    const effectiveUid = MOCK_UID;
 
-    const specialistsQuery = useUserSpecialists(
+    const { user, loading: authLoading } = useAtomValue(authAtom);
+
+    const effectiveUid =  MOCK_UID; // TODO: change to user?.uid ?? null
+
+    const sessionData = useUserSession(effectiveUid, authLoading);  // TODO: change effectiveUid to uid
+
+    const specialistsData = useUserSpecialists(
         effectiveUid,
-        therapyData.authLoading,
+        authLoading,
     );
 
     const specialistsMap = useMemo(() => {
-        const list = specialistsQuery.data ?? [];
+        const list = specialistsData.data ?? [];
         return new Map<string, SpecialistDTO>(
             list.map((s) => [s.id, s]),
         );
-    }, [specialistsQuery.data]);
+    }, [specialistsData.data]);
 
-    const sessionData = (therapyData.session.data ?? []).filter(
-        (s) => s.userId === effectiveUid,
-    );
+    const sessionList = sessionData.data ?? [];
 
-    if (therapyData.session.isPending || specialistsQuery.isPending) {
+    if (sessionData.isPending || specialistsData.isPending) {
         return <div>Loading...</div>;
     }
-    if (therapyData.session.isError || specialistsQuery.isError) {
+    if (sessionData.isError || specialistsData.isError) {
         return <div>Error loading data</div>;
     }
 
@@ -56,14 +60,14 @@ export default function ActivityPage() {
 
                 <TabsContent value={TAB.PAYMENTS} className="mt-8 max-h-[calc(100vh-12rem)] overflow-y-auto">
                     <SessionCompleted
-                        sessionData={sessionData}
+                        sessionList={sessionList}
                         specialistsMap={specialistsMap}
                     />
                 </TabsContent>
 
                 <TabsContent value={TAB.SESSIONS} className="mt-8 max-h-[calc(100vh-12rem)] overflow-y-auto">
                     <SessionUpcoming
-                        sessionData={sessionData}
+                        sessionList={sessionList}
                         specialistsMap={specialistsMap}
                     />
                 </TabsContent>

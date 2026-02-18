@@ -9,6 +9,7 @@ export interface SpecialistData extends UserData {
     profession: Profession;
     meetingFormat: MeetingFormat;
     experience: number;
+    pricePerSession: number;
     services: string[];
     //amountSessions: number 0
 }

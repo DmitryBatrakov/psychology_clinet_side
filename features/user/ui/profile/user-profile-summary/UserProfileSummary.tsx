@@ -21,31 +21,31 @@ export const UserProfileSummary = () => {
     return (
         <div className="flex flex-col items-center justify-center">
             <div className="w-full max-w-lg">
-                <h2 className="py-3 -mr-1 font-bold text-gray-700">Personal details</h2>
+                <h2 className="py-3 -mr-1 font-bold text-gray-700">פרטים אישיים</h2>
                 <div className="w-full rounded-lg bg-gray-100 p-4 grid grid-cols-2 gap-y-4 justify-center items-center">
                     <div className="flex flex-col justify-center items-center">
-                        <span className="font-semibold text-gray-700">Balance</span>
+                        <span className="font-semibold text-gray-700">יתרה</span>
                         <span>{dbUser?.balance}</span>
                     </div>
 
                     <div className="flex flex-col justify-center items-center">
-                        <span className="font-semibold text-gray-700">Gender</span>
+                        <span className="font-semibold text-gray-700">מין</span>
                         <span>
                             {dbUser?.gender === "male" ? (
                                 <IoMale size={22} color="blue" strokeWidth={18}  />
                             ) : dbUser?.gender === "female" ? (
                                 <IoFemaleSharp size={22} color="pink" strokeWidth={18} />
                             ) : (
-                                <span>none</span>
+                                <span>אין</span>
                             )}
                         </span>
                     </div>
                     <div className="flex flex-col justify-center items-center">
-                        <span className="font-semibold text-gray-700">Phone</span>
+                        <span className="font-semibold text-gray-700">טלפון</span>
                         <span>{dbUser?.phoneNumber}</span>
                     </div>
                     <div className="flex flex-col justify-center items-center">
-                        <span className="font-semibold text-gray-700">Birthday</span>
+                        <span className="font-semibold text-gray-700">יום הולדת</span>
                         <span>{dbUser?.birthDate ? toJsDate(dbUser.birthDate).toLocaleDateString("he-IL") : "—"}</span>
                     </div>
                 </div>

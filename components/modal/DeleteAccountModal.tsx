@@ -49,24 +49,23 @@ export function DeleteAccountModal() {
             }}
         >
             <AlertDialogTrigger asChild>
-                <Button variant="destructive">Удалить аккаунт</Button>
+                <Button variant="destructive">מחיקת חשבון</Button>
             </AlertDialogTrigger>
 
             <AlertDialogContent>
                 <AlertDialogHeader>
                     <AlertDialogTitle className="font-bold text-xl">
-                        Удалить аккаунт навсегда?
+                        למחוק את החשבון לצמיתות?
                     </AlertDialogTitle>
                     <AlertDialogDescription className="text-md">
-                        Все ваши данные, включая профиль, историю консультаций и
-                        баланс, будут удалены без возможности восстановления.
+                        כל הנתונים שלך, כולל הפרופיל, היסטוריית הייעוצים והיתרה, יימחקו ללא אפשרות שחזור.
                     </AlertDialogDescription>
                 </AlertDialogHeader>
 
                 <AlertDialogFooter>
                     <AlertDialogCancel asChild>
                         <Button variant="outline" size="sm" disabled={isLoading}>
-                            Отмена
+                            ביטול
                         </Button>
                     </AlertDialogCancel>
                     <AlertDialogAction asChild>
@@ -76,8 +75,8 @@ export function DeleteAccountModal() {
                             onClick={() => handleDelete()}
                         >
                             {isLoading
-                                ? "Удаляем..."
-                                : "Удалить навсегда"}
+                                ? "מוחק..."
+                                : "למחוק לצמיתות"}
                         </Button>
                     </AlertDialogAction>
                 </AlertDialogFooter>

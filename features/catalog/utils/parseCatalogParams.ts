@@ -4,6 +4,7 @@ import {
     isAllowedGender,
     isAllowedLanguage,
     isAllowedMeetingFormat,
+    isAllowedSessionType,
     isAllowedSort,
 } from "@/features/catalog/model/catalogEnums";
 import { getAllServiceValues } from "@/features/catalog/model/serviceTopics";
@@ -19,6 +20,8 @@ export function parseFiltersFromSearchParams(searchParams: URLSearchParams): Cat
     if (meetingFormat && isAllowedMeetingFormat(meetingFormat)) filters.meetingFormat = meetingFormat;
     const language = searchParams.get("language");
     if (language && isAllowedLanguage(language)) filters.language = language;
+    const sessionType = searchParams.get("sessionType");
+    if (sessionType && isAllowedSessionType(sessionType)) filters.sessionType = sessionType;
     const serviceParams = searchParams.getAll("service");
     if (serviceParams.length > 0) {
         const allowed = getAllServiceValues(filters.profession ?? "psychologist");
@@ -29,9 +32,6 @@ export function parseFiltersFromSearchParams(searchParams: URLSearchParams): Cat
     const pr = PRICE_RANGE_OPTIONS.find((o) => o.value === priceRange);
     if (pr?.priceMin != null) filters.priceMin = pr.priceMin;
     if (pr?.priceMax != null) filters.priceMax = pr.priceMax;
-    const experienceMin = searchParams.get("experienceMin");
-    const exp = Number(experienceMin);
-    if (Number.isFinite(exp) && exp >= 0) filters.experienceMin = exp;
     return filters;
 }
 

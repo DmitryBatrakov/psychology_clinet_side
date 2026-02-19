@@ -46,9 +46,6 @@ function applyStubFilters(
     if (filters.gender != null) {
         result = result.filter((s) => s.gender === filters.gender);
     }
-    if (filters.experienceMin != null) {
-        result = result.filter((s) => s.experience >= filters.experienceMin!);
-    }
     if (filters.services != null && filters.services.length > 0) {
         const selected = filters.services.map((v) => v.toLowerCase());
         result = result.filter((s) =>
@@ -61,6 +58,11 @@ function applyStubFilters(
     if (filters.meetingFormat != null) {
         result = result.filter(
             (s) => s.meetingFormat === filters.meetingFormat
+        );
+    }
+    if (filters.sessionType != null) {
+        result = result.filter((s) =>
+            s.sessionTypes?.includes(filters.sessionType!)
         );
     }
 

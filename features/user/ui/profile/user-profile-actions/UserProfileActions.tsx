@@ -82,19 +82,19 @@ import { PrivacyTab } from "../user-profile-tabs/PrivacyPolicyTab";
 
 const menuItems = [
     {
-        title: "Edit profile",
+        title: "עריכת פרופיל",
         section: "personal-info",
     },
     {
-        title: "Time zone",
+        title: "אזור זמן",
         section: "time-zone",
     },
     {
-        title: "Support",
+        title: "תמיכה",
         section: "support",
     },
     {
-        title: "Privacy policy rules",
+        title: "כללי מדיניות פרטיות",
         section: "privacy-policy",
     },
 ] as const;
@@ -116,7 +116,7 @@ export const UserProfileActions = () => {
                         onClick={() => router.push('/account/profile')}
                         className="mb-4 text-blue-500 flex items-center gap-2 hover:text-blue-600"
                     >
-                        ← Back to profile
+                        ← חזרה לפרופיל
                     </button>
                     
                     {section === 'personal-info' && <EditSummaryTab dbUser={dbUser} />}
@@ -132,7 +132,7 @@ export const UserProfileActions = () => {
         <div className="flex items-center justify-center">
             <div className="w-full max-w-lg">
                 <h2 className="py-3 -mr-1 font-bold text-gray-700">
-                    Profile settings
+                    הגדרות פרופיל
                 </h2>
                 <div className="rounded-lg overflow-hidden">
                     {menuItems.map((item) => (

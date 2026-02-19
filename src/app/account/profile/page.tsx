@@ -28,7 +28,7 @@ function ProfileContent() {
 
     if (!user) return;
     if (isError) {
-        return <div>Ошибка загрузки профиля: {(error as Error).message}</div>;
+        return <div>שגיאה בטעינת הפרופיל: {(error as Error).message}</div>;
     }
 
     return (

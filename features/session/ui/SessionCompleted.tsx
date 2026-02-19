@@ -31,15 +31,15 @@ export function SessionCompleted({
 
     return (
         <Table dir="rtl">
-            <TableCaption>List of your completed sessions</TableCaption>
+            <TableCaption>רשימת הפגישות שהסתיימו</TableCaption>
             <TableHeader>
                 <TableRow>
-                    <TableHead className="w-[100px]">Date</TableHead>
-                    <TableHead className="text-center">Time</TableHead>
-                    <TableHead className="text-center">Format</TableHead>
-                    <TableHead className="text-center">Specialist</TableHead>
-                    <TableHead className="text-right">Price</TableHead>
-                    <TableHead className="text-right">Status</TableHead>
+                    <TableHead className="w-[100px]">תאריך</TableHead>
+                    <TableHead className="text-center">שעה</TableHead>
+                    <TableHead className="text-center">פורמט</TableHead>
+                    <TableHead className="text-center">מומחה</TableHead>
+                    <TableHead className="text-right">מחיר</TableHead>
+                    <TableHead className="text-right">סטטוס</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -58,8 +58,8 @@ export function SessionCompleted({
                             </TableCell>
                             <TableCell className="text-center capitalize">
                                 {session.meetingFormat === "online"
-                                    ? "Онлайн"
-                                    : "Офлайн"}
+                                    ? "אונליין"
+                                    : "פרונטלי"}
                             </TableCell>
                             <TableCell className="text-center">
                                 {specialistName}

@@ -23,9 +23,9 @@ import {
     PROFESSION_OPTIONS,
     GENDER_OPTIONS,
     MEETING_FORMAT_OPTIONS,
+    SESSION_TYPE_OPTIONS,
     LANGUAGE_OPTIONS,
     PRICE_RANGE_OPTIONS,
-    EXPERIENCE_OPTIONS,
     SORT_OPTIONS,
 } from "@/features/catalog/model/catalogFilterOptions";
 
@@ -58,29 +58,27 @@ export function CatalogFilters({
         if (filters.priceMin != null && filters.priceMax == null) return "300+";
         return FILTER_ANY;
     })();
-    const currentExperience = filters.experienceMin != null ? String(filters.experienceMin) : FILTER_ANY;
-
     const professionForServices = filters.profession ?? "psychologist";
     const serviceGroups = SERVICE_TOPICS_BY_PROFESSION[professionForServices];
     const allowedServiceValues = getAllServiceValues(professionForServices);
     const selectedServices = (filters.services ?? []).filter((s) => allowedServiceValues.has(s));
     const servicesTriggerLabel =
         selectedServices.length === 0
-            ? "Любые темы"
+            ? "כל התמות"
             : selectedServices.length === 1
               ? getServiceLabel(selectedServices[0])
-              : `Тем: ${selectedServices.length}`;
+              : `תמות: ${selectedServices.length}`;
 
     return (
         <div className="col-span-1 space-y-4">
             <div>
-                <label className="text-sm font-medium text-right block mb-2">Профессия</label>
+                <label className="text-sm font-medium text-right block mb-2">מקצוע</label>
                 <Select
                     value={filters.profession ?? "psychologist"}
                     onValueChange={(v) => setFilter("profession", v)}
                 >
                     <SelectTrigger className="w-full justify-between" dir="rtl">
-                        <SelectValue placeholder="Выберите профессию" />
+                        <SelectValue placeholder="בחר מקצוע" />
                     </SelectTrigger>
                     <SelectContent side="bottom" align="start" position="popper">
                         {PROFESSION_OPTIONS.map((opt) => (
@@ -92,13 +90,13 @@ export function CatalogFilters({
                 </Select>
             </div>
             <div>
-                <label className="text-sm font-medium text-right block mb-2">Пол</label>
+                <label className="text-sm font-medium text-right block mb-2">מין</label>
                 <Select
                     value={filters.gender ?? FILTER_ANY}
                     onValueChange={(v) => setFilter("gender", v)}
                 >
                     <SelectTrigger className="w-full justify-between" dir="rtl">
-                        <SelectValue placeholder="Любой" />
+                        <SelectValue placeholder="כל" />
                     </SelectTrigger>
                     <SelectContent side="bottom" align="start" position="popper">
                         {GENDER_OPTIONS.map((opt) => (
@@ -110,13 +108,13 @@ export function CatalogFilters({
                 </Select>
             </div>
             <div>
-                <label className="text-sm font-medium text-right block mb-2">Формат встречи</label>
+                <label className="text-sm font-medium text-right block mb-2">פורמט פגישה</label>
                 <Select
                     value={filters.meetingFormat ?? FILTER_ANY}
                     onValueChange={(v) => setFilter("meetingFormat", v)}
                 >
                     <SelectTrigger className="w-full justify-between" dir="rtl">
-                        <SelectValue placeholder="Любой" />
+                        <SelectValue placeholder="כל" />
                     </SelectTrigger>
                     <SelectContent side="bottom" align="start" position="popper">
                         {MEETING_FORMAT_OPTIONS.map((opt) => (
@@ -128,13 +126,31 @@ export function CatalogFilters({
                 </Select>
             </div>
             <div>
-                <label className="text-sm font-medium text-right block mb-2">Язык</label>
+                <label className="text-sm font-medium text-right block mb-2">סוג פגישה</label>
+                <Select
+                    value={filters.sessionType ?? FILTER_ANY}
+                    onValueChange={(v) => setFilter("sessionType", v)}
+                >
+                    <SelectTrigger className="w-full justify-between" dir="rtl">
+                        <SelectValue placeholder="כל" />
+                    </SelectTrigger>
+                    <SelectContent side="bottom" align="start" position="popper">
+                        {SESSION_TYPE_OPTIONS.map((opt) => (
+                            <SelectItem key={opt.value} value={opt.value}>
+                                {opt.label}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+            </div>
+            <div>
+                <label className="text-sm font-medium text-right block mb-2">שפה</label>
                 <Select
                     value={filters.language ?? FILTER_ANY}
                     onValueChange={(v) => setFilter("language", v)}
                 >
                     <SelectTrigger className="w-full justify-between" dir="rtl">
-                        <SelectValue placeholder="Любой" />
+                        <SelectValue placeholder="כל" />
                     </SelectTrigger>
                     <SelectContent side="bottom" align="start" position="popper">
                         {LANGUAGE_OPTIONS.map((opt) => (
@@ -191,13 +207,13 @@ export function CatalogFilters({
                 </Popover>
             </div>
             <div>
-                <label className="text-sm font-medium text-right block mb-2">Цена за сессию</label>
+                <label className="text-sm font-medium text-right block mb-2">מחיר לפגישה</label>
                 <Select
                     value={currentPriceRange}
                     onValueChange={(v) => setFilter("priceRange", v)}
                 >
                     <SelectTrigger className="w-full justify-between" dir="rtl">
-                        <SelectValue placeholder="Любая" />
+                        <SelectValue placeholder="כל" />
                     </SelectTrigger>
                     <SelectContent side="bottom" align="start" position="popper">
                         {PRICE_RANGE_OPTIONS.map((opt) => (
@@ -209,25 +225,7 @@ export function CatalogFilters({
                 </Select>
             </div>
             <div>
-                <label className="text-sm font-medium text-right block mb-2">Опыт</label>
-                <Select
-                    value={currentExperience}
-                    onValueChange={(v) => setFilter("experienceMin", v)}
-                >
-                    <SelectTrigger className="w-full justify-between" dir="rtl">
-                        <SelectValue placeholder="Любой" />
-                    </SelectTrigger>
-                    <SelectContent side="bottom" align="start" position="popper">
-                        {EXPERIENCE_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                                {opt.label}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-            <div>
-                <label className="text-sm font-medium text-right block mb-2">Сортировка</label>
+                <label className="text-sm font-medium text-right block mb-2">מיון</label>
                 <Select value={sort} onValueChange={(v) => setSort(v as CatalogSort)}>
                     <SelectTrigger className="w-full justify-between" dir="rtl">
                         <SelectValue />
@@ -249,7 +247,7 @@ export function CatalogFilters({
                 dir="rtl"
             >
                 <RotateCcwIcon className="h-4 w-4" />
-                Сбросить фильтры
+                איפוס סינון
             </Button>
         </div>
     );

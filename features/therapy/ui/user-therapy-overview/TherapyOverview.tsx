@@ -21,11 +21,11 @@ export const TherapyOverview = ({
         <div className="flex flex-col justify-center items-center ">
             <div className="w-full max-w-3xl">
                 <div className="w-full mt-5 mb-20">
-                    <h1 className="text-3xl font-bold">My Therapy</h1>
+                    <h1 className="text-3xl font-bold">הטיפול שלי</h1>
                 </div>
                 <div className="grid w-full gap-5 grid-cols-1 sm:grid-cols-2">
                     <div className="rounded-md bg-gray-200 min-w-20 flex flex-col justify-between items-center gap-6 p-4">
-                    <h1 className="text-rihgt w-full p-0 m-0">Last session</h1>
+                    <h1 className="text-rihgt w-full p-0 m-0">פגישה אחרונה</h1>
                         {specialist ? (
                             <div className="flex gap-4 justify-between items-start w-full">
                                 <div className="shrink-0 flex justify-center items-center h-full px-3">
@@ -48,8 +48,7 @@ export const TherapyOverview = ({
                                 <div className="flex-1 flex flex-col">
                                     <span>{specialist.firstName}</span>
                                     <span>
-                                        Experience: {specialist.experience}{" "}
-                                        years
+                                        ניסיון: {specialist.experience} שנים
                                     </span>
                                     <span>{specialist.profession}</span>
                                 </div>
@@ -58,20 +57,20 @@ export const TherapyOverview = ({
                             <div className="flex flex-col items-center gap-2 text-center py-4">
                                 <CircleUserRound size={70} color="purple" />
                                 <p className="text-gray-600 text-sm">
-                                    No specialist assigned yet
+                                    עדיין לא שויך מומחה
                                 </p>
                             </div>
                         )}
                         <div className="w-full flex justify-center items-center">
-                            <Button className="w-full">Order</Button>
+                            <Button className="w-full">הזמן</Button>
                         </div>
                     </div>
                     <div className="rounded-md bg-gray-200 min-w-20 p-2 flex flex-col justify-center items-center gap-2">
                         <span>
-                            Hello, {userData.data?.firstName}{" "}
+                            שלום, {userData.data?.firstName}{" "}
                             {userData.data?.lastName}
                         </span>
-                        <span>How are you today?</span>
+                        <span>איך אתה היום?</span>
                         <Button className=" bg-blue-400 rounded-full">+</Button>
                     </div>
                 </div>

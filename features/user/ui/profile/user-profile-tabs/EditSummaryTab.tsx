@@ -92,13 +92,13 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
     const { mutate, isPending } = useMutation({
         mutationFn: updateUserProfile,
         onSuccess: () => {
-            notify.success("Profile updated successfully");
+            notify.success("הפרופיל עודכן בהצלחה");
             if (uid) {
                 queryClient.refetchQueries({ queryKey: ["user", uid] });
             }
         },
         onError: (error: Error) => {
-            notify.error(error?.message ?? "Failed to update profile");
+            notify.error(error?.message ?? "עדכון הפרופיל נכשל");
         },
     });
 
@@ -121,7 +121,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
     return (
         <Card className="border bg-white">
             <CardHeader>
-                <CardTitle className="text-xl">Edit profile</CardTitle>
+                <CardTitle className="text-xl">עריכת פרופיל</CardTitle>
             </CardHeader>
 
             <CardContent>
@@ -136,10 +136,10 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                 name="firstName"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Имя</FormLabel>
+                                        <FormLabel>שם פרטי</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="Иван"
+                                                placeholder=""
                                                 {...field}
                                             />
                                         </FormControl>
@@ -152,10 +152,10 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                 name="lastName"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Фамилия</FormLabel>
+                                        <FormLabel>שם משפחה</FormLabel>
                                         <FormControl>
                                             <Input
-                                                placeholder="Иванов"
+                                                placeholder=""
                                                 {...field}
                                             />
                                         </FormControl>
@@ -170,7 +170,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                             name="phoneNumber"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Номер телефона</FormLabel>
+                                    <FormLabel>מספר טלפון</FormLabel>
                                     <FormControl>
                                         <Input
                                             placeholder="+972..."
@@ -187,7 +187,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                             name="birthDate"
                             render={({ field }) => (
                                 <FormItem className="flex flex-col">
-                                    <FormLabel>Дата рождения</FormLabel>
+                                    <FormLabel>תאריך לידה</FormLabel>
                                     <Popover>
                                         <PopoverTrigger asChild>
                                             <FormControl>
@@ -206,7 +206,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                         )
                                                     ) : (
                                                         <span>
-                                                            Выберите дату
+                                                            בחר תאריך
                                                         </span>
                                                     )}
                                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
@@ -241,7 +241,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                             name="gender"
                             render={({ field }) => (
                                 <FormItem className="space-y-3">
-                                    <FormLabel>Пол</FormLabel>
+                                    <FormLabel>מין</FormLabel>
                                     <FormControl>
                                         <RadioGroup
                                             onValueChange={field.onChange}
@@ -253,7 +253,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                     <RadioGroupItem value="male" />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
-                                                    Мужской
+                                                    זכר
                                                 </FormLabel>
                                             </FormItem>
 
@@ -262,7 +262,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                     <RadioGroupItem value="female" />
                                                 </FormControl>
                                                 <FormLabel className="font-normal">
-                                                    Женский
+                                                    נקבה
                                                 </FormLabel>
                                             </FormItem>
                                         </RadioGroup>
@@ -278,10 +278,9 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                             render={() => (
                                 <FormItem>
                                     <div className="mb-4">
-                                        <FormLabel>Языки</FormLabel>
+                                        <FormLabel>שפות</FormLabel>
                                         <FormDescription>
-                                            Выберите языки, которыми вы
-                                            владеете.
+                                            בחר את השפות שאתה דובר.
                                         </FormDescription>
                                     </div>
 
@@ -343,7 +342,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                             className="w-full"
                             disabled={isPending || !form.formState.isDirty}
                         >
-                            {isPending ? "Сохранение..." : "Сохранить"}
+                            {isPending ? "שומר..." : "שמור"}
                         </Button>
                     </form>
                 </Form>

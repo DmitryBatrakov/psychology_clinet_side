@@ -21,6 +21,10 @@ export type CatalogLanguage = (typeof ALLOWED_LANGUAGES)[number];
 export const ALLOWED_MEETING_FORMATS = ["online", "offline"] as const;
 export type CatalogMeetingFormat = (typeof ALLOWED_MEETING_FORMATS)[number];
 
+// --- Тип сессии ---
+export const ALLOWED_SESSION_TYPES = ["individual", "couple", "child", "teen"] as const;
+export type CatalogSessionType = (typeof ALLOWED_SESSION_TYPES)[number];
+
 // --- Сортировка ---
 export const ALLOWED_SORT_VALUES = [
     "default",
@@ -60,6 +64,11 @@ export function isAllowedLanguage(value: string): value is CatalogLanguage {
 /** Проверка, что значение — допустимый формат встречи. */
 export function isAllowedMeetingFormat(value: string): value is CatalogMeetingFormat {
     return (ALLOWED_MEETING_FORMATS as readonly string[]).includes(value);
+}
+
+/** Проверка, что значение — допустимый тип сессии. */
+export function isAllowedSessionType(value: string): value is CatalogSessionType {
+    return (ALLOWED_SESSION_TYPES as readonly string[]).includes(value);
 }
 
 /** Проверка, что значение — допустимая сортировка. */

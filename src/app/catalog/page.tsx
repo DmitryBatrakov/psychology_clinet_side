@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useCatalogSpecialists } from "@/features/catalog/hooks/useCatalogSpecialists";
 import type { CatalogSort } from "@/features/catalog/model/types";
@@ -9,11 +9,15 @@ import {
     parseSortFromSearchParams,
 } from "@/features/catalog/utils/parseCatalogParams";
 import { PAGE_SIZE } from "@/features/catalog/model/catalogFilterOptions";
-import { CatalogFilters } from "@/features/catalog/ui/CatalogFilters";
+import {
+    CatalogFilters,
+    CatalogSortControl,
+} from "@/features/catalog/ui/CatalogFilters";
 import { CatalogGrid } from "@/features/catalog/ui/CatalogGrid";
 import { CatalogSkeleton } from "@/features/catalog/ui/CatalogSkeleton";
 
 function CatalogPageContent() {
+    const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
@@ -84,11 +88,32 @@ function CatalogPageContent() {
     const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 0;
 
     return (
-        <div className="flex flex-col w-full max-w-7xl mx-auto px-4 pb-20" dir="rtl">
+        <div className="flex flex-col w-full max-w-8xl mx-auto px-4 pb-20" dir="rtl">
             <div className="w-full h-52 flex flex-col items-center justify-center">
                 <h1 className="text-2xl font-bold text-right mb-5">Catalog</h1>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-5 w-full">
+
+            <div className="mb-4 flex items-center gap-3 md:hidden">
+                <div className="flex-1">
+                    <CatalogSortControl sort={sort} setSort={setSort} />
+                </div>
+                <button
+                    type="button"
+                    className="rounded-md border px-4 py-2 text-sm font-medium transition-colors hover:bg-accent"
+                    onClick={() => setIsMobileFiltersOpen((prev) => !prev)}
+                    aria-expanded={isMobileFiltersOpen}
+                >
+                    Филтры
+                </button>
+            </div>
+
+            <div
+                className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
+                    isMobileFiltersOpen
+                        ? "max-h-[1800px] opacity-100 mb-4"
+                        : "max-h-0 opacity-0"
+                }`}
+            >
                 <CatalogFilters
                     filters={filters}
                     sort={sort}
@@ -97,7 +122,22 @@ function CatalogPageContent() {
                     toggleService={toggleService}
                     setSort={setSort}
                     onReset={resetFilters}
+                    hideSort
                 />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-5 w-full">
+                <div className="hidden md:block">
+                    <CatalogFilters
+                        filters={filters}
+                        sort={sort}
+                        searchParams={searchParams}
+                        setFilter={setFilter}
+                        toggleService={toggleService}
+                        setSort={setSort}
+                        onReset={resetFilters}
+                    />
+                </div>
                 <CatalogGrid
                     items={data?.items ?? []}
                     page={page}

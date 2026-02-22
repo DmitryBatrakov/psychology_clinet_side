@@ -78,10 +78,6 @@ export const TherapistFaq = () => {
                         </div>
                         <CarouselContent className="-ml-1 w-full items-center justify-center">
                             {therapistFaqData.map((card) => {
-                                console.log(
-                                    "therapistFaqData length:",
-                                    therapistFaqData.length,
-                                );
                                 const Icon = card.icon;
 
                                 return (

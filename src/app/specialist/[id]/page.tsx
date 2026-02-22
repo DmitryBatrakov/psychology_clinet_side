@@ -5,7 +5,10 @@ import { Button } from "@/components/ui/button";
 
 import { useSpecialistById } from "@/features/specialist/hooks/useSpecialistById";
 import { ArrowLeftFromLine } from "lucide-react";
-import { SpecialistCard } from "@/features/specialist/ui/SpecialistCard";
+import { SpecialistOverviewCard } from "@/features/specialist/ui/SpecialistOverviewCard";
+import { SpecialistServices } from "@/features/specialist/ui/SpecialistServices";
+import { SpecialistProfileSections } from "@/features/specialist/ui/SpecialistProfileSections";
+import { Faq } from "@/components/faq/Faq";
 
 function SpecialistPageSkeleton() {
     return (
@@ -37,7 +40,7 @@ export default function SpecialistDetailsPage() {
     if (!specialist) {
         return (
             <div
-                className="w-full max-w-5xl mx-auto px-4 py-8 space-y-4"
+                className="w-full h-full max-w-5xl mx-auto px-4 py-8 space-y-4 flex flex-col items-center justify-center "
                 dir="rtl"
             >
                 <h1 className="text-2xl font-bold text-right">
@@ -46,10 +49,9 @@ export default function SpecialistDetailsPage() {
                 <p className="text-muted-foreground text-right">
                     בדוק את הקישור או בחר מומחה מהקטלוג.
                 </p>
-                <div className="flex justify-end">
+                <div className="">
                     <Button
                         variant="default"
-                        asChild
                         onClick={() => router.push(`/catalog`)}
                     >
                         חזרה לקטלוג
@@ -60,14 +62,19 @@ export default function SpecialistDetailsPage() {
     }
 
     return (
-        <div className="w-full max-w-5xl mx-auto px-4 py-8" dir="rtl">
+        <div className="w-full max-w-6xl mx-auto px-4 py-8" dir="rtl">
             <div className="flex justify-end">
                 <Button variant="link" onClick={() => router.push(`/catalog`)}>
                     <span>חזרה לקטלוג</span>
                     <ArrowLeftFromLine className="w-4 h-4" />
                 </Button>
             </div>
-            <SpecialistCard specialist={specialist} />
+            <div className="flex flex-col gap-10 items-center justify-center w-full h-full mx-auto">
+                <SpecialistOverviewCard specialist={specialist} />
+                <SpecialistServices services={specialist.services} />
+                <SpecialistProfileSections specialist={specialist} />
+                <Faq />
+            </div>
         </div>
     );
 }

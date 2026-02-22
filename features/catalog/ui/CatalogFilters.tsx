@@ -37,6 +37,7 @@ export interface CatalogFiltersProps {
     toggleService: (value: string) => void;
     setSort: (value: CatalogSort) => void;
     onReset: () => void;
+    hideSort?: boolean;
 }
 
 export function CatalogFilters({
@@ -47,6 +48,7 @@ export function CatalogFilters({
     toggleService,
     setSort,
     onReset,
+    hideSort = false,
 }: CatalogFiltersProps) {
     const currentPriceRange = (() => {
         const fromUrl = searchParams.get("priceRange");
@@ -70,7 +72,7 @@ export function CatalogFilters({
               : `תמות: ${selectedServices.length}`;
 
     return (
-        <div className="col-span-1 space-y-4">
+        <div className=" space-y-4">
             <div>
                 <label className="text-sm font-medium text-right block mb-2">מקצוע</label>
                 <Select
@@ -224,21 +226,23 @@ export function CatalogFilters({
                     </SelectContent>
                 </Select>
             </div>
-            <div>
-                <label className="text-sm font-medium text-right block mb-2">מיון</label>
-                <Select value={sort} onValueChange={(v) => setSort(v as CatalogSort)}>
-                    <SelectTrigger className="w-full justify-between" dir="rtl">
-                        <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent side="bottom" align="start" position="popper">
-                        {SORT_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                                {opt.label}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
+            {!hideSort && (
+                <div>
+                    <label className="text-sm font-medium text-right block mb-2">מיון</label>
+                    <Select value={sort} onValueChange={(v) => setSort(v as CatalogSort)}>
+                        <SelectTrigger className="w-full justify-between" dir="rtl">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent side="bottom" align="start" position="popper">
+                            {SORT_OPTIONS.map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+            )}
             <Button
                 type="button"
                 variant="outline"
@@ -249,6 +253,31 @@ export function CatalogFilters({
                 <RotateCcwIcon className="h-4 w-4" />
                 איפוס סינון
             </Button>
+        </div>
+    );
+}
+
+export function CatalogSortControl({
+    sort,
+    setSort,
+}: {
+    sort: CatalogSort;
+    setSort: (value: CatalogSort) => void;
+}) {
+    return (
+        <div className="w-full">
+            <Select value={sort} onValueChange={(v) => setSort(v as CatalogSort)}>
+                <SelectTrigger className="w-full justify-between" dir="rtl">
+                    <SelectValue placeholder="מיון" />
+                </SelectTrigger>
+                <SelectContent side="bottom" align="start" position="popper">
+                    {SORT_OPTIONS.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                            {opt.label}
+                        </SelectItem>
+                    ))}
+                </SelectContent>
+            </Select>
         </div>
     );
 }

@@ -14,9 +14,9 @@ export type ProfessionFilter = SpecialistDTO["profession"];
 export interface UseCatalogSpecialistsParams {
     page: number;
     pageSize: number;
-    /** Фильтры. Пока — заглушка по моку; позже перенос на API. */
+    /** Фильтры каталога. */
     filters?: CatalogFilters;
-    /** Сортировка. Пока — заглушка по моку; позже перенос на API. */
+    /** Сортировка каталога. */
     sort?: CatalogSort;
 }
 
@@ -25,14 +25,14 @@ export interface CatalogSpecialistsResult {
     total: number;
 }
 
-function applyStubFilters(
+function applyFilters(
     list: SpecialistDTO[],
     filters: CatalogFilters | undefined,
     sort: CatalogSort | undefined
 ): SpecialistDTO[] {
     let result = list.slice();
 
-    if (!filters) return applyStubSort(result, sort);
+    if (!filters) return applySort(result, sort);
 
     if (filters.profession != null) {
         result = result.filter((s) => s.profession === filters.profession);
@@ -66,10 +66,10 @@ function applyStubFilters(
         );
     }
 
-    return applyStubSort(result, sort);
+    return applySort(result, sort);
 }
 
-function applyStubSort(
+function applySort(
     list: SpecialistDTO[],
     sort: CatalogSort | undefined
 ): SpecialistDTO[] {
@@ -110,8 +110,7 @@ export const useCatalogSpecialists = ({
     return useQuery<CatalogSpecialistsResult>({
         queryKey: ["catalog", page, pageSize, filters, sort],
         queryFn: async (): Promise<CatalogSpecialistsResult> => {
-            // Заглушка: фильтрация и сортировка по моку. Позже заменить на fetchCatalogSpecialists({ page, pageSize, filters, sort }).
-            const filtered = applyStubFilters(specialistData, filters, sort);
+            const filtered = applyFilters(specialistData, filters, sort);
             const total = filtered.length;
             const start = (page - 1) * pageSize;
             const end = page * pageSize;

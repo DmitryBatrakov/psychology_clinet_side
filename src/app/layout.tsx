@@ -4,7 +4,6 @@ import { Header } from "../../components/header/Header";
 import MainProvider from "@/components/providers/MainProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { Ubuntu } from "next/font/google";
-import { Footer } from "@/components/footer/Footer";
 import './globals.css'
 
 const geistSans = Geist({
@@ -41,7 +40,6 @@ export default function RootLayout({
                 <MainProvider>
                     <Header />
                     {children}
-                    <Footer />
                     <Toaster richColors closeButton theme="light" visibleToasts={2} />
                 </MainProvider>
             </body>

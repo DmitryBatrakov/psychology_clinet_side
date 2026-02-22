@@ -3,40 +3,116 @@ import { authAtom } from "@/src/store/auth/authAtom";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CircleUser } from "lucide-react";
+import { CircleUser, Menu, X } from "lucide-react";
+import { useState } from "react";
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer";
+import { Button } from "../ui/button";
 
 export const Header = () => {
     const { user } = useAtomValue(authAtom);
     const router = useRouter();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const handleAuthClick = () => {
+        if (user) {
+            router.push("/account/therapy");
+        } else {
+            router.push("/auth/login");
+        }
+        setIsMenuOpen(false);
+    };
+
+    const handleNavigate = () => {
+        setIsMenuOpen(false);
+    };
 
     return (
-        <header className="flex items-center justify-between p-4 ">
+        <header className="flex items-center justify-between p-4">
             <div className="flex items-center justify-center">
                 <span className="font-bold text-2xl">Logo</span>
             </div>
-            <nav className="flex gap-4">
+
+            <nav className="hidden items-center gap-4 md:flex">
                 <Link href="/dashboard">Home</Link>
                 <Link href="/about">About</Link>
                 <Link href="/catalog">Catalog</Link>
                 <Link href="/specialists">For Specialist</Link>
             </nav>
-            <div className="flex items-center justify-center">
+
+            <div className="hidden items-center justify-center md:flex">
                 {user ? (
                     <button
                         className="cursor-pointer"
                         onClick={() => router.push("/account/therapy")}
+                        aria-label="Open profile"
                     >
                         <CircleUser size={40} color="gray" />
                     </button>
                 ) : (
                     <button
-                        className="px-4 py-2 bg-blue-500 text-white rounded"
+                        className="rounded bg-blue-500 px-4 py-2 text-white"
                         onClick={() => router.push("/auth/login")}
                     >
                         Sign In
                     </button>
                 )}
             </div>
+
+            <Drawer
+                open={isMenuOpen}
+                onOpenChange={setIsMenuOpen}
+                direction="right"
+            >
+                <DrawerTrigger asChild>
+                    <button
+                        type="button"
+                        className="inline-flex items-center justify-center rounded-md p-2 md:hidden"
+                        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                        aria-expanded={isMenuOpen}
+                    >
+                        <Menu size={24} />
+                    </button>
+                </DrawerTrigger>
+                <DrawerContent className="md:hidden">
+                    <DrawerHeader className="flex flex-row items-center justify-between">
+                        <DrawerTitle className="text-xl ">Menu</DrawerTitle>
+                        <DrawerClose asChild>
+                            <X size={20} />
+                        </DrawerClose>
+                    </DrawerHeader>
+                    <div className="px-4 pb-4">
+                        <nav className="flex flex-col gap-3">
+                            <Link href="/dashboard" onClick={handleNavigate}>
+                                Home
+                            </Link>
+                            <Link href="/about" onClick={handleNavigate}>
+                                About
+                            </Link>
+                            <Link href="/catalog" onClick={handleNavigate}>
+                                Catalog
+                            </Link>
+                            <Link href="/specialists" onClick={handleNavigate}>
+                                For Specialist
+                            </Link>
+                        </nav>
+                        <div className="mt-4">
+                            <button
+                                className="w-full rounded bg-blue-500 px-4 py-2 text-white"
+                                onClick={handleAuthClick}
+                            >
+                                {user ? "Profile" : "Sign In"}
+                            </button>
+                        </div>
+                    </div>
+                </DrawerContent>
+            </Drawer>
         </header>
     );
 };

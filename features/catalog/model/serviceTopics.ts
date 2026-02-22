@@ -292,20 +292,16 @@ export function getAllAllowedServiceSlugs(): Set<string> {
     return set;
 }
 
-const _labelBySlug = new Map<string, string>();
-function buildLabelMap() {
-    if (_labelBySlug.size > 0) return;
-    for (const groups of Object.values(SERVICE_TOPICS_BY_PROFESSION)) {
-        for (const group of groups) {
-            for (const item of group.items) {
-                if (!_labelBySlug.has(item.value)) _labelBySlug.set(item.value, item.label);
-            }
+const labelBySlug = new Map<string, string>();
+
+for (const groups of Object.values(SERVICE_TOPICS_BY_PROFESSION)) {
+    for (const group of groups) {
+        for (const item of group.items) {
+            labelBySlug.set(item.value, item.label);
         }
     }
 }
 
-/** Подпись темы по slug (для отображения в карточке и т.п.). */
 export function getServiceLabel(slug: string): string {
-    buildLabelMap();
-    return _labelBySlug.get(slug) ?? slug;
+    return labelBySlug.get(slug) ?? slug;
 }

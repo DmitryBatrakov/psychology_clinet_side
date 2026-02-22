@@ -7,7 +7,7 @@ export default function AccountLayout({
 }) {
 
     return (
-        <div className="flex flex-1 bg-slate-50 " dir="rtl">
+        <div className="flex flex-1 bg-slate-50 min-h-screen" dir="rtl">
             <Sidebar />
 
             <main className="flex-1 p-5 ">{children}</main>

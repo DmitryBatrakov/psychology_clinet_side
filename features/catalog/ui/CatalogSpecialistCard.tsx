@@ -43,11 +43,11 @@ export function CatalogSpecialistCard({
     const fileIcon = '/assets/images/images.jpeg';
 
     return (
-        <Card className="overflow-hidden">
+        <Card className="overflow-hidden ">
             <CardHeader className="p-0">
-                <div className="relative flex itwems-center justify-center  w-full h-full">
+                <div className="relative flex itwems-center justify-center w-full h-full">
                     {specialist.photoUrl ? (
-                        <div className="relative flex items-center justify-center text-muted-foreground text-4xl w-64 h-64 rounded-full overflow-hidden ">
+                        <div className="relative flex items-center justify-center text-muted-foreground text-4xl w-56 h-56 rounded-full overflow-hidden ">
                             <Image
                                 src={specialist.photoUrl}
                                 alt={name}
@@ -57,7 +57,7 @@ export function CatalogSpecialistCard({
                             />
                         </div>
                     ) : (
-                        <div className="relative flex items-center justify-center text-muted-foreground text-4xl w-64 h-64 rounded-full overflow-hidden ">
+                        <div className="relative flex items-center justify-center text-muted-foreground text-4xl w-56 h-56 rounded-full overflow-hidden ">
                             <Image
                                 src={fileIcon}
                                 alt={name}

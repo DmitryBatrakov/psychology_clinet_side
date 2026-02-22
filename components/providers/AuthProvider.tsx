@@ -49,9 +49,9 @@ export default function AuthProvider({
         console.log(user, authLoading, isAuthPages(pathname),pathname)
         if (authLoading) return;
 
-        if (!user && !isAuthPages(pathname)) {
-            router.replace("/auth/login");
-        }
+        // if (!user && !isAuthPages(pathname)) {
+        //     router.replace("/auth/login");
+        // }
     }, [user, authLoading, pathname, router]);
 
     return <>{children}</>;

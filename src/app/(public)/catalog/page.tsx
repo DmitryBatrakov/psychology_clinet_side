@@ -89,7 +89,7 @@ function CatalogPageContent() {
 
     return (
         <div
-            className="flex flex-col w-full max-w-8xl mx-auto px-4 pb-20"
+            className=" w-full mx-auto px-4 pb-20 flex flex-col items-center justify-center max-w-7xl"
             dir="rtl"
         >
             <div className="w-full h-52 flex flex-col items-center justify-center">

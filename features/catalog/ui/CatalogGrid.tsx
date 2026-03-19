@@ -67,14 +67,14 @@ export function CatalogGrid({
     const hasNext = page < totalPages;
 
     return (
-        <div className=" h-full">
-            <div className="space-y-8 w-full pb-6">
+        <div className=" h-full ">
+            <div className="space-y-8 w-full pb-6 max-w-4xl">
                 {PROFESSION_SECTIONS.map(({ key, title }) => {
                     const list = byProfession[key] ?? [];
                     if (list.length === 0) return null;
                     return (
                         <section key={key}>
-                            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,330px))] gap-4 justify-center items-center">
+                            <div className="grid grid-cols-[repeat(auto-fit,minmax(270px,280px))] gap-4 justify-start items-start">
                                 {list.map((specialist) => (
                                     <CatalogSpecialistCard
                                         key={specialist.id}

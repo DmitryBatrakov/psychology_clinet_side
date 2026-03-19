@@ -6,10 +6,10 @@ import { Separator } from "@/components/ui/separator";
 
 export const SpecialistOverviewCard = ({specialist}: {specialist: SpecialistDTO}) => {
     return (
-        <Card className="overflow-hidden w-full p-6">
+        <Card className="overflow-hidden w-full min-h-[70vh] p-6">
             <SpecialistBio specialist={specialist} />
             <Separator />
-            <SpecialistBooking specialist={specialist} />
+            <SpecialistBooking />
         </Card>
     );
 };

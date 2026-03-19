@@ -5,16 +5,17 @@ import type {
 } from "@/features/slot/model/type";
 
 const defaultWeekTemplate: WeekdayIntervals = {
+    sunday: [],
     monday: [{ startTime: "09:00", endTime: "13:00" }],
     tuesday: [{ startTime: "10:00", endTime: "14:00" }],
     wednesday: [{ startTime: "09:00", endTime: "12:00" }],
     thursday: [{ startTime: "11:00", endTime: "16:00" }],
     friday: [{ startTime: "09:00", endTime: "12:00" }],
     saturday: [],
-    sunday: [],
 };
 
 const extendedWeekTemplate: WeekdayIntervals = {
+    sunday: [{ startTime: "10:00", endTime: "13:00" }],
     monday: [
         { startTime: "08:30", endTime: "12:30" },
         { startTime: "14:00", endTime: "17:00" },
@@ -27,7 +28,6 @@ const extendedWeekTemplate: WeekdayIntervals = {
     ],
     friday: [{ startTime: "09:00", endTime: "12:00" }],
     saturday: [],
-    sunday: [{ startTime: "10:00", endTime: "13:00" }],
 };
 
 export const scheduleRulesMock: ScheduleRule[] = [

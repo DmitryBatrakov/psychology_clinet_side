@@ -14,8 +14,8 @@ export interface SpecialistData extends UserData {
     pricePerSession: number;
     services: string[];
 }
-  
-export type SpecialistDTO = Omit<SpecialistData, 'birthDate'> & {
+
+export type SpecialistDTO = Omit<SpecialistData, "birthDate"> & {
     birthDate: string;
 };
 //return type для типиов услуг (ПТСП, тревога и тд)

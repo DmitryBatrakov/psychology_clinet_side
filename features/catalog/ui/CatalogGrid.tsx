@@ -74,7 +74,7 @@ export function CatalogGrid({
                     if (list.length === 0) return null;
                     return (
                         <section key={key}>
-                            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,350px))] gap-4 justify-center items-center">
+                            <div className="grid grid-cols-[repeat(auto-fit,minmax(280px,330px))] gap-4 justify-center items-center">
                                 {list.map((specialist) => (
                                     <CatalogSpecialistCard
                                         key={specialist.id}

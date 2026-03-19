@@ -62,7 +62,7 @@ export default function SpecialistDetailsPage() {
     }
 
     return (
-        <div className="w-full max-w-6xl mx-auto px-4 py-8" dir="rtl">
+        <div className="w-full max-w-6xl mx-auto px-4 py-20" dir="rtl">
             <div className="flex justify-end">
                 <Button variant="link" onClick={() => router.push(`/catalog`)}>
                     <span>חזרה לקטלוג</span>

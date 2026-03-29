@@ -10,13 +10,7 @@ import { SpecialistServices } from "@/features/specialist/ui/SpecialistServices"
 import { SpecialistProfileSections } from "@/features/specialist/ui/SpecialistProfileSections";
 import { Faq } from "@/components/faq/Faq";
 
-function SpecialistPageSkeleton() {
-    return (
-        <div className="w-full max-w-5xl mx-auto px-4 py-8" dir="rtl">
-            <div className="rounded-xl border bg-card min-h-[420px] animate-pulse" />
-        </div>
-    );
-}
+
 
 export default function SpecialistDetailsPage() {
     const params = useParams<{ id: string | string[] }>();
@@ -47,7 +41,7 @@ export default function SpecialistDetailsPage() {
                     המומחה לא נמצא
                 </h1>
                 <p className="text-muted-foreground text-right">
-                    בדוק את הקישור או בחר מומחה מהקטלוג.
+                     בחר מומחה מהקטלוג מחדש 
                 </p>
                 <div className="">
                     <Button
@@ -62,7 +56,7 @@ export default function SpecialistDetailsPage() {
     }
 
     return (
-        <div className="w-full max-w-6xl mx-auto px-4 py-8" dir="rtl">
+        <div className="w-full max-w-6xl mx-auto px-4 py-20" dir="rtl">
             <div className="flex justify-end">
                 <Button variant="link" onClick={() => router.push(`/catalog`)}>
                     <span>חזרה לקטלוג</span>
@@ -75,6 +69,14 @@ export default function SpecialistDetailsPage() {
                 <SpecialistProfileSections specialist={specialist} />
                 <Faq />
             </div>
+        </div>
+    );
+}
+
+function SpecialistPageSkeleton() {
+    return (
+        <div className="w-full max-w-5xl mx-auto px-4 py-8" dir="rtl">
+            <div className="rounded-xl border bg-card min-h-[420px] animate-pulse" />
         </div>
     );
 }

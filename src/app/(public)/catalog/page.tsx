@@ -88,13 +88,16 @@ function CatalogPageContent() {
     const totalPages = data ? Math.ceil(data.total / PAGE_SIZE) : 0;
 
     return (
-        <div className="flex flex-col w-full max-w-8xl mx-auto px-4 pb-20" dir="rtl">
+        <div
+            className=" w-full mx-auto px-4 pb-20 flex flex-col items-center justify-center max-w-7xl"
+            dir="rtl"
+        >
             <div className="w-full h-52 flex flex-col items-center justify-center">
                 <h1 className="text-2xl font-bold text-right mb-5">Catalog</h1>
             </div>
 
-            <div className="mb-4 flex items-center gap-3 md:hidden">
-                <div className="flex-1">
+            <div className="mb-4 flex items-center justify-between gap-3 lg:hidden w-full  md:px-3 ">
+                <div className=" flex-1 md:flex-0">
                     <CatalogSortControl sort={sort} setSort={setSort} />
                 </div>
                 <button
@@ -126,8 +129,8 @@ function CatalogPageContent() {
                 />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-5 w-full">
-                <div className="hidden md:block">
+            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-5 w-full">
+                <div className="hidden lg:block">
                     <CatalogFilters
                         filters={filters}
                         sort={sort}
@@ -154,7 +157,10 @@ function CatalogPageContent() {
 
 function CatalogPageFallback() {
     return (
-        <div className="flex flex-col w-full max-w-7xl mx-auto px-4 pb-20" dir="rtl">
+        <div
+            className="flex flex-col w-full max-w-7xl mx-auto px-4 pb-20"
+            dir="rtl"
+        >
             <div className="w-full h-52 flex flex-col items-center justify-center">
                 <h1 className="text-2xl font-bold text-right mb-5">Catalog</h1>
             </div>

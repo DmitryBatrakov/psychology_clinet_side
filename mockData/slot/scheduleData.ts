@@ -38,7 +38,7 @@ export const scheduleRulesMock: ScheduleRule[] = [
         timeZone: "Asia/Jerusalem",
         weekdayIntervals: defaultWeekTemplate,
         isActive: true,
-        displayHorizonMonths: 1,
+        displayHorizonMonths: 3,
         createdAt: new Date("2026-02-01T08:00:00.000Z"),
         updatedAt: new Date("2026-02-01T08:00:00.000Z"),
     },

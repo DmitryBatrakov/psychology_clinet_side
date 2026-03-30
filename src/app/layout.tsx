@@ -33,9 +33,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en">
+        <html lang="he" dir="rtl">
             <body
-                className={`${ubuntu.variable} font-sans antialiased h-screen flex flex-col max-h-screen relative w-full`}
+                className={`${ubuntu.variable} font-sans antialiased h-screen  max-h-screen relative w-full`}
             >
                 <MainProvider>
                     <Header />

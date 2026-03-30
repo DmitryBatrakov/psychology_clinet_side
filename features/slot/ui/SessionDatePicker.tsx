@@ -8,8 +8,6 @@ import { getAvailableHourlySlotsForDate } from "../lib/availability";
 import { cn } from "@/lib/utils";
 import {
     Field,
-    FieldDescription,
-    FieldGroup,
     FieldLabel,
     FieldLegend,
     FieldSet,

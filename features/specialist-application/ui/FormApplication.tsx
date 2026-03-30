@@ -40,8 +40,6 @@ import {
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { useRef } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { fetchApplicationsSpecialist } from "../api/fetchApplSpecialist";
 import { SpecialistApplicationCreateInput } from "../model/types";
 import { useApplicationsSpecialist } from "../hooks/useApplicationsSpecialist";
 import { MeetingFormat, Profession } from "@/features/specialist/model/types";
@@ -51,20 +49,19 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { format, parseISO } from "date-fns";
+import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
+import { useMutation } from "@tanstack/react-query";
+import { Spinner } from "@/components/ui/spinner";
+import { Separator } from "@/components/ui/separator";
 
 export const FormApplication = () => {
     const basicDegreeRef = useRef<HTMLInputElement>(null);
     const advancedDegreeRef = useRef<HTMLInputElement>(null);
 
-    const fetchApplSpecialistMutation = useApplicationsSpecialist();
-
-    // const { mutate } = useMutation({
-    //     mutationFn: (data: SpecialistApplicationCreateInput) =>
-    //         fetchApplicationsSpecialist(data),
-    // });
+    const { mutate: fetchApplSpecialistMutation, isPending } =
+        useApplicationsSpecialist();
 
     const form = useForm<ApplicationSchema>({
         resolver: zodResolver(applicationSchema),
@@ -98,7 +95,7 @@ export const FormApplication = () => {
             pricePerSession: data.pricePerSession,
             hoursPerWeek: data.hoursPerWeek,
         };
-        fetchApplSpecialistMutation.mutate(payload, {
+        fetchApplSpecialistMutation(payload, {
             onSuccess: () => {
                 form.reset();
                 if (basicDegreeRef.current) basicDegreeRef.current.value = "";
@@ -226,7 +223,7 @@ export const FormApplication = () => {
                         )}
                     />
                 </div>
-
+                <Separator />
                 <FormField
                     control={form.control}
                     name="languages"
@@ -286,13 +283,13 @@ export const FormApplication = () => {
                         </FormItem>
                     )}
                 />
-
+                <Separator />
                 <FormField
                     control={form.control}
                     name="gender"
                     render={({ field }) => (
-                        <FormItem>
-                            <FieldSet>
+                        <FormItem className="w-full">
+                            <FieldSet className="w-full">
                                 <FieldLegend className="flex items-start justify-start w-full text-[1.5rem]">
                                     מגדר
                                 </FieldLegend>
@@ -302,17 +299,21 @@ export const FormApplication = () => {
                                     orientation="horizontal"
                                     value={field.value}
                                     onValueChange={field.onChange}
+                                    className="flex w-full items-start gap-0 justify-start"
                                 >
                                     {Object.entries(GENDER_LABELS).map(
                                         ([value, label]) => (
-                                            <FieldGroup key={value}>
+                                            <FieldGroup
+                                                key={value}
+                                                className="flex items-center gap-2"
+                                            >
+                                                <FieldLabel htmlFor={value}>
+                                                    {label}
+                                                </FieldLabel>
                                                 <RadioGroupItem
                                                     value={value}
                                                     id={value}
                                                 />
-                                                <FieldLabel htmlFor={value}>
-                                                    {label}
-                                                </FieldLabel>
                                             </FieldGroup>
                                         ),
                                     )}
@@ -321,7 +322,7 @@ export const FormApplication = () => {
                         </FormItem>
                     )}
                 />
-
+                <Separator />
                 <FormField
                     control={form.control}
                     name="profession"
@@ -364,7 +365,6 @@ export const FormApplication = () => {
                         </FormItem>
                     )}
                 />
-
                 <FormField
                     control={form.control}
                     name="meetingFormat"
@@ -406,7 +406,6 @@ export const FormApplication = () => {
                         </FormItem>
                     )}
                 />
-
                 <FormField
                     control={form.control}
                     name="sessionTypes"
@@ -465,7 +464,7 @@ export const FormApplication = () => {
                         </FormItem>
                     )}
                 />
-
+                <Separator />
                 <FormField
                     control={form.control}
                     name="experience"
@@ -581,6 +580,7 @@ export const FormApplication = () => {
                         </FormItem>
                     )}
                 /> */}
+                <Separator />
                 <FormField
                     control={form.control}
                     name="agree"
@@ -610,10 +610,14 @@ export const FormApplication = () => {
                         type="submit"
                         className="w-full h-10 rounded-2xl"
                         // disabled={
-                        //     !form.formState.isValid || !form.formState.isDirty
+                        //     !form.formState.isValid
                         // }
                     >
-                        שליחה
+                        {isPending ? (
+                            <Spinner className="size-6 animate-spin" />
+                        ) : (
+                            "שליחה"
+                        )}
                     </Button>
                 </div>
             </form>

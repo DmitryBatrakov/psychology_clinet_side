@@ -11,10 +11,11 @@ import {
     PaginationNext,
     PaginationEllipsis,
 } from "@/components/ui/pagination";
-import { PAGE_SIZE, PROFESSION_SECTIONS } from "@/features/catalog/model/catalogFilterOptions";
+import {
+    PAGE_SIZE,
+    PROFESSION_SECTIONS,
+} from "@/features/catalog/model/catalogFilterOptions";
 import { CatalogSkeleton } from "./CatalogSkeleton";
-
-
 
 export interface CatalogGridProps {
     items: SpecialistDTO[];
@@ -38,7 +39,7 @@ export function CatalogGrid({
     if (isPending) {
         return (
             <div className="col-span-1 md:col-span-3">
-                <CatalogSkeleton  count={PAGE_SIZE}/>
+                <CatalogSkeleton count={PAGE_SIZE} />
             </div>
         );
     }
@@ -74,7 +75,7 @@ export function CatalogGrid({
                     if (list.length === 0) return null;
                     return (
                         <section key={key}>
-                            <div className="grid grid-cols-[repeat(auto-fit,minmax(270px,280px))] gap-4 justify-start items-start">
+                            <div className="grid grid-cols-1 px-4 md:px-0 items-center justify-center  md:grid-cols-[repeat(auto-fit,minmax(270px,280px))] gap-4  md:justify-start md:items-start">
                                 {list.map((specialist) => (
                                     <CatalogSpecialistCard
                                         key={specialist.id}

@@ -4,7 +4,7 @@ import { Header } from "../../components/header/Header";
 import MainProvider from "@/components/providers/MainProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { Ubuntu } from "next/font/google";
-import './globals.css'
+import "./globals.css";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -17,9 +17,9 @@ const geistMono = Geist_Mono({
 });
 
 export const ubuntu = Ubuntu({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-ubuntu",
-  weight: ["300", "400", "500", "700"],
+    subsets: ["latin", "cyrillic"],
+    variable: "--font-ubuntu",
+    weight: ["300", "400", "500", "700"],
 });
 
 export const metadata: Metadata = {
@@ -35,12 +35,17 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body
-                className={`${ubuntu.variable} font-sans antialiased h-screen flex flex-col max-h-screen relative`}
+                className={`${ubuntu.variable} font-sans antialiased h-screen flex flex-col max-h-screen relative w-full`}
             >
                 <MainProvider>
                     <Header />
                     {children}
-                    <Toaster richColors closeButton theme="light" visibleToasts={2} />
+                    <Toaster
+                        richColors
+                        closeButton
+                        theme="light"
+                        visibleToasts={2}
+                    />
                 </MainProvider>
             </body>
         </html>

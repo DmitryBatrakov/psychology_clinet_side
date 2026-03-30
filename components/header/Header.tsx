@@ -34,7 +34,7 @@ export const Header = () => {
     };
 
     return (
-        <header className="flex items-center justify-between p-4">
+        <header className="flex items-center justify-between p-4 max-w-[1920px] w-full mx-auto">
             <div className="flex items-center justify-center">
                 <span className="font-bold text-2xl">Logo</span>
             </div>

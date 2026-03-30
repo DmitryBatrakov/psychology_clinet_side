@@ -2,8 +2,8 @@ import { UserData } from "@/features/user/model/types";
 
 export type SessionType = "individual" | "couple" | "child" | "teen";
 
-type Profession = "psychologist" | "therapist" | "coach";
-type MeetingFormat = "online" | "offline";
+export type Profession = "psychologist" | "therapist" | "coach";
+export type MeetingFormat = "online" | "offline";
 
 export interface SpecialistData extends UserData {
     id: string;

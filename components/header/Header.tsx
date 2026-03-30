@@ -13,7 +13,6 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer";
-import { Button } from "../ui/button";
 
 export const Header = () => {
     const { user } = useAtomValue(authAtom);
@@ -34,16 +33,16 @@ export const Header = () => {
     };
 
     return (
-        <header className="flex items-center justify-between p-4 max-w-[1920px] w-full mx-auto">
+        <header className="flex items-center justify-between px-4 h-20 max-w-[1920px] w-full mx-auto">
             <div className="flex items-center justify-center">
-                <span className="font-bold text-2xl">Logo</span>
+                <span className="font-bold text-3xl text-foreground">Logo</span>
             </div>
 
-            <nav className="hidden items-center gap-4 md:flex">
-                <Link href="/dashboard">Home</Link>
-                <Link href="/about">About</Link>
-                <Link href="/catalog">Catalog</Link>
-                <Link href="/specialists">For Specialist</Link>
+            <nav className="hidden items-center gap-10 md:flex text-[1.2rem] font-normal [&>a]:transition-colors [&>a:hover]:text-accent">
+                <Link className="hover:text-accent" href="/">עמוד הבית</Link>
+                <Link href="/about">קצת עלינו</Link>
+                <Link href="/catalog">אנשי מקצוע</Link>
+                <Link href="/specialists">מידע למטפלים</Link>
             </nav>
 
             <div className="hidden items-center justify-center md:flex">

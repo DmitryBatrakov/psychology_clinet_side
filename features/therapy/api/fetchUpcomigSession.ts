@@ -10,10 +10,12 @@ export async function fetchUpcomingSession() {
     const idToken = await user.getIdToken();
 
     const res = await fetch("/api/user/upcoming-session", {
+        method: "GET",
         headers: {
             Authorization: `Bearer ${idToken}`,
         },
     });
+    
     const json = await res.json().catch(() => ({}));
 
     if (!res.ok) {

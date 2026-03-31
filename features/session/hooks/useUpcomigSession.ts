@@ -1,16 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
-import { sessionData } from "@/mockData/sessions/sessionData";
-import { SessionDTO } from "../model/types";
-import { fetchUpcomingSession } from "@/features/user/api/fetchUpcomigSession";
+import { fetchUpcomingSession } from "@/features/therapy/api/fetchUpcomigSession";
+import { UpcomingSessionResponse } from "@/features/therapy/model/types";
 
 
 export const useUpcomingSession = (uid: string | null, authLoading: boolean) => {
-  return useQuery<SessionDTO[]>({
+  
+  return useQuery<UpcomingSessionResponse>({
     queryKey: ["upcoming-session", uid],
     queryFn: async () => fetchUpcomingSession(), 
     enabled: !authLoading && !!uid,
-    // staleTime: 1000 * 60 * 5,
-    // gcTime: 1000 * 60 * 30,
-    // retry: 1,
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 30,
+    retry: 1,
   });
 };

@@ -2,7 +2,7 @@
 import { authAtom } from "@/src/store/auth/authAtom";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { CircleUser, Menu, X } from "lucide-react";
 import { useState } from "react";
 import {
@@ -13,11 +13,14 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer";
+import { cn } from "@/lib/utils";
 
 export const Header = () => {
     const { user } = useAtomValue(authAtom);
     const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const pathname = usePathname();
+    const isMainPage = pathname === '/'
 
     const handleAuthClick = () => {
         if (user) {
@@ -33,7 +36,7 @@ export const Header = () => {
     };
 
     return (
-        <header className="flex items-center justify-between px-4 h-20 max-w-[1920px] w-full mx-auto absolute top-0 left-0 z-50">
+        <header className={cn("flex items-center justify-between px-4 h-20 max-w-[1920px] w-full mx-auto top-0 left-0 z-30", isMainPage ? 'absolute' : 'relative')}>
             <div className="hidden lg:flex items-center justify-between w-full">
                 <div className="flex items-center justify-center">
                     {user ? (
@@ -46,7 +49,7 @@ export const Header = () => {
                         </button>
                     ) : (
                         <button
-                            className="rounded bg-blue-500 px-4 py-2 text-white"
+                            className="rounded bg-primary px-4 py-2 text-white"
                             onClick={() => router.push("/auth/login")}
                         >
                             Sign In
@@ -54,7 +57,7 @@ export const Header = () => {
                     )}
                 </div>
 
-                <nav className="flex items-center gap-10 text-[1.2rem] font-normal [&>a]:transition-colors [&>a:hover]:text-accent">
+                <nav className="flex items-center gap-10 text-[1.1rem] font-normal [&>a]:transition-colors [&>a:hover]:text-accent">
                     <Link className="hover:text-accent" href="/">
                         עמוד הבית
                     </Link>
@@ -70,7 +73,7 @@ export const Header = () => {
                 </div>
             </div>
 
-            <div className="flex items-center justify-between lg:hidden w-full">
+            <div className="flex items-center justify-between lg:hidden w-full relative">
                 <div className="flex items-center justify-center">
                     <span className="font-bold text-3xl text-foreground">
                         Logo
@@ -101,30 +104,30 @@ export const Header = () => {
                         <div className="px-4 pb-4">
                             <nav className="flex flex-col gap-3">
                                 <Link
-                                    href="/dashboard"
+                                    href="/"
                                     onClick={handleNavigate}
                                 >
-                                    Home
+                                    עמוד הבית
                                 </Link>
                                 <Link href="/about" onClick={handleNavigate}>
-                                    About
+                                    קצת עלינו
                                 </Link>
                                 <Link href="/catalog" onClick={handleNavigate}>
-                                    Catalog
+                                    אנשי מקצוע
                                 </Link>
                                 <Link
                                     href="/specialists"
                                     onClick={handleNavigate}
                                 >
-                                    For Specialist
+                                    מידע למטפלים
                                 </Link>
                             </nav>
                             <div className="mt-4">
                                 <button
-                                    className="w-full rounded bg-blue-500 px-4 py-2 text-white"
+                                    className="w-full rounded bg-primary px-4 py-2 text-white"
                                     onClick={handleAuthClick}
                                 >
-                                    {user ? "Profile" : "Sign In"}
+                                    {user ? "פרופיל" : "התחברות"}
                                 </button>
                             </div>
                         </div>

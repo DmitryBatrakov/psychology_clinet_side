@@ -7,7 +7,7 @@ export default function PublicLayout({
 }>) {
     return (
         <div className="flex flex-col min-h-screen">
-            <div className="max-w-[1920px] w-full mx-auto">{children}</div>
+            <div className="">{children}</div>
             <Footer />
         </div>
     );

@@ -2,17 +2,17 @@ import Link from "next/link";
 import { Facebook, Instagram, Send } from "lucide-react";
 
 const footerLinkClass =
-    "text-sm text-violet-200/80 transition-colors hover:text-white";
+    "text-sm transition-colors hover:text-secondary-foreground";
 
 export const Footer = () => {
     return (
-        <footer className="mt-auto bg-[#2B1F4A] text-violet-100" dir="rtl">
+        <footer className="mt-auto bg-primary text-foreground" dir="rtl">
             <div className="mx-auto w-full max-w-7xl space-y-8 px-4 py-12">
                 <div className="space-y-4 w-full">
-                    <div className="inline-flex h-10 w-24 items-center justify-center rounded-md border border-violet-300/40 text-sm font-semibold text-white">
+                    <div className="inline-flex h-10 w-24 items-center justify-center rounded-md border border-muted text-sm font-semibold ">
                         LOGO
                     </div>
-                    <p className="max-w-56 text-sm text-violet-200/80">
+                    <p className="max-w-56 text-sm ">
                         שירות להתאמה אישית של פסיכולוגים וטיפול נוח אונליין.
                     </p>
                 </div>
@@ -20,7 +20,7 @@ export const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:grid-cols-4">
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <h3 className="text-sm font-semibold text-white">
+                            <h3 className="text-sm font-semibold">
                                 דפים נוספים
                             </h3>
                             <div className="flex flex-col gap-2">
@@ -50,7 +50,7 @@ export const Footer = () => {
                     </div>
 
                     <div className="space-y-4">
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold">
                             על השירות
                         </h3>
                         <div className="flex flex-col gap-2">
@@ -67,8 +67,8 @@ export const Footer = () => {
                     </div>
 
                     <div className="space-y-4">
-                        <h3 className="text-sm font-semibold text-white">דפים</h3>
-                        <div className="flex flex-col gap-2">
+                        <h3 className="text-sm font-semibold">דפים</h3>
+                        <div className="flex flex-col gap-2 ">
                             <Link href="/catalog" className={footerLinkClass}>
                                 קטלוג
                             </Link>
@@ -88,7 +88,7 @@ export const Footer = () => {
                     </div>
 
                     <div className="space-y-4">
-                        <h3 className="text-sm font-semibold text-white">
+                        <h3 className="text-sm font-semibold">
                             צרו קשר
                         </h3>
                         <a
@@ -97,25 +97,25 @@ export const Footer = () => {
                         >
                             info@mentoly.com
                         </a>
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 text-foreground">
                             <a
                                 href="#"
                                 aria-label="פייסבוק"
-                                className="text-violet-200/80 transition-colors hover:text-white"
+                                className="transition-colors hover:text-white"
                             >
                                 <Facebook size={18} />
                             </a>
                             <a
                                 href="#"
                                 aria-label="אינסטגרם"
-                                className="text-violet-200/80 transition-colors hover:text-white"
+                                className="transition-colors hover:text-white"
                             >
                                 <Instagram size={18} />
                             </a>
                             <a
                                 href="#"
                                 aria-label="טלגרם"
-                                className="text-violet-200/80 transition-colors hover:text-white"
+                                className="transition-colors hover:text-white"
                             >
                                 <Send size={18} />
                             </a>

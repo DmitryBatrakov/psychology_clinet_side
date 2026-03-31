@@ -34,19 +34,19 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="he" dir="rtl">
-            <body
-                className={`${ubuntu.variable} font-sans antialiased h-screen  max-h-screen relative w-full`}
-            >
-                <MainProvider>
-                    <Header />
-                    {children}
-                    <Toaster
-                        richColors
-                        closeButton
-                        theme="light"
-                        visibleToasts={2}
-                    />
-                </MainProvider>
+            <body className={`${ubuntu.variable} font-sans antialiased w-full`}>
+                <main className="max-w-[1920px] w-full mx-auto">
+                    <MainProvider>
+                        <Header />
+                        {children}
+                        <Toaster
+                            richColors
+                            closeButton
+                            theme="light"
+                            visibleToasts={2}
+                        />
+                    </MainProvider>
+                </main>
             </body>
         </html>
     );

@@ -5,7 +5,7 @@ export const Hero = () => {
         <section className="w-full h-full  flex flex-col items-center justify-center overflow-x-clip">
             <div className="flex flex-col lg:flex-row-reverse items-center justify-center lg:justify-around gap-15 pt-10 w-full px-4 min-h-screen relative">
                 <div className="absolute inset-0 z-0 pointer-events-none">
-                    <div className="absolute top-0 left-0 w-[340px] h-[340px] md:w-[560px] md:h-[560px] lg:w-[1100px] lg:h-[1100px] z-10">
+                    <div className="absolute top-0 left-0 lg:-top-17 lg:-left-4 w-[340px] h-[340px] md:w-[560px] md:h-[560px] lg:w-[1100px] lg:h-[1100px] z-10 rotate-2">
                         <Image
                             src="/assets/images/hero/VectorGreen.png"
                             alt=""
@@ -13,7 +13,7 @@ export const Hero = () => {
                             className="object-contain object-top-left"
                         />
                     </div>
-                    <div className="absolute top-0 left-0 w-[320px] h-[320px] md:w-[530px] md:h-[530px] lg:w-[1000px] lg:h-[1000px]">
+                    <div className="absolute top-0 left-0 lg:-top-25 lg:-left-10 lg:rotate-7 w-[340px] h-[340px] md:w-[530px] md:h-[530px] lg:w-[1000px] lg:h-[1000px]">
                         <Image
                             src="/assets/images/hero/VectorYellow.png"
                             alt=""
@@ -22,14 +22,14 @@ export const Hero = () => {
                         />
                     </div>
                 </div>
-                <div className="relative w-[200px] h-[200px] md:w-[250px] md:h-[250px] lg:w-[380px] lg:h-[380px] top-5 left-5 md:left-0 md:top-0 lg:top-0 lg:left-20 z-20 lg:translate-x-1/2 lg:translate-y-1/2">
+                <div className="relative w-[200px] h-[200px] md:w-[250px] md:h-[250px] lg:w-[380px] lg:h-[380px] top-5 left-5 md:left-0 md:top-0 lg:top-35 lg:left-45 z-20">
                     <Image
                         src="/assets/images/hero/imageHero.png"
                         alt="Hero"
                         fill
                         className="object-cover absolute bottom-0 left-0 "
                     />
-                <div className="relative w-[150px] h-[150px] -left-9 top-31 md:w-[200px] md:h-[200px] md:-left-10 md:top-37 lg:w-[250px] lg:h-[200px] lg:left-20 lg:top-70 -z-10">
+                <div className="relative w-[150px] h-[150px] -left-9 top-31 md:w-[200px] md:h-[200px] md:-left-10 md:top-37 lg:w-[250px] lg:h-[200px] lg:-left-20 lg:top-70 -z-10">
                     <Image
                         src="/assets/images/hero/EllipseGray.svg"
                         alt="Elips Gray"
@@ -61,7 +61,7 @@ export const Hero = () => {
                         </button>
                     </div>
                 </div>
-                <div className="absolute top-10 left-0 md:left-0 md:top-45 lg:top-0 lg:left-0 w-full md:h-[450px] lg:h-[1000px] rotate-7 -z-10 hidden md:block">
+                <div className="absolute top-10 left-0 md:left-0 md:top-45 lg:top-0 lg:left-0 w-full md:h-[450px] lg:h-[1000px] rotate-3 z-0 hidden md:block">
                     <Image
                         src="/assets/images/hero/VectorPinkLine.svg"
                         alt=""

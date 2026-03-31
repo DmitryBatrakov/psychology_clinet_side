@@ -12,6 +12,7 @@
 
 # testing
 /coverage
+/src/server/dev
 
 # next.js
 /.next/

@@ -15,11 +15,14 @@ export async function fetchUpcomingSession() {
             Authorization: `Bearer ${idToken}`,
         },
     });
-    
+
     const json = await res.json().catch(() => ({}));
 
+    if (res.status === 404) {
+        return { session: null, specialist: null };
+    }
     if (!res.ok) {
-        throw new Error(json?.error ?? "Failed to load user profile");
+        throw new Error(json?.error ?? "Failed to load upcoming session");
     }
 
     return json;

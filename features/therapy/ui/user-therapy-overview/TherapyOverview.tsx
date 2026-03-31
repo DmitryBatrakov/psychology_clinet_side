@@ -12,6 +12,7 @@ import {
 import { MeetingFormat, Profession } from "@/features/specialist/model/types";
 import { formatDateTime } from "@/lib/utils";
 import Link from "next/link";
+import { Spinner } from "@/components/ui/spinner";
 
 type TherapyDataProps = {
     userData: TherapyData["dbUser"];
@@ -25,7 +26,8 @@ export const TherapyOverview = ({
     const specialist = upcomingSessionData.data?.specialist;
     const session = upcomingSessionData.data?.session;
 
-    console.log("session", session);
+    const hasUpcoming = !!upcomingSessionData.data?.session && !!upcomingSessionData.data?.specialist;
+
 
     return (
         <div className="flex flex-col justify-center items-center ">
@@ -33,7 +35,7 @@ export const TherapyOverview = ({
                 <div className="w-full mt-5 mb-20">
                     <h1 className="text-3xl font-bold">הטיפול שלי</h1>
                 </div>
-                <div className="grid w-full gap-5 grid-cols-1 sm:grid-cols-2">
+                <div className="grid w-full gap-5 grid-cols-1 md:grid-cols-2 min-h-60">
                     <div className="rounded-md bg-gray-200 min-w-20 flex flex-col justify-between items-center gap-6 p-4">
                         <h1 className="text-rihgt w-full p-0 m-0">
                             פגישה הבאה
@@ -119,11 +121,8 @@ export const TherapyOverview = ({
                                 </div>
                             </div>
                         ) : (
-                            <div className="flex flex-col items-center gap-2 text-center py-4">
-                                <CircleUserRound size={70} color="purple" />
-                                <p className="text-gray-600 text-sm">
-                                    עדיין לא שויך מומחה
-                                </p>
+                            <div className="flex items-center justify-center gap-2 text-center py-4 h-full">
+                                {upcomingSessionData.isLoading &&  <p>כרגע אין לך פגישות</p>}
                             </div>
                         )}
                     </div>
@@ -140,3 +139,4 @@ export const TherapyOverview = ({
         </div>
     );
 };
+

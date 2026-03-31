@@ -25,19 +25,19 @@ export const Sidebar = () => {
             icon: <BookHeart size={20} />,
         },
         {
-            name: "הפרופיל שלי",
-            href: "/account/profile",
-            icon: <UserPen size={20} />,
+            name: "הפגישות שלי",
+            href: "/account/activity",
+            icon: <CreditCard size={20} />,
         },
         {
-            name: "מומחים",
+            name: "מטפלים",
             href: "/catalog",
             icon: <BriefcaseBusiness size={20} />,
         },
         {
-            name: "פגישות שלי",
-            href: "/account/activity",
-            icon: <CreditCard size={20} />,
+            name: "פרופיל",
+            href: "/account/profile",
+            icon: <UserPen size={20} />,
         },
         {
             name: "הגדרות",

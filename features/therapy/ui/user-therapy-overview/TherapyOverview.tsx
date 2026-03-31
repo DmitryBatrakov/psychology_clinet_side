@@ -5,6 +5,7 @@ import { TherapyData } from "../../hooks/useTherapyData";
 import { CircleUserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { UseQueryResult } from "@tanstack/react-query";
 
 type TherapyDataProps = {
     userData: TherapyData["dbUser"];
@@ -25,7 +26,7 @@ export const TherapyOverview = ({
                 </div>
                 <div className="grid w-full gap-5 grid-cols-1 sm:grid-cols-2">
                     <div className="rounded-md bg-gray-200 min-w-20 flex flex-col justify-between items-center gap-6 p-4">
-                    <h1 className="text-rihgt w-full p-0 m-0">פגישה אחרונה</h1>
+                    <h1 className="text-rihgt w-full p-0 m-0">פגישה הבאה</h1>
                         {specialist ? (
                             <div className="flex gap-4 justify-between items-start w-full">
                                 <div className="shrink-0 flex justify-center items-center h-full px-3">

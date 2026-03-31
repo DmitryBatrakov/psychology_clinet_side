@@ -1,11 +1,13 @@
 "use client";
 
+import { useUpcomingSession } from "@/features/session/hooks/useUpcomigSession";
 import { useTherapyData } from "@/features/therapy/hooks/useTherapyData";
 import { TherapistFaq } from "@/features/therapy/ui/therapy-faq/TherapistFaq";
 import { TherapyOverview } from "@/features/therapy/ui/user-therapy-overview/TherapyOverview";
 
 export default function Therapy() {
     const therapyData = useTherapyData();
+    const upcomingSessionData = useUpcomingSession(therapyData.uid, therapyData.authLoading);
  
 
     if (
@@ -18,8 +20,8 @@ export default function Therapy() {
 
     if (
         therapyData.dbUser.isError ||
-        therapyData.specialist.isError ||
-        therapyData.session.isError
+        therapyData.specialist.isError 
+        // || therapyData.session.isError
     ) {
         return <div>שגיאה בטעינת הנתונים</div>;
     }
@@ -37,6 +39,7 @@ export default function Therapy() {
             <TherapyOverview
                 userData={therapyData.dbUser}
                 specialistData={therapyData.specialist}
+                // upcomingSessionData={upcomingSessionData}
             />
             <TherapistFaq />
         </div>

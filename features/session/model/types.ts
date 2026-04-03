@@ -1,3 +1,4 @@
+import { Timestamp } from "firebase-admin/firestore";
 
 type SessionStatus = "upcoming" | "completed" | "canceled";
 
@@ -7,9 +8,9 @@ export interface Session {
     id: string;
     userId: string;
     specialistId: string;
-    startAt: Date;
-    endAt: Date | undefined;
-    date: Date;
+    startAt: Timestamp;
+    endAt: Timestamp | undefined;
+    date: Timestamp;
     status: SessionStatus;
     createdAt: string;
     income: number;

@@ -57,7 +57,7 @@ export default function OnboardingPage() {
             queryClient.refetchQueries({
                 queryKey: ["user", uid],
             });
-            router.replace("/dashboard");
+            router.replace("/");
         },
         onError: (error) => {
             notify.error(error?.message ?? "Failed to complete onboarding");

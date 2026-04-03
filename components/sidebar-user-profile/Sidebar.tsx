@@ -11,6 +11,7 @@ export const Sidebar = () => {
 
     const handlLogout = async () => {
         try {
+            await fetch("/api/auth/session/logout", { method: "POST" });
             await logout();
             router.replace("/");
         } catch (error) {

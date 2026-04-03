@@ -50,7 +50,14 @@ export default function LoginPage() {
     const onSubmit = async (data: LoginFormValues) => {
         setServerError("");
         try {
-            await login(data.email, data.password);
+            const userCredential = await login(data.email, data.password);
+            const idToken = await userCredential.user.getIdToken();
+
+            await fetch("/api/auth/session/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idToken }),
+            });
 
             const me = await fetchAuthUser();
 
@@ -59,8 +66,7 @@ export default function LoginPage() {
                 return;
             }
 
-            router.push("/dashboard");
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            router.push("/account/therapy");
         } catch (err: any) {
             setServerError("Неверный логин или пароль");
             console.error(err);
@@ -136,9 +142,11 @@ export default function LoginPage() {
                                     className="w-full"
                                     disabled={form.formState.isSubmitting}
                                 >
-                                    {form.formState.isSubmitting
-                                        ? <Spinner />
-                                        : "Sign In"}
+                                    {form.formState.isSubmitting ? (
+                                        <Spinner />
+                                    ) : (
+                                        "Sign In"
+                                    )}
                                 </Button>
                             </div>
                         </form>
@@ -151,7 +159,9 @@ export default function LoginPage() {
                         onClick={() =>
                             googleMutation.mutate(undefined, {
                                 onSuccess: () =>
-                                    notify.success("Login with Google successful!"),
+                                    notify.success(
+                                        "Login with Google successful!",
+                                    ),
                                 onError: (error) =>
                                     notify.error(getErrorMessage(error)),
                             })

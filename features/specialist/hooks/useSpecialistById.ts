@@ -1,14 +1,17 @@
 import { useQuery } from "@tanstack/react-query";
-import { specialistData } from "@/mockData/specialist/specialistData";
-import type { SpecialistDTO } from "@/features/specialist/model/types";
+import { fetchSpecialistById, SpecialistDetailsDTO } from "../api/fetchSpecialistById";
 
 export const useSpecialistById = (id: string | undefined) => {
-    return useQuery<SpecialistDTO | null>({
+    return useQuery<SpecialistDetailsDTO | null>({
         queryKey: ["specialist", id],
         queryFn: async () => {
             if (!id) return null;
-            return specialistData.find((s) => s.id === id) ?? null;
+            return fetchSpecialistById(id);
         },
         enabled: Boolean(id),
-    });
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 30,
+        retry: 1,
+        refetchOnWindowFocus: false,
+    }); 
 };

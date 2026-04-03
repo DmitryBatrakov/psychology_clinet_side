@@ -36,23 +36,25 @@ export const UserProfileActions = () => {
 
     const searchParams = useSearchParams();
     const router = useRouter();
-    const section = searchParams.get('section');
+    const section = searchParams.get("section");
 
     if (section) {
         return (
             <div className="flex items-center justify-center">
                 <div className="w-full max-w-lg">
-                    <button 
-                        onClick={() => router.push('/account/profile')}
+                    <button
+                        onClick={() => router.push("/account/profile")}
                         className="mb-4 text-blue-500 flex items-center gap-2 hover:text-blue-600"
                     >
                         ← חזרה לפרופיל
                     </button>
-                    
-                    {section === 'personal-info' && <EditSummaryTab dbUser={dbUser} />}
-                    {section === 'time-zone' && <TimeZoneTab dbUser={dbUser} />}
-                    {section === 'support' && <SupportTab />}
-                    {section === 'privacy-policy' && <PrivacyTab />}
+
+                    {section === "personal-info" && (
+                        <EditSummaryTab dbUser={dbUser} />
+                    )}
+                    {section === "time-zone" && <TimeZoneTab dbUser={dbUser} />}
+                    {section === "support" && <SupportTab />}
+                    {section === "privacy-policy" && <PrivacyTab />}
                 </div>
             </div>
         );
@@ -71,7 +73,11 @@ export const UserProfileActions = () => {
                             className="border-b last:border-b-0 w-full"
                         >
                             <button
-                                onClick={() => router.push(`/account/profile?section=${item.section}`)}
+                                onClick={() =>
+                                    router.push(
+                                        `/account/profile?section=${item.section}`,
+                                    )
+                                }
                                 className="flex justify-between items-center p-4 bg-gray-100 hover:bg-gray-200 w-full text-left"
                             >
                                 <div>{item.title}</div>
@@ -86,9 +92,3 @@ export const UserProfileActions = () => {
         </div>
     );
 };
-
-
-
-
-
-

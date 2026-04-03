@@ -1,9 +1,16 @@
+"use client";
+
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { getServiceLabel } from "@/features/catalog/model/serviceTopics";
 import { Dot } from "lucide-react";
 
-export const SpecialistServices = ({ services }: { services: string[] }) => {
-    if (!services.length) return null;
+export const SpecialistServices = ({
+    services,
+    serviceLabels,
+}: {
+    services: string[];
+    serviceLabels: Record<string, string>;
+}) => {
+    if (!services.length) return null; 
 
     return (
         <Card className="w-full p-4">
@@ -15,7 +22,7 @@ export const SpecialistServices = ({ services }: { services: string[] }) => {
                     {services.map((service) => (
                         <li key={service} className="flex items-center text-sm md:text-base text-muted-foreground">
                             <Dot size={24} />
-                            {getServiceLabel(service)}
+                            {serviceLabels[service] ?? service}
                         </li>
                     ))}
                 </ul>

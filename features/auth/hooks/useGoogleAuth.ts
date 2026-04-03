@@ -34,6 +34,12 @@ export const useGoogleAuth = () => {
                 await signInWithCustomToken(auth, json.customToken);
             }
 
+            await fetch("/api/auth/session/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ idToken }),
+            });
+
             const userData = await fetchAuthUser();
 
             queryClient.refetchQueries({ queryKey: ["user", userData.uid] });
@@ -41,7 +47,7 @@ export const useGoogleAuth = () => {
             if (!userData.profileComplete) {
                 router.replace("/auth/onboarding");
             } else {
-                router.replace("/dashboard");
+                router.replace("/");
             }
         },
     });

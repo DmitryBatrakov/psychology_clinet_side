@@ -31,7 +31,7 @@ export function DeleteAccountModal() {
             onSuccess: () => {
                 notify.success("Account successfully deleted");
                 setOpen(false);
-                router.replace("/dashboard");
+                router.replace("/");
             },
             onError: (error: any) => {
                 notify.error(error?.message ?? "Failed to delete account");

@@ -1,13 +1,16 @@
 import { Session } from "@/features/session/model/types";
 import { requireAuth } from "@/src/server/authToken/requireAuth";
 import { adminDb } from "@/src/server/firebase/admin";
+import { Timestamp } from "firebase-admin/firestore";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
     try {
         const decoded = await requireAuth(req);
         const uid = decoded.uid;
-        const now = new Date();
+        // const now = new Date();
+
+        const now = Timestamp.now();
 
         const sessionSnap = await adminDb
             .collection("sessions")
@@ -29,23 +32,21 @@ export async function GET(req: Request) {
             id: sessionDoc.id,
             ...(sessionDoc.data() as Omit<Session, "id">),
         };
+
         const specialistSnap = await adminDb
             .collection("specialists")
             .doc(session.specialistId)
             .get();
-
         if (!specialistSnap.exists) {
             return NextResponse.json(
                 { error: "Specialist not found" },
                 { status: 404 },
             );
         }
-
         const specialist = {
-            id: specialistSnap.id,
             ...specialistSnap.data(),
+            id: specialistSnap.id,
         };
-
         return NextResponse.json({ session, specialist }, { status: 200 });
     } catch (error) {
         console.error(error);

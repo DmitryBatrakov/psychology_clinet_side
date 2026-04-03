@@ -47,12 +47,12 @@ export const Header = () => {
                     {loading ? (
                         <div className="w-10 h-10 rounded-full bg-neutral-300 animate-pulse" />
                     ) : user ? (
-                        <button onClick={() => router.push("/account/therapy")}>
+                        <button onClick={() => router.push("/account/therapy")} className="cursor-pointer">
                             <CircleUser size={40} color="gray" />
                         </button>
                     ) : (
                         <button
-                            className="rounded bg-primary px-4 py-2 text-white"
+                            className="rounded bg-primary px-4 py-2 text-white cursor-pointer"
                             onClick={() => router.push("/auth/login")}
                         >
                             Sign In

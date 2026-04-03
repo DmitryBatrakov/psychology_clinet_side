@@ -1,9 +1,4 @@
 import { useMemo, useState } from "react";
-import {
-    scheduleOverridesMock,
-    scheduleRulesMock,
-} from "@/mockData/slot/scheduleData";
-import { sessionData } from "@/mockData/sessions/sessionData";
 import { getAvailableHourlySlotsForDate } from "../lib/availability";
 import { cn } from "@/lib/utils";
 import {
@@ -25,6 +20,7 @@ import {
 } from "../lib/utils";
 import { MeetingFormat } from "@/features/session/model/types";
 import { ALLOWED_MEETING_FORMATS } from "@/features/catalog/model/catalogEnums";
+import { useSpecialistSchedule } from "../hooks/useSpecialistSchedule";
 
 export const SessionDatePicker = ({
     specialistId,
@@ -35,9 +31,10 @@ export const SessionDatePicker = ({
     sessionType: SessionType[];
     meetingFormat: MeetingFormat;
 }) => {
-    const scheduleRule = scheduleRulesMock.find(
-        (rule) => rule.specialistId === specialistId,
-    );
+    const scheduleQuery = useSpecialistSchedule(specialistId);
+    const scheduleRule = scheduleQuery.data?.rule ?? null;
+    const scheduleOverrides = scheduleQuery.data?.overrides ?? [];
+    const sessions = scheduleQuery.data?.sessions ?? [];
     const tomorrow = useMemo(() => {
         const date = new Date();
         date.setDate(date.getDate() + 1);
@@ -86,21 +83,39 @@ export const SessionDatePicker = ({
             const slots = getAvailableHourlySlotsForDate({
                 specialistId,
                 date: dateKey,
-                rules: scheduleRulesMock,
-                overrides: scheduleOverridesMock,
-                sessions: sessionData,
+                rules: scheduleRule ? [scheduleRule] : [],
+                overrides: scheduleOverrides,
+                sessions,
             });
             return [dateKey, slots] as const;
         });
 
         return new Map(entries);
-    }, [selectedWeekDays, specialistId]);
+    }, [selectedWeekDays, specialistId, scheduleOverrides, sessions, scheduleRule]);
 
     const slots = useMemo(() => {
         if (!scheduleRule) return [];
 
         return daySlotsMap.get(selectedDate) ?? [];
     }, [daySlotsMap, selectedDate, scheduleRule]);
+
+    if (scheduleQuery.isPending) {
+        return (
+            <div className="flex flex-col items-start justify-start max-w-md p-4 border border-gray-200 rounded-2xl gap-2">
+                <p className="text-sm text-muted-foreground">טוען זמינות...</p>
+            </div>
+        );
+    }
+
+    if (scheduleQuery.isError) {
+        return (
+            <div className="flex flex-col items-start justify-start max-w-md p-4 border border-gray-200 rounded-2xl gap-2">
+                <p className="text-sm text-destructive">
+                    שגיאה בטעינת לוח הזמנים. נסה שוב מאוחר יותר.
+                </p>
+            </div>
+        );
+    }
 
     if (!scheduleRule) {
         return (
@@ -149,7 +164,7 @@ export const SessionDatePicker = ({
                             <FieldLegend variant="label">
                                 בחרו סוג פגישה
                             </FieldLegend>
-                            <RadioGroup defaultValue={meetingFormat[0]}>
+                            <RadioGroup defaultValue={meetingFormat}>
                                 {ALLOWED_MEETING_FORMATS.map((format) => (
                                     <Field
                                         key={format}

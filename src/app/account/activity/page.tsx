@@ -15,33 +15,38 @@ const TAB = {
     SESSIONS: "sessions",
 } as const;
 
-const MOCK_UID = "user-1";
-
 export default function ActivityPage() {
-
     const { user, loading: authLoading } = useAtomValue(authAtom);
 
-    const effectiveUid =  MOCK_UID; // TODO: change to user?.uid ?? null
+    const sessionData = useUserSession(user?.uid ?? null, authLoading);
+    const past = sessionData.data?.past ?? [];
+    const upcoming = sessionData.data?.upcoming ?? [];
 
-    const sessionData = useUserSession(effectiveUid, authLoading);  // TODO: change effectiveUid to uid
-
+    const specialistIds = useMemo(() => {
+        return [...new Set([...past, ...upcoming].map((s) => s.specialistId))];
+    }, [past, upcoming]);
     const specialistsData = useUserSpecialists(
-        effectiveUid,
+        user?.uid ?? null,
         authLoading,
+        specialistIds,
     );
 
     const specialistsMap = useMemo(() => {
         const list = specialistsData.data ?? [];
-        return new Map<string, SpecialistDTO>(
-            list.map((s) => [s.id, s]),
-        );
+        return new Map<string, SpecialistDTO>(list.map((s) => [s.id, s]));
     }, [specialistsData.data]);
 
-    const sessionList = sessionData.data ?? [];
+    // const isSpecialistsInitialLoading =
+    //     specialistIds.length > 0 && specialistsData.isLoading;
 
-    if (sessionData.isPending || specialistsData.isPending) {
+    // if (sessionData.isLoading || isSpecialistsInitialLoading) {
+    //     return <div>טוען...</div>;
+    // }
+
+    if (sessionData.isLoading) {
         return <div>טוען...</div>;
     }
+
     if (sessionData.isError || specialistsData.isError) {
         return <div>שגיאה בטעינת הנתונים</div>;
     }
@@ -58,16 +63,22 @@ export default function ActivityPage() {
                     </TabsTrigger>
                 </TabsList>
 
-                <TabsContent value={TAB.PAYMENTS} className="mt-8 max-h-[calc(100vh-12rem)] overflow-y-auto">
+                <TabsContent
+                    value={TAB.PAYMENTS}
+                    className="mt-8 max-h-[calc(100vh-12rem)] overflow-y-auto"
+                >
                     <SessionCompleted
-                        sessionList={sessionList}
+                        sessionList={past}
                         specialistsMap={specialistsMap}
                     />
                 </TabsContent>
 
-                <TabsContent value={TAB.SESSIONS} className="mt-8 max-h-[calc(100vh-12rem)] overflow-y-auto">
+                <TabsContent
+                    value={TAB.SESSIONS}
+                    className="mt-8 max-h-[calc(100vh-12rem)] overflow-y-auto"
+                >
                     <SessionUpcoming
-                        sessionList={sessionList}
+                        sessionList={upcoming}
                         specialistsMap={specialistsMap}
                     />
                 </TabsContent>

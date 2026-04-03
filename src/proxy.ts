@@ -10,24 +10,14 @@ export async function proxy(_req: NextRequest) {
         return NextResponse.redirect(new URL("/auth/login", _req.url));
     }
 
-    // Быстрая проверка — просто декодируем без верификации подписи
     try {
-        const [, payload] = session.split(".");
-        const decoded = JSON.parse(atob(payload));
-        
-        if (decoded.exp * 1000 < Date.now()) {
-            return NextResponse.redirect(new URL("/auth/login", _req.url));
-        }
+        await adminAuth.verifySessionCookie(session, true);
+        return NextResponse.next();
     } catch {
         return NextResponse.redirect(new URL("/auth/login", _req.url));
     }
-
-    return NextResponse.next();
 }
 
-
 export const config = {
-    matcher: [
-        "/account/:path*",
-    ],
+    matcher: ["/account/:path*"],
 };

@@ -17,13 +17,7 @@ export const SpecialistBooking = ({}: {}) => {
 
     return (
         <div className="flex flex-col w-full p-2">
-            {/* <p>Specialist Booking {specialist.firstName} {specialist.lastName}</p> */}
             <div className="flex items-center justify-around">
-                {/* <div className="text-sm text-muted-foreground">
-                    <SessionTypePicker
-                        sessionType={specialistQuery.data.sessionTypes}
-                    />
-                </div> */}
                 <div className="text-sm text-muted-foreground">
                     <SessionDatePicker specialistId={specialistQuery.data.id} sessionType={specialistQuery.data.sessionTypes} meetingFormat={specialistQuery.data.meetingFormat} />
                 </div>

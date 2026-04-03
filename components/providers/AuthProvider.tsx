@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useSetAtom } from "jotai";
@@ -9,7 +9,7 @@ import { authAtom } from "@/src/store/auth/authAtom";
 export default function AuthProvider({ children }: { children: React.ReactNode }) {
     const setAuth = useSetAtom(authAtom);
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
                 setAuth({ user: currentUser, role: "user", loading: false });

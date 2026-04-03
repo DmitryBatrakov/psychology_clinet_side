@@ -1,13 +1,16 @@
 import { Session } from "@/features/session/model/types";
 import { requireAuth } from "@/src/server/authToken/requireAuth";
 import { adminDb } from "@/src/server/firebase/admin";
+import { Timestamp } from "firebase-admin/firestore";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
     try {
         const decoded = await requireAuth(req);
         const uid = decoded.uid;
-        const now = new Date();
+        // const now = new Date();
+
+        const now = Timestamp.now();
 
         const sessionSnap = await adminDb
             .collection("sessions")

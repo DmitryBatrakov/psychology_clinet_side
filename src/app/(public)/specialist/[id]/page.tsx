@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 import { useSpecialistById } from "@/features/specialist/hooks/useSpecialistById";
@@ -10,6 +10,23 @@ import { SpecialistServices } from "@/features/specialist/ui/SpecialistServices"
 import { SpecialistProfileSections } from "@/features/specialist/ui/SpecialistProfileSections";
 import { Faq } from "@/components/faq/Faq";
 
+function resolveReturnTo(
+    rawReturnTo: string | null,
+    fallbackProfession?: string
+): string {
+    if (rawReturnTo) {
+        const decoded = decodeURIComponent(rawReturnTo);
+        if (decoded.startsWith("/catalog")) {
+            return decoded;
+        }
+    }
+
+    if (fallbackProfession) {
+        return `/catalog?profession=${fallbackProfession}`;
+    }
+    return "/catalog";
+}
+
 
 
 export default function SpecialistDetailsPage() {
@@ -17,6 +34,8 @@ export default function SpecialistDetailsPage() {
     const specialistId = Array.isArray(params?.id) ? params.id[0] : params?.id;
     const specialistQuery = useSpecialistById(specialistId);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const returnToRaw = searchParams.get("returnTo");
 
     if (specialistQuery.isPending) return <SpecialistPageSkeleton />;
 
@@ -46,7 +65,9 @@ export default function SpecialistDetailsPage() {
                 <div className="">
                     <Button
                         variant="default"
-                        onClick={() => router.push(`/catalog`)}
+                        onClick={() =>
+                            router.push(resolveReturnTo(returnToRaw))
+                        }
                     >
                         חזרה לקטלוג
                     </Button>
@@ -58,14 +79,24 @@ export default function SpecialistDetailsPage() {
     return (
         <div className="w-full max-w-6xl mx-auto px-4 py-20" dir="rtl">
             <div className="flex justify-end">
-                <Button variant="link" onClick={() => router.push(`/catalog`)}>
+                <Button
+                    variant="link"
+                    onClick={() =>
+                        router.push(
+                            resolveReturnTo(returnToRaw, specialist.profession)
+                        )
+                    }
+                >
                     <span>חזרה לקטלוג</span>
                     <ArrowLeftFromLine className="w-4 h-4" />
                 </Button>
             </div>
             <div className="flex flex-col gap-10 items-center justify-center w-full h-full mx-auto">
                 <SpecialistOverviewCard specialist={specialist} />
-                <SpecialistServices services={specialist.services} />
+                <SpecialistServices
+                    services={specialist.services}
+                    serviceLabels={specialist.serviceLabels ?? {}}
+                />
                 <SpecialistProfileSections specialist={specialist} />
                 <Faq />
             </div>

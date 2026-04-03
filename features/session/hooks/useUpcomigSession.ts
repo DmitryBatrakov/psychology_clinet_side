@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchUpcomingSession } from "@/features/therapy/api/fetchUpcomigSession";
+import { fetchUpcomingSession } from "@/features/session/api/fetchUpcomigSession";
 import { UpcomingSessionResponse } from "@/features/therapy/model/types";
 
 export const useUpcomingSession = (

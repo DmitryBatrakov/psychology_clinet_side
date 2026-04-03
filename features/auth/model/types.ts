@@ -13,4 +13,4 @@ export interface RegisterCredentials {
 
 export interface GoogleAuthResponse {
     customToken: string;
-  }
+}

@@ -1,121 +1,69 @@
 import { useQuery } from "@tanstack/react-query";
-import { specialistData } from "@/mockData/specialist/specialistData";
-import type { SpecialistDTO } from "@/features/specialist/model/types";
-import type { CatalogFilters, CatalogSort } from "@/features/catalog/model/types";
-
-const PROFESSION_ORDER: Record<SpecialistDTO["profession"], number> = {
-    psychologist: 0,
-    therapist: 1,
-    coach: 2,
-};
-
-export type ProfessionFilter = SpecialistDTO["profession"];
+import type {
+    CatalogFilters,
+    CatalogSort,
+    CatalogSpecialistsResponse,
+} from "@/features/catalog/model/types";
 
 export interface UseCatalogSpecialistsParams {
-    page: number;
-    pageSize: number;
+    cursor?: string | null;
+    limit: number;
     /** Фильтры каталога. */
     filters?: CatalogFilters;
     /** Сортировка каталога. */
     sort?: CatalogSort;
 }
 
-export interface CatalogSpecialistsResult {
-    items: SpecialistDTO[];
-    total: number;
-}
-
-function applyFilters(
-    list: SpecialistDTO[],
-    filters: CatalogFilters | undefined,
-    sort: CatalogSort | undefined
-): SpecialistDTO[] {
-    let result = list.slice();
-
-    if (!filters) return applySort(result, sort);
-
-    if (filters.profession != null) {
-        result = result.filter((s) => s.profession === filters.profession);
-    }
-    if (filters.priceMin != null) {
-        result = result.filter((s) => s.pricePerSession >= filters.priceMin!);
-    }
-    if (filters.priceMax != null) {
-        result = result.filter((s) => s.pricePerSession <= filters.priceMax!);
-    }
-    if (filters.gender != null) {
-        result = result.filter((s) => s.gender === filters.gender);
-    }
-    if (filters.services != null && filters.services.length > 0) {
-        const selected = filters.services.map((v) => v.toLowerCase());
-        result = result.filter((s) =>
-            s.services.some((svc) => selected.includes(svc.toLowerCase()))
-        );
-    }
-    if (filters.language != null) {
-        result = result.filter((s) => s.languages.includes(filters.language!));
-    }
-    if (filters.meetingFormat != null) {
-        result = result.filter(
-            (s) => s.meetingFormat === filters.meetingFormat
-        );
-    }
-    if (filters.sessionType != null) {
-        result = result.filter((s) =>
-            s.sessionTypes?.includes(filters.sessionType!)
-        );
-    }
-
-    return applySort(result, sort);
-}
-
-function applySort(
-    list: SpecialistDTO[],
-    sort: CatalogSort | undefined
-): SpecialistDTO[] {
-    const sorted = list.slice();
-    switch (sort) {
-        case "experience_desc":
-            sorted.sort((a, b) => b.experience - a.experience);
-            break;
-        case "experience_asc":
-            sorted.sort((a, b) => a.experience - b.experience);
-            break;
-        case "price_asc":
-            sorted.sort((a, b) => a.pricePerSession - b.pricePerSession);
-            break;
-        case "price_desc":
-            sorted.sort((a, b) => b.pricePerSession - a.pricePerSession);
-            break;
-        case "default":
-        default:
-            sorted.sort((a, b) => {
-                const byProfession =
-                    PROFESSION_ORDER[a.profession] -
-                    PROFESSION_ORDER[b.profession];
-                if (byProfession !== 0) return byProfession;
-                return b.experience - a.experience;
-            });
-            break;
-    }
-    return sorted;
-}
-
 export const useCatalogSpecialists = ({
-    page,
-    pageSize,
+    cursor,
+    limit,
     filters,
     sort = "default",
 }: UseCatalogSpecialistsParams) => {
-    return useQuery<CatalogSpecialistsResult>({
-        queryKey: ["catalog", page, pageSize, filters, sort],
-        queryFn: async (): Promise<CatalogSpecialistsResult> => {
-            const filtered = applyFilters(specialistData, filters, sort);
-            const total = filtered.length;
-            const start = (page - 1) * pageSize;
-            const end = page * pageSize;
-            const items = filtered.slice(start, end);
-            return { items, total };
+    return useQuery<CatalogSpecialistsResponse>({
+        queryKey: ["catalog", cursor ?? null, limit, filters, sort],
+        queryFn: async (): Promise<CatalogSpecialistsResponse> => {
+            const params = new URLSearchParams();
+            params.set("limit", String(limit));
+
+            if (cursor) params.set("cursor", cursor);
+            if (filters?.profession) params.set("profession", filters.profession);
+            if (filters?.gender) params.set("gender", filters.gender);
+            if (filters?.meetingFormat) {
+                params.set("meetingFormat", filters.meetingFormat);
+            }
+            if (filters?.language) params.set("language", filters.language);
+            if (filters?.sessionType) {
+                params.set("sessionType", filters.sessionType);
+            }
+            if (filters?.priceMin != null) {
+                params.set("priceMin", String(filters.priceMin));
+            }
+            if (filters?.priceMax != null) {
+                params.set("priceMax", String(filters.priceMax));
+            }
+            if (filters?.services && filters.services.length > 0) {
+                params.set("services", filters.services.join(","));
+            }
+
+            if (sort && sort !== "default") params.set("sort", sort);
+
+            const res = await fetch(`/api/catalog/specialists?${params.toString()}`);
+            const json = await res.json().catch(() => null);
+
+            if (!res.ok) {
+                throw new Error(json?.error ?? "Failed to load catalog");
+            }
+
+            if (!json) {
+                throw new Error("Invalid response format");
+            }
+
+            return json as CatalogSpecialistsResponse;
         },
+        retry: 1,
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 30,
+        refetchOnWindowFocus: false,
     });
 };

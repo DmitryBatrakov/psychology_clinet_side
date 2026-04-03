@@ -26,8 +26,8 @@ export interface ScheduleRule {
 
     displayHorizonMonths?: 1 | 2 | 3;
 
-    createdAt: Date | Timestamp;
-    updatedAt: Date | Timestamp;
+    createdAt: Date | Timestamp | string;
+    updatedAt: Date | Timestamp | string;
 }
 
 export type ScheduleOverrideType = "block" | "custom" | "add";
@@ -50,6 +50,6 @@ export interface ScheduleOverride {
     // add => append to weekly intervals
     addIntervals?: TimeInterval[];
 
-    createdAt: Date | Timestamp;
-    updatedAt: Date | Timestamp;
+    createdAt: Date | Timestamp | string;
+    updatedAt: Date | Timestamp | string;
 }

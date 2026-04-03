@@ -16,11 +16,11 @@ import {
 import { cn } from "@/lib/utils";
 
 export const Header = () => {
-    const { user } = useAtomValue(authAtom);
+    const { user, loading } = useAtomValue(authAtom);
     const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
-    const isMainPage = pathname === '/'
+    const isMainPage = pathname === "/";
 
     const handleAuthClick = () => {
         if (user) {
@@ -36,15 +36,18 @@ export const Header = () => {
     };
 
     return (
-        <header className={cn("flex items-center justify-between px-4 h-20 max-w-[1920px] w-full mx-auto top-0 left-0 z-30", isMainPage ? 'absolute' : 'relative')}>
+        <header
+            className={cn(
+                "flex items-center justify-between px-4 h-20 max-w-[1920px] w-full mx-auto top-0 left-0 z-30",
+                isMainPage ? "absolute" : "relative",
+            )}
+        >
             <div className="hidden lg:flex items-center justify-between w-full">
-                <div className="flex items-center justify-center">
-                    {user ? (
-                        <button
-                            className="cursor-pointer"
-                            onClick={() => router.push("/account/therapy")}
-                            aria-label="Open profile"
-                        >
+                <div className="flex items-center justify-center min-w-40">
+                    {loading ? (
+                        <div className="w-10 h-10 rounded-full bg-neutral-300 animate-pulse" />
+                    ) : user ? (
+                        <button onClick={() => router.push("/account/therapy")}>
                             <CircleUser size={40} color="gray" />
                         </button>
                     ) : (
@@ -63,7 +66,7 @@ export const Header = () => {
                     </Link>
                     <Link href="/about">קצת עלינו</Link>
                     <Link href="/catalog">אנשי מקצוע</Link>
-                    <Link href="/specialists">מידע למטפלים</Link>
+                    <Link href="/for-specialists">מידע למטפלים</Link>
                 </nav>
 
                 <div className="flex items-center justify-center">
@@ -103,10 +106,7 @@ export const Header = () => {
                         </DrawerHeader>
                         <div className="px-4 pb-4">
                             <nav className="flex flex-col gap-3">
-                                <Link
-                                    href="/"
-                                    onClick={handleNavigate}
-                                >
+                                <Link href="/" onClick={handleNavigate}>
                                     עמוד הבית
                                 </Link>
                                 <Link href="/about" onClick={handleNavigate}>
@@ -123,12 +123,14 @@ export const Header = () => {
                                 </Link>
                             </nav>
                             <div className="mt-4">
-                                <button
-                                    className="w-full rounded bg-primary px-4 py-2 text-white"
-                                    onClick={handleAuthClick}
-                                >
-                                    {user ? "פרופיל" : "התחברות"}
-                                </button>
+                                {!loading && (
+                                    <button
+                                        className="w-full rounded bg-primary px-4 py-2 text-white"
+                                        onClick={handleAuthClick}
+                                    >
+                                        {user ? "פרופיל" : "התחברות"}
+                                    </button>
+                                )}
                             </div>
                         </div>
                     </DrawerContent>

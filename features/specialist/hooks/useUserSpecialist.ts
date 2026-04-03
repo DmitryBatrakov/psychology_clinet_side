@@ -1,22 +1,23 @@
 import { useQuery } from "@tanstack/react-query";
-import { specialistData } from "@/mockData/specialist/specialistData";
-import { sessionData } from "@/mockData/sessions/sessionData";
 import { SpecialistDTO } from "../model/types";
+import { fetchUsersSpecialist } from "../api/fetchUsersSpecialist";
 
 export const useUserSpecialists = (
     uid: string | null,
-    authLoading: boolean
+    authLoading: boolean,
+    specialistIds: string[]
 ) => {
-    return useQuery<SpecialistDTO[]>({
-        queryKey: ["user-specialists", uid],
-        queryFn: async () => {
-            const userSessions = sessionData.filter((s) => s.userId === uid);
-            const specialistIds = [
-                ...new Set(userSessions.map((s) => s.specialistId)),
-            ];
+    const uniqueIds = [...new Set(specialistIds)].sort();
 
-            return specialistData.filter((s) => specialistIds.includes(s.id));
-        },
-        enabled: !authLoading && !!uid,
+    return useQuery<SpecialistDTO[]>({
+        queryKey: ["user-specialists", uid, uniqueIds],
+        queryFn: () => fetchUsersSpecialist(uniqueIds),
+        enabled: !authLoading && !!uid && uniqueIds.length > 0,
+        staleTime: 1000 * 60 * 5,
+        gcTime: 1000 * 60 * 30,
+        retry: 1,
+        refetchOnWindowFocus: false,
+        refetchOnReconnect: false,
+        refetchOnMount: false,
     });
 };

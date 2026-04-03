@@ -16,20 +16,10 @@ export function SessionUpcoming({
     sessionList,
     specialistsMap,
 }: SessionUpcomingProps) {
-    const now = new Date();
-    const upcomingSessions = sessionList
-        .filter((s) => s.status === "upcoming" && new Date(s.startAt) > now)
-        .sort(
-            (a, b) =>
-                new Date(a.startAt).getTime() - new Date(b.startAt).getTime(),
-        );
-
-    if (upcomingSessions.length === 0) {
+    if (sessionList.length === 0) {
         return (
             <div className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">
-                <p className="text-sm">
-                    אין לך פגישות קרובות.
-                </p>
+                <p className="text-sm">אין לך פגישות קרובות.</p>
                 אפשרות: <Link href="/catalog">קבע פגישה</Link>
             </div>
         );
@@ -37,11 +27,12 @@ export function SessionUpcoming({
 
     return (
         <div className="grid grid-cols-1 gap-5  overflow-y-auto" dir="rtl">
-            {upcomingSessions.map((s) => {
+            {sessionList.map((s) => {
                 const specialist = specialistsMap.get(s.specialistId);
                 const specialistName = specialist
                     ? `${specialist.firstName} ${specialist.lastName}`
-                    : s.specialistId;
+                    : "לא זמין";
+
                 return (
                     <Card key={s.id}>
                         <CardHeader>
@@ -58,6 +49,7 @@ export function SessionUpcoming({
                                             alt={specialistName}
                                             width={100}
                                             height={100}
+                                            className="rounded-full object-cover"
                                         />
                                     ) : (
                                         <CircleUserRound
@@ -69,39 +61,40 @@ export function SessionUpcoming({
                                         <p className="text-lg font-semibold">
                                             {specialistName}
                                         </p>
-                                        <p>{specialist?.profession}</p>
+                                        <p>{specialist?.profession ?? "—"}</p>
                                         <p>
-                                            {specialist?.experience} שנות ניסיון
+                                            {specialist?.experience ?? 0} שנות
+                                            ניסיון
                                         </p>
                                     </div>
                                 </div>
-                                <div className=" flex flex-col gap-2 justify-center items-center">
-                                    <p>תאריך: {formatSessionDate(s.startAt)}</p>
-                                    <p>שעה: {formatSessionTime(s.startAt)}</p>
+                            <div className=" flex flex-col gap-2 justify-center items-center">
+                                <p>תאריך: {formatSessionDate(s.startAt)}</p>
+                                <p>שעה: {formatSessionTime(s.startAt)}</p>
+                            </div>
+                            <div className="flex flex-col gap-2 justify-center items-start">
+                                <div className="flex gap-2">
+                                    <span>נושא:</span>
+                                    <span>{s.desription}</span>
                                 </div>
-                                <div className="flex flex-col gap-2 justify-center items-left">
-                                    <div className="flex gap-2">
-                                        <span>נושא:</span>
-                                        <span>{s.desription}</span>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <span>פורמט פגישה:</span>
-                                        <span>{s.meetingFormat}</span>
-                                    </div>
-                                </div>
-
-                                <div className="col-start-2 flex flex-col gap-2">
-                                    <Button
-                                        variant="default"
-                                        className=" bg-blue-700"
-                                    >
-                                        הצטרף
-                                    </Button>
-                                    <Button variant="destructive" className="">
-                                        ביטול
-                                    </Button>
+                                <div className="flex gap-2">
+                                    <span>פורמט פגישה:</span>
+                                    <span>{s.meetingFormat}</span>
                                 </div>
                             </div>
+
+                            <div className="col-start-2 flex flex-col gap-2">
+                                <Button
+                                    variant="default"
+                                    className=" bg-blue-700"
+                                >
+                                    הצטרף
+                                </Button>
+                                <Button variant="destructive" className="">
+                                    ביטול
+                                </Button>
+                            </div>
+                        </div>
                         </CardContent>
                     </Card>
                 );

@@ -9,7 +9,7 @@ import {
 import type { SpecialistDTO } from "@/features/specialist/model/types";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CatalogLanguage } from "../model/catalogEnums";
 
 const PROFESSION_LABELS: Record<SpecialistDTO["profession"], string> = {
@@ -35,12 +35,15 @@ export function CatalogSpecialistCard({
     const name = `${specialist.firstName} ${specialist.lastName}`;
     const professionLabel = PROFESSION_LABELS[specialist.profession];
     const router = useRouter();
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
     const languagesLabel = specialist.languages
         .map((lang) => LANGUAGE_LABELS[lang])
         .join(", ");
-
-    console.log(specialist.id);
     const fileIcon = '/assets/images/images.jpeg';
+    const currentCatalogUrl = `${pathname}${
+        searchParams.toString() ? `?${searchParams.toString()}` : ""
+    }`;
 
     return (
         <Card className="overflow-hidden ">
@@ -98,7 +101,11 @@ export function CatalogSpecialistCard({
                     <Button
                         variant="default"
                         onClick={() =>
-                            router.push(`/specialist/${specialist.id}`)
+                            router.push(
+                                `/specialist/${specialist.id}?returnTo=${encodeURIComponent(
+                                    currentCatalogUrl
+                                )}`
+                            )
                         }
                     >
                         View Profile

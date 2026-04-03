@@ -11,6 +11,6 @@ export interface TherapistFaqItem {
 }
 
 export interface UpcomingSessionResponse  {
-    session: SessionDTO;
-    specialist: SpecialistDTO;
+    session: SessionDTO | null;
+    specialist: SpecialistDTO | null;
 }

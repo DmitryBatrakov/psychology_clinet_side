@@ -9,7 +9,6 @@ import {
     PaginationLink,
     PaginationPrevious,
     PaginationNext,
-    PaginationEllipsis,
 } from "@/components/ui/pagination";
 import {
     PAGE_SIZE,
@@ -20,7 +19,9 @@ import { CatalogSkeleton } from "./CatalogSkeleton";
 export interface CatalogGridProps {
     items: SpecialistDTO[];
     page: number;
-    totalPages: number;
+    knownPages: number[];
+    hasPrev: boolean;
+    hasNext: boolean;
     createPageUrl: (page: number) => string;
     isPending: boolean;
     isError: boolean;
@@ -30,7 +31,9 @@ export interface CatalogGridProps {
 export function CatalogGrid({
     items,
     page,
-    totalPages,
+    knownPages,
+    hasPrev,
+    hasNext,
     createPageUrl,
     isPending,
     isError,
@@ -64,9 +67,6 @@ export function CatalogGrid({
         {} as Record<"psychologist" | "therapist" | "coach", typeof items>,
     );
 
-    const hasPrev = page > 1;
-    const hasNext = page < totalPages;
-
     return (
         <div className=" h-full ">
             <div className="space-y-8 w-full pb-6 max-w-4xl">
@@ -87,7 +87,7 @@ export function CatalogGrid({
                     );
                 })}
             </div>
-            {totalPages > 1 && (
+            {(hasPrev || hasNext) && (
                 <Pagination className="mt-6">
                     <PaginationContent>
                         <PaginationItem>
@@ -101,26 +101,38 @@ export function CatalogGrid({
                                 }
                             />
                         </PaginationItem>
-                        {Array.from({ length: totalPages }, (_, i) => i + 1)
-                            .filter((p) => {
-                                if (totalPages <= 7) return true;
-                                if (p === 1 || p === totalPages) return true;
-                                if (Math.abs(p - page) <= 1) return true;
-                                return false;
-                            })
-                            .map((p, idx, arr) => (
-                                <PaginationItem key={p}>
-                                    {idx > 0 && arr[idx - 1] !== p - 1 && (
+                        {knownPages.map((knownPage) => (
+                            <PaginationItem key={knownPage}>
+                                <PaginationLink
+                                    href={createPageUrl(knownPage)}
+                                    isActive={knownPage === page}
+                                >
+                                    {knownPage}
+                                </PaginationLink>
+                            </PaginationItem>
+                        ))}
+                        {/* pagination with ellipsis */}
+                        {/* {knownPages.flatMap((knownPage, idx) => {
+                            const nodes = [];
+                            if (idx > 0 && knownPages[idx - 1] !== knownPage - 1) {
+                                nodes.push(
+                                    <PaginationItem key={`ellipsis-${knownPage}`}>
                                         <PaginationEllipsis />
-                                    )}
+                                    </PaginationItem>
+                                );
+                            }
+                            nodes.push(
+                                <PaginationItem key={knownPage}>
                                     <PaginationLink
-                                        href={createPageUrl(p)}
-                                        isActive={p === page}
+                                        href={createPageUrl(knownPage)}
+                                        isActive={knownPage === page}
                                     >
-                                        {p}
+                                        {knownPage}
                                     </PaginationLink>
                                 </PaginationItem>
-                            ))}
+                            );
+                            return nodes;
+                        })} */}
                         <PaginationItem>
                             <PaginationNext
                                 href={createPageUrl(page + 1)}

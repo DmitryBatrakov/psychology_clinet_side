@@ -1,16 +1,16 @@
 import { Session } from "@/features/session/model/types";
 import { requireAuth } from "@/src/server/authToken/requireAuth";
 import { adminDb } from "@/src/server/firebase/admin";
+import { Timestamp } from "firebase-admin/firestore";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-    console.log("GET request upcoming-session route");
     try {
         const decoded = await requireAuth(req);
         const uid = decoded.uid;
-        const now = new Date();
+        // const now = new Date();
 
-        console.log("uid", uid);
+        const now = Timestamp.now();
 
         const sessionSnap = await adminDb
             .collection("sessions")
@@ -33,27 +33,20 @@ export async function GET(req: Request) {
             ...(sessionDoc.data() as Omit<Session, "id">),
         };
 
-        console.log("session", session.specialistId);
-
         const specialistSnap = await adminDb
             .collection("specialists")
-            .where("id", "==", session.specialistId)
-            .limit(1)
+            .doc(session.specialistId)
             .get();
-        if (specialistSnap.empty) {
+        if (!specialistSnap.exists) {
             return NextResponse.json(
                 { error: "Specialist not found" },
                 { status: 404 },
             );
         }
-        const specialistDoc = specialistSnap.docs[0];
         const specialist = {
-            id: specialistDoc.id, 
-            ...specialistDoc.data(),
+            ...specialistSnap.data(),
+            id: specialistSnap.id,
         };
-
-        console.log("specialist", specialist.id);
-
         return NextResponse.json({ session, specialist }, { status: 200 });
     } catch (error) {
         console.error(error);

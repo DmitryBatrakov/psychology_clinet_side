@@ -1,5 +1,4 @@
 import { useUpcomingSession } from "@/features/session/hooks/useUpcomigSession";
-import { useUserCurrentSpecialist } from "@/features/specialist/hooks/useUserCurrentSpecialist";
 import { useUserData } from "@/features/user/hooks/useUserData";
 import { authAtom } from "@/src/store/auth/authAtom";
 import { useAtomValue } from "jotai";

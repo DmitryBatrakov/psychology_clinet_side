@@ -13,7 +13,12 @@ export async function proxy(_req: NextRequest) {
     try {
         await adminAuth.verifySessionCookie(session, true);
         return NextResponse.next();
-    } catch {
+    } catch (error: unknown) {
+        if (error instanceof Object && "code" in error && error.code === "auth/session-cookie-expired") {
+            const refreshUrl = new URL("/auth/refresh-session", _req.url);
+            refreshUrl.searchParams.set("redirect", _req.nextUrl.pathname);
+            return NextResponse.redirect(refreshUrl);
+        }
         return NextResponse.redirect(new URL("/auth/login", _req.url));
     }
 }

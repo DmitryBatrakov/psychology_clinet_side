@@ -53,7 +53,7 @@ export default function LoginPage() {
             const userCredential = await login(data.email, data.password);
             const idToken = await userCredential.user.getIdToken();
 
-            await fetch("/api/auth/session/login", {
+            await fetch("/api/auth/session-cookies/login", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ idToken }),
@@ -67,6 +67,7 @@ export default function LoginPage() {
             }
 
             router.push("/account/therapy");
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
             setServerError("Неверный логин или пароль");
             console.error(err);
@@ -162,6 +163,7 @@ export default function LoginPage() {
                                     notify.success(
                                         "Login with Google successful!",
                                     ),
+                                   
                                 onError: (error) =>
                                     notify.error(getErrorMessage(error)),
                             })

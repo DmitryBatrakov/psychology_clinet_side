@@ -34,7 +34,7 @@ export const useGoogleAuth = () => {
                 await signInWithCustomToken(auth, json.customToken);
             }
 
-            await fetch("/api/auth/session/login", {
+            await fetch("/api/auth/session-cookies/login", { 
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ idToken }),
@@ -47,7 +47,7 @@ export const useGoogleAuth = () => {
             if (!userData.profileComplete) {
                 router.replace("/auth/onboarding");
             } else {
-                router.replace("/");
+                router.replace("/account/therapy");
             }
         },
     });

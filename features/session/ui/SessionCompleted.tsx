@@ -25,6 +25,14 @@ export function SessionCompleted({
         return s ? `${s.firstName} ${s.lastName}` : "—";
     };
 
+    if (sessionList.length === 0) {
+        return (
+            <div className="p-8 text-center text-muted-foreground min-h-[calc(100vh-12rem)] flex flex-col gap-5 justify-center items-center">
+                <p className="text-base">אין לך פגישות שהסתיימו.</p>
+            </div>
+        );
+    }
+
     return (
         <Table dir="rtl">
             <TableCaption>רשימת הפגישות שהסתיימו</TableCaption>
@@ -67,3 +75,4 @@ export function SessionCompleted({
         </Table>
     );
 }
+

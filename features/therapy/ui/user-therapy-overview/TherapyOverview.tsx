@@ -1,6 +1,5 @@
 "use client";
 
-//import Image from "next/image";
 import { TherapyData } from "../../hooks/useTherapyData";
 import { CircleUserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,9 +24,6 @@ export const TherapyOverview = ({
 }: TherapyDataProps) => {
     const specialist = upcomingSessionData.data?.specialist;
     const session = upcomingSessionData.data?.session;
-
-    const hasUpcoming = !!upcomingSessionData.data?.session && !!upcomingSessionData.data?.specialist;
-
 
     return (
         <div className="flex flex-col justify-center items-center ">
@@ -106,10 +102,12 @@ export const TherapyOverview = ({
                                     </div>
                                     <div className="flex justify-start items-center gap-2 text-[1rem]">
                                         <span>לינק לפגישה:</span>
-                                        
+
                                         <span className="">
                                             <Link
-                                                href={session?.meetingUrl as string}
+                                                href={
+                                                    session?.meetingUrl as string
+                                                }
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="text-blue-500 hover:text-blue-700"
@@ -121,8 +119,26 @@ export const TherapyOverview = ({
                                 </div>
                             </div>
                         ) : (
-                            <div className="flex items-center justify-center gap-2 text-center py-4 h-full">
-                                {upcomingSessionData.isLoading &&  <p>כרגע אין לך פגישות</p>}
+                            <div className="flex flex-col items-center justify-center gap-5 text-center py-4 h-full text-black">
+                                {upcomingSessionData.isLoading && (
+                                    <div className="flex items-center justify-center gap-2">
+                                        <p>טוען פגישות</p>
+                                        <Spinner className="size-4" />
+                                    </div>
+                                )}
+                                {!upcomingSessionData.isLoading &&
+                                    !upcomingSessionData.isError && (
+                                        <p>כרגע אין לך פגישות</p>
+                                    )}
+                                {upcomingSessionData.isError && (
+                                    <p>שגיאה בטעינת הפגישות</p>
+                                )}
+                                <Link
+                                    href="/catalog"
+                                    className="py-3 px-4 bg-secondary text-white rounded-lg"
+                                >
+                                    קבע פגישה חדשה
+                                </Link>
                             </div>
                         )}
                     </div>
@@ -139,4 +155,3 @@ export const TherapyOverview = ({
         </div>
     );
 };
-

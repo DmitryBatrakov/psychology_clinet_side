@@ -1,4 +1,3 @@
-// app/api/auth/session/route.ts
 import { adminAuth } from "@/src/server/firebase/admin";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";

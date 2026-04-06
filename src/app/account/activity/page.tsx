@@ -36,15 +36,8 @@ export default function ActivityPage() {
         return new Map<string, SpecialistDTO>(list.map((s) => [s.id, s]));
     }, [specialistsData.data]);
 
-    // const isSpecialistsInitialLoading =
-    //     specialistIds.length > 0 && specialistsData.isLoading;
-
-    // if (sessionData.isLoading || isSpecialistsInitialLoading) {
-    //     return <div>טוען...</div>;
-    // }
-
     if (sessionData.isLoading) {
-        return <div>טוען...</div>;
+        return <ActivitySkeleton />;
     }
 
     if (sessionData.isError || specialistsData.isError) {
@@ -52,20 +45,20 @@ export default function ActivityPage() {
     }
 
     return (
-        <div className="flex w-full flex-col items-center justify-center gap-6">
+        <div className="flex w-full flex-col items-center justify-center gap-6 px-2 sm:px-4">
             <Tabs defaultValue={TAB.SESSIONS} className="w-full max-w-4xl">
                 <TabsList variant="line" className="w-full">
-                    <TabsTrigger value={TAB.PAYMENTS} className="flex-1">
+                    <TabsTrigger value={TAB.PAYMENTS} className="flex-1 py-2.5 text-sm sm:text-base">
                         פגישות שהסתיימו
                     </TabsTrigger>
-                    <TabsTrigger value={TAB.SESSIONS} className="flex-1">
+                    <TabsTrigger value={TAB.SESSIONS} className="flex-1 py-2.5 text-sm sm:text-base">
                         פגישות קרובות
                     </TabsTrigger>
                 </TabsList>
 
                 <TabsContent
                     value={TAB.PAYMENTS}
-                    className="mt-8 max-h-[calc(100vh-12rem)] overflow-y-auto"
+                    className="mt-6 sm:mt-8"
                 >
                     <SessionCompleted
                         sessionList={past}
@@ -75,7 +68,7 @@ export default function ActivityPage() {
 
                 <TabsContent
                     value={TAB.SESSIONS}
-                    className="mt-8 max-h-[calc(100vh-12rem)] overflow-y-auto"
+                    className="mt-6 sm:mt-8"
                 >
                     <SessionUpcoming
                         sessionList={upcoming}
@@ -83,6 +76,20 @@ export default function ActivityPage() {
                     />
                 </TabsContent>
             </Tabs>
+        </div>
+    );
+}
+
+function ActivitySkeleton() {
+    return (
+        <div className="flex flex-col justify-start items-center w-full min-h-[calc(100vh-5rem)] max-w-4xl mx-auto">
+            <div className="w-full max-w-3xl">
+                <div className="grid w-full gap-5 grid-cols-1 md:grid-cols-2 min-h-60">
+                    <div className="rounded-md bg-gray-200 min-w-20 flex flex-col justify-between items-center gap-6 p-4 animate-pulse"></div>
+                    <div className="rounded-md bg-gray-200 min-w-20 flex flex-col justify-between items-center gap-6 p-4 animate-pulse"></div>
+                    <div className="col-span-2 rounded-md bg-gray-200  h-80 w-full flex flex-col justify-between items-center gap-6 p-4 animate-pulse"></div>
+                </div>
+            </div>
         </div>
     );
 }

@@ -5,4 +5,4 @@ export async function POST() {
     const cookieStore = await cookies();
     cookieStore.delete("__session");
     return NextResponse.json({ success: true });
-}
+} 

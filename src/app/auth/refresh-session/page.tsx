@@ -1,12 +1,10 @@
 "use client";
 
-export const dynamic = "force-dynamic";
-
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { auth } from "@/lib/firebase";
 
-export default function RefreshSessionPage() {
+function RefreshSession() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const redirect = searchParams.get("redirect") || "/account/therapy";
@@ -37,4 +35,12 @@ export default function RefreshSessionPage() {
     }, [redirect, router]);
 
     return null;
+}
+
+export default function RefreshSessionPage() {
+    return (
+        <Suspense>
+            <RefreshSession />
+        </Suspense>
+    );
 }

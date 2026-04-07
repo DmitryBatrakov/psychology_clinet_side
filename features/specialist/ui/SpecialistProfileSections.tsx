@@ -1,21 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import {
-    Carousel,
-    CarouselApi,
-    CarouselContent,
-    CarouselItem,
-} from "@/components/ui/carousel";
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { getServiceLabel } from "@/features/catalog/model/serviceTopics";
 import type { SpecialistDTO } from "../model/types";
-import {
-    LANGUAGE_LABELS,
-    MEETING_FORMAT_LABELS,
-    PROFESSION_LABELS,
-    SESSION_TYPE_LABELS,
-} from "../model/specialistLabels";
+import { WORK_METHOD_LABELS } from "../model/specialistLabels";
 
 type SectionKey = "about" | "method" | "education" | "values";
 
@@ -33,80 +21,71 @@ interface SpecialistProfileSectionsProps {
 export const SpecialistProfileSections = ({
     specialist,
 }: SpecialistProfileSectionsProps) => {
-    const [api, setApi] = useState<CarouselApi>();
-    const [activeIndex, setActiveIndex] = useState(0);
+    const [activeTab, setActiveTab] = useState<SectionKey>("about");
 
-    const sections = useMemo(() => {
-        const fullName = `${specialist.firstName} ${specialist.lastName}`;
-        const profession =
-            PROFESSION_LABELS[specialist.profession] ?? specialist.profession;
-        const languages = specialist.languages
-            .map((lang) => LANGUAGE_LABELS[lang] ?? lang)
-            .join(", ");
-        const meetingFormat =
-            MEETING_FORMAT_LABELS[specialist.meetingFormat] ??
-            specialist.meetingFormat;
-        const sessionTypes = specialist.sessionTypes
-            .map((type) => SESSION_TYPE_LABELS[type] ?? type)
-            .join(", ");
-        const topServices = specialist.services
-            .slice(0, 8)
-            .map((service) => getServiceLabel(service))
-            .join(", ");
+    const renderContent = () => {
+        switch (activeTab) {
+            case "about":
+                return <p>{specialist.about || "—"}</p>;
 
-        return {
-            // TODO: replace temporary mapping with dedicated API fields.
-            about: `${fullName} — ${profession}. Опыт: ${specialist.experience} лет. Стоимость сессии: ₪${specialist.pricePerSession}.`,
-            method: `Формат встреч: ${meetingFormat}. Типы сессий: ${sessionTypes || "не указано"}.`,
-            education: `Временный контент до API: рабочие языки специалиста — ${languages || "не указано"}.`,
-            values: `Временный контент до API: ключевые темы — ${topServices || "не указано"}.`,
-        };
-    }, [specialist]);
+            case "method":
+                if (!specialist.workMethods.length) return <p>—</p>;
+                return (
+                    <ul className="list-disc list-inside space-y-1">
+                        {specialist.workMethods.map((method) => (
+                            <li key={method}>
+                                {WORK_METHOD_LABELS[method] ?? method}
+                            </li>
+                        ))}
+                    </ul>
+                );
 
+            case "education": {
+                const { mainDegree, additionalDegrees } = specialist;
+                const hasDegrees =
+                    mainDegree.degreeName || additionalDegrees.length > 0;
+                if (!hasDegrees) return <p>—</p>;
+                return (
+                    <div className="space-y-3">
+                        {mainDegree.degreeName && (
+                            <div>
+                                <p className="font-semibold">{mainDegree.degreeName}</p>
+                                {mainDegree.description && (
+                                    <p className="text-muted-foreground">{mainDegree.description}</p>
+                                )}
+                            </div>
+                        )}
+                        {additionalDegrees.map((degree, i) => (
+                            <div key={i}>
+                                <p className="font-semibold">{degree.degreeName}</p>
+                                {degree.description && (
+                                    <p className="text-muted-foreground">{degree.description}</p>
+                                )}
+                            </div>
+                        ))}
+                    </div>
+                );
+            }
 
-    useEffect(() => {
-        if (!api) return;
-
-        const onSelect = () => {
-            setActiveIndex(api.selectedScrollSnap());
-        };
-
-        onSelect();
-        api.on("select", onSelect);
-        api.on("reInit", onSelect);
-
-        return () => {
-            api.off("select", onSelect);
-            api.off("reInit", onSelect);
-        };
-    }, [api]);
-
-    const handleTabClick = (index: number) => {
-        api?.scrollTo(index);
-        setActiveIndex(index);
+            case "values":
+                return <p>{specialist.values || "—"}</p>;
+        }
     };
-
-    const sectionItems = [
-        sections.about,
-        sections.method,
-        sections.education,
-        sections.values,
-    ];
 
     return (
         <Card className="w-full overflow-hidden">
             <div className="border-b">
-                <div className="flex items-center gap-1  px-2 sm:px-0">
-                    {SECTION_TABS.map((tab, index) => {
-                        const isActive = index === activeIndex;
+                <div className="flex items-center gap-1 px-2 sm:px-0">
+                    {SECTION_TABS.map((tab) => {
+                        const isActive = tab.key === activeTab;
                         return (
                             <button
                                 key={tab.key}
                                 type="button"
-                                onClick={() => handleTabClick(index)}
+                                onClick={() => setActiveTab(tab.key)}
                                 className={`relative shrink-0 px-4 py-3 text-xs sm:text-sm md:px-6 md:py-4 md:text-base whitespace-nowrap transition-colors font-semibold ${
                                     isActive
-                                        ? "text-primary "
+                                        ? "text-primary"
                                         : "text-muted-foreground hover:text-foreground"
                                 }`}
                             >
@@ -123,21 +102,9 @@ export const SpecialistProfileSections = ({
             </div>
 
             <CardContent className="p-0">
-                <Carousel
-                    setApi={setApi}
-                    opts={{ align: "start", direction: "rtl", containScroll: "trimSnaps" }}
-                    className="w-full"
-                >
-                    <CarouselContent>
-                        {sectionItems.map((sectionText, index) => (
-                            <CarouselItem key={SECTION_TABS[index].key}>
-                                <div className="h-48 overflow-y-auto px-4 py-4 text-sm leading-6 text-muted-foreground sm:h-52 sm:px-6 sm:py-5 sm:text-base sm:leading-7">
-                                    {sectionText}
-                                </div>
-                            </CarouselItem>
-                        ))}
-                    </CarouselContent>
-                </Carousel>
+                <div className="h-48 overflow-y-auto px-4 py-4 text-sm leading-6 text-muted-foreground sm:h-52 sm:px-6 sm:py-5 sm:text-base sm:leading-7">
+                    {renderContent()}
+                </div>
             </CardContent>
         </Card>
     );

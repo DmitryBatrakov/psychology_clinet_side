@@ -42,7 +42,6 @@ export const SpecialistBio = ({
 
     return (
         <div className="overflow-hidden w-full">
-            {/* <CardHeader className="p-0">Header</CardHeader> */}
             <div className="space-y-4 text-right flex flex-col md:flex-row  items-center justify-start gap-5 md:gap-20">
                 <div className="flex items-center justify-between">
                     <div className=" flex items-center justify-start w-full">

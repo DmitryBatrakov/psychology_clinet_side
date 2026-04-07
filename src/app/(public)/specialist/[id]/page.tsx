@@ -9,10 +9,11 @@ import { SpecialistOverviewCard } from "@/features/specialist/ui/SpecialistOverv
 import { SpecialistServices } from "@/features/specialist/ui/SpecialistServices";
 import { SpecialistProfileSections } from "@/features/specialist/ui/SpecialistProfileSections";
 import { Faq } from "@/components/faq/Faq";
+import { Separator } from "@/components/ui/separator";
 
 function resolveReturnTo(
     rawReturnTo: string | null,
-    fallbackProfession?: string
+    fallbackProfession?: string,
 ): string {
     if (rawReturnTo) {
         const decoded = decodeURIComponent(rawReturnTo);
@@ -27,8 +28,6 @@ function resolveReturnTo(
     return "/catalog";
 }
 
-
-
 export default function SpecialistDetailsPage() {
     const params = useParams<{ id: string | string[] }>();
     const specialistId = Array.isArray(params?.id) ? params.id[0] : params?.id;
@@ -37,7 +36,12 @@ export default function SpecialistDetailsPage() {
     const searchParams = useSearchParams();
     const returnToRaw = searchParams.get("returnTo");
 
-    if (specialistQuery.isPending) return <SpecialistPageSkeleton />;
+    if (specialistQuery.isPending)
+        return (
+            <div className="px-4 w-full max-w-6xl mx-auto py-10">
+                <SpecialistPageSkeleton />
+            </div>
+        );
 
     if (specialistQuery.isError) {
         return (
@@ -60,7 +64,7 @@ export default function SpecialistDetailsPage() {
                     המומחה לא נמצא
                 </h1>
                 <p className="text-muted-foreground text-right">
-                     בחר מומחה מהקטלוג מחדש 
+                    בחר מומחה מהקטלוג מחדש
                 </p>
                 <div className="">
                     <Button
@@ -83,7 +87,7 @@ export default function SpecialistDetailsPage() {
                     variant="link"
                     onClick={() =>
                         router.push(
-                            resolveReturnTo(returnToRaw, specialist.profession)
+                            resolveReturnTo(returnToRaw, specialist.profession),
                         )
                     }
                 >
@@ -92,6 +96,7 @@ export default function SpecialistDetailsPage() {
                 </Button>
             </div>
             <div className="flex flex-col gap-10 items-center justify-center w-full h-full mx-auto">
+                {/* <SpecialistPageSkeleton /> */}
                 <SpecialistOverviewCard specialist={specialist} />
                 <SpecialistServices
                     services={specialist.services}
@@ -106,8 +111,35 @@ export default function SpecialistDetailsPage() {
 
 function SpecialistPageSkeleton() {
     return (
-        <div className="w-full max-w-5xl mx-auto px-4 py-8" dir="rtl">
-            <div className="rounded-xl border bg-card min-h-[420px] animate-pulse" />
+        <div
+            className="w-full max-w-6xl mx-auto flex flex-col gap-10 border bg-accent/10 rounded-xl my-20 p-6"
+            dir="rtl"
+        >
+            <div className="w-full flex gap-15 items-start justify-start">
+                <div className="flex flex-col items-start justify-start gap-4">
+                    <div className="w-60 h-60 rounded-full bg-accent/20 " />
+                </div>
+
+                <div className="flex flex-col gap-30 items-start justify-around">
+                    <div className="w-full flex flex-col gap-3 items-start justify-start">
+                        <div className="w-50 h-5 bg-accent/20 animate-pulse" />
+                        <span className="w-32 h-3 bg-accent/20 animate-pulse" />
+                        <span className="w-24 h-3 bg-accent/20 animate-pulse" />
+                    </div>
+                    <div className="grid grid-cols-2 gap-2 md:gap-10 items-start">
+                        <div className="flex flex-col gap-4 text-sm justify-center items-start">
+                            <div className="w-50 h-4 bg-accent/20 animate-pulse" />
+                            <div className="w-50 h-4 bg-accent/20 animate-pulse" />
+                        </div>
+                        <div className="flex flex-col gap-4 text-sm justify-center items-start">
+                            <div className="w-50 h-4 bg-accent/20 animate-pulse" />
+                            <div className="w-50 h-4 bg-accent/20 animate-pulse" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Separator />
+            <div className="h-80" />
         </div>
     );
 }

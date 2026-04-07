@@ -1,8 +1,81 @@
-import type { SpecialistDTO } from "@/features/specialist/model/types";
+import type {
+    Degree,
+    Profession,
+    SpecialistDTO,
+    WorkMethod,
+} from "@/features/specialist/model/types";
 
-type SpecialistMock = SpecialistDTO;
+type SpecialistMockBase = Omit<
+    SpecialistDTO,
+    "about" | "workMethods" | "mainDegree" | "additionalDegrees" | "values"
+>;
 
-export const specialistData: SpecialistMock[] = [
+const ABOUT_BY_PROFESSION: Record<Profession, string> = {
+    psychologist:
+        "Помогаю бережно пройти через кризисы, улучшить эмоциональное состояние и выстроить устойчивые стратегии самоподдержки.",
+    therapist:
+        "Работаю с тревогой, травматическим опытом и отношениями, создавая безопасное пространство для постепенных изменений.",
+    coach:
+        "Помогаю прояснить цели, выстроить реалистичный план действий и двигаться к результату без выгорания.",
+};
+
+const VALUES_BY_PROFESSION: Record<Profession, string> = {
+    psychologist:
+        "Бережность, конфиденциальность, уважение границ и фокус на устойчивых долгосрочных изменениях.",
+    therapist:
+        "Эмпатия, принятие, профессиональная этика и работа в темпе клиента.",
+    coach: "Партнерство, ответственность, честная обратная связь и ориентация на практический результат.",
+};
+
+const WORK_METHODS_BY_PROFESSION: Record<Profession, WorkMethod[]> = {
+    psychologist: ["CBT", "Schema Therapy", "Psychodynamic Therapy"],
+    therapist: ["Gestalt Therapy", "Psychoanalysis", "Client-Centered Therapy"],
+    coach: ["Coaching", "Positive Therapy", "Transactional Analysis"],
+};
+
+const MAIN_DEGREE_BY_PROFESSION: Record<Profession, Degree> = {
+    psychologist: {
+        degreeName: "Магистр психологии",
+        description:
+            "Базовое профильное образование по психологическому консультированию и психодиагностике.",
+    },
+    therapist: {
+        degreeName: "Магистр клинической психологии",
+        description:
+            "Подготовка по психотерапевтической работе с эмоциональными и поведенческими трудностями.",
+    },
+    coach: {
+        degreeName: "Сертифицированный коуч ICF",
+        description:
+            "Профессиональная подготовка по коучинговым инструментам и сопровождению изменений.",
+    },
+};
+
+const ADDITIONAL_DEGREES_BY_PROFESSION: Record<Profession, Degree[]> = {
+    psychologist: [
+        {
+            degreeName: "Повышение квалификации по CBT",
+            description:
+                "Практическая подготовка по когнитивно-поведенческим техникам.",
+        },
+    ],
+    therapist: [
+        {
+            degreeName: "Специализация по травма-терапии",
+            description:
+                "Работа с последствиями травматического опыта и стабилизацией состояния.",
+        },
+    ],
+    coach: [
+        {
+            degreeName: "Профессиональный коучинг команд",
+            description:
+                "Инструменты сопровождения личных и карьерных изменений.",
+        },
+    ],
+};
+
+const baseSpecialistData: SpecialistMockBase[] = [
     {
         id: "spec-1",
         firstName: "Maya",
@@ -804,3 +877,15 @@ export const specialistData: SpecialistMock[] = [
         services: ["postanovka-tselej", "dostizhenie-tselej", "plan-dejstvij", "dolgosrochnoe-planirovanie", "tajm-menedzhment", "samodistsiplina", "prokrastinatsiya-kouching", "privychki-rutina", "kariernyj-rost", "smena-professii", "sobesedovaniya", "peregovory-zarplata", "adaptatsiya-novaya-rabota", "liderstvo", "upravlenie-komandoj", "delegirovanie", "prinyatie-reshenij", "biznes-kouching", "finansovye-tseli", "strategiya-razvitiya", "lichnyj-brend", "uverennost-kouching", "publichnye-vystupleniya", "kommunikatsiya-soft-skills", "lichnye-granitsy-obschenie", "work-life-balance", "energiya-resursnost", "profilaktika-vygoraniya"],
     },
 ];
+
+export const specialistData: SpecialistDTO[] = baseSpecialistData.map(
+    (specialist) => ({
+        ...specialist,
+        about: ABOUT_BY_PROFESSION[specialist.profession],
+        workMethods: WORK_METHODS_BY_PROFESSION[specialist.profession],
+        mainDegree: MAIN_DEGREE_BY_PROFESSION[specialist.profession],
+        additionalDegrees:
+            ADDITIONAL_DEGREES_BY_PROFESSION[specialist.profession],
+        values: VALUES_BY_PROFESSION[specialist.profession],
+    }),
+);

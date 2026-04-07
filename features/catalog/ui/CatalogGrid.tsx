@@ -41,7 +41,7 @@ export function CatalogGrid({
 }: CatalogGridProps) {
     if (isPending) {
         return (
-            <div className="col-span-1 md:col-span-3">
+            <div>
                 <CatalogSkeleton count={PAGE_SIZE} />
             </div>
         );
@@ -49,7 +49,7 @@ export function CatalogGrid({
 
     if (isError) {
         return (
-            <div className="col-span-1 md:col-span-3">
+            <div>
                 <p className="text-destructive text-right">
                     שגיאה בטעינה: {error?.message ?? "נסה שוב מאוחר יותר"}
                 </p>

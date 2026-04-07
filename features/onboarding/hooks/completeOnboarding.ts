@@ -1,7 +1,7 @@
+import { UserData } from "@/features/user/model/types";
 import { fetchOnboarding } from "../api/fetchOnboarding";
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export  const completeOnboarding = async (payload: any) => {
+export  const completeOnboarding = async (payload: UserData) => {
     return fetchOnboarding(payload);
   };

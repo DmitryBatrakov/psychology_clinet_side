@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams, usePathname, useRouter } from "next/navigation";
 import { useCatalogSpecialists } from "@/features/catalog/hooks/useCatalogSpecialists";
 import type { CatalogSort } from "@/features/catalog/model/types";
@@ -14,41 +14,25 @@ import {
     CatalogSortControl,
 } from "@/features/catalog/ui/CatalogFilters";
 import { CatalogGrid } from "@/features/catalog/ui/CatalogGrid";
-import { CatalogSkeleton } from "@/features/catalog/ui/CatalogSkeleton";
+import { CatalogSkeleton, CatalogFiltersSkeleton } from "@/features/catalog/ui/CatalogSkeleton";
+
+function computeOffsetCursor(pageNum: number, limit: number): string | null {
+    if (pageNum <= 1) return null;
+    const offset = (pageNum - 1) * limit;
+    const json = JSON.stringify({ offset });
+    return btoa(json).replace(/\+/g, "-").replace(/\//g, "_").replace(/=/g, "");
+}
 
 function CatalogPageContent() {
     const [isMobileFiltersOpen, setIsMobileFiltersOpen] = useState(false);
-    const [cursorByPage, setCursorByPage] = useState<Record<number, string | null>>({
-        1: null,
-    });
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const router = useRouter();
 
     const page = Math.max(1, Number(searchParams.get("page")) || 1);
-    const cursorFromUrl = searchParams.get("cursor");
     const filters = parseFiltersFromSearchParams(searchParams);
     const sort = parseSortFromSearchParams(searchParams);
-    const currentCursor = page <= 1 ? null : cursorByPage[page] ?? cursorFromUrl;
-    const filtersSignature = useMemo(() => {
-        const params = new URLSearchParams(searchParams.toString());
-        params.delete("page");
-        params.delete("cursor");
-        return params.toString();
-    }, [searchParams]);
-
-    useEffect(() => {
-        setCursorByPage({ 1: null });
-    }, [filtersSignature]);
-
-    useEffect(() => {
-        if (page > 1 && !currentCursor) {
-            const params = new URLSearchParams(searchParams.toString());
-            params.delete("page");
-            params.delete("cursor");
-            router.replace(params.toString() ? `${pathname}?${params}` : pathname);
-        }
-    }, [currentCursor, page, pathname, router, searchParams]);
+    const currentCursor = computeOffsetCursor(page, PAGE_SIZE);
 
     const { data, isPending, isError, error } = useCatalogSpecialists({
         cursor: currentCursor,
@@ -57,18 +41,13 @@ function CatalogPageContent() {
         sort,
     });
 
-    useEffect(() => {
-        setCursorByPage((prev) => {
-            const next = { ...prev };
-            if (page <= 1) next[1] = null;
-            else if (currentCursor) next[page] = currentCursor;
-            if (page > 1 && data?.prevCursor !== undefined) {
-                next[page - 1] = data.prevCursor;
-            }
-            if (data?.nextCursor) next[page + 1] = data.nextCursor;
-            return next;
-        });
-    }, [currentCursor, data?.nextCursor, data?.prevCursor, page]);
+    const totalPages = data?.total ? Math.ceil(data.total / PAGE_SIZE) : 0;
+    const knownPages =
+        totalPages > 0
+            ? Array.from({ length: totalPages }, (_, i) => i + 1)
+            : [];
+    const hasPrev = page > 1;
+    const hasNext = Boolean(data?.nextCursor);
 
     const setFilter = (key: string, value: string) => {
         const params = new URLSearchParams(searchParams.toString());
@@ -117,36 +96,16 @@ function CatalogPageContent() {
 
     const createPageUrl = (newPage: number) => {
         const params = new URLSearchParams(searchParams.toString());
+        params.delete("cursor");
         if (newPage <= 1) {
             params.delete("page");
-            params.delete("cursor");
             return params.toString() ? `${pathname}?${params}` : pathname;
         }
-        let targetCursor: string | null | undefined = cursorByPage[newPage];
-        if (targetCursor === undefined && newPage === page - 1) {
-            targetCursor = data?.prevCursor;
-        }
-        if (targetCursor === undefined && newPage === page + 1) {
-            targetCursor = data?.nextCursor;
-        }
-        if (targetCursor === undefined) {
-            return params.toString() ? `${pathname}?${params}` : pathname;
-        }
+        const cursor = computeOffsetCursor(newPage, PAGE_SIZE);
         params.set("page", String(newPage));
-        if (targetCursor) {
-            params.set("cursor", targetCursor);
-        } else {
-            params.delete("cursor");
-        }
-        return params.toString() ? `${pathname}?${params}` : pathname;
+        if (cursor) params.set("cursor", cursor);
+        return `${pathname}?${params}`;
     };
-    const knownPages = Object.keys(cursorByPage)
-        .map((key) => Number(key))
-        .filter((value) => Number.isFinite(value))
-        .sort((a, b) => a - b);
-    const hasPrev =
-        page > 1 && ((page - 1 in cursorByPage) || data?.prevCursor !== undefined);
-    const hasNext = Boolean(data?.nextCursor);
 
     return (
         <div
@@ -174,7 +133,7 @@ function CatalogPageContent() {
             <div
                 className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
                     isMobileFiltersOpen
-                        ? "max-h-[1800px] opacity-100 mb-4"
+                        ? "max-h-450 opacity-100 mb-4"
                         : "max-h-0 opacity-0"
                 }`}
             >
@@ -220,18 +179,15 @@ function CatalogPageContent() {
 
 function CatalogPageFallback() {
     return (
-        <div
-            className="flex flex-col w-full max-w-7xl mx-auto px-4 pb-20"
-            dir="rtl"
-        >
+        <div className="w-full mx-auto px-4 pb-20 flex flex-col items-center justify-center max-w-7xl" dir="rtl">
             <div className="w-full h-52 flex flex-col items-center justify-center">
                 <h1 className="text-2xl font-bold text-right mb-5">Catalog</h1>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-5 w-full">
-                <div className="col-span-1 min-h-[400px] rounded-xl border bg-muted/50 animate-pulse" />
-                <div className="col-span-3">
-                    <CatalogSkeleton count={PAGE_SIZE} />
+            <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-5 w-full">
+                <div className="hidden lg:block">
+                    <CatalogFiltersSkeleton />
                 </div>
+                <CatalogSkeleton count={PAGE_SIZE} />
             </div>
         </div>
     );

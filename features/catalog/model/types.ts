@@ -27,4 +27,5 @@ export interface CatalogSpecialistsResponse {
     prevCursor: string | null;
     hasMore: boolean;
     matchMode: CatalogMatchMode;
+    total: number;
 }

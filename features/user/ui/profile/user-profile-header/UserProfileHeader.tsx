@@ -10,24 +10,24 @@ export const UserProfileHeader = () => {
     const { data: dbUser } = useUserData(uid, authLoading);
 
     return (
-        <div className="flex items-center justify-center">
-            <div className="w-full max-w-4xl min-h-full flex flex-col gap-5 items-center justify-center ">
-                <div className="w-full p-2 flex flex-col justify-center items-center">
-                    {dbUser?.photoUrl ? (
-                        <Image
-                            src={dbUser?.photoUrl}
-                            alt="Photo"
-                            width={100}
-                            height={100}
-                        />
-                    ) : (
-                        <CircleUserRound size={100} color="purple" />
-                    )}
-                    <h1 className="text-2xl font-semibold text-gray-800">
-                        {dbUser?.firstName} {dbUser?.lastName}
-                    </h1>
-                    <h2 className="text-sm opacity-60">{user?.email}</h2>
-                </div>
+        <div className="flex flex-col items-center gap-3">
+            <div className="w-40 h-40 rounded-full overflow-hidden border-2 border-gray-200 flex items-center justify-center bg-gray-100 relative">
+                {dbUser?.photoUrl ? (
+                    <Image
+                        src={dbUser.photoUrl}
+                        alt="Photo"
+                       fill
+                        className="object-cover w-full h-full"
+                    />
+                ) : (
+                    <CircleUserRound size={100} color="purple" />
+                )}
+            </div>
+            <div className="flex flex-col items-center gap-0.5">
+                <h1 className="text-2xl font-semibold text-gray-800">
+                    {dbUser?.firstName} {dbUser?.lastName}
+                </h1>
+                <p className="text-sm text-gray-500">{user?.email}</p>
             </div>
         </div>
     );

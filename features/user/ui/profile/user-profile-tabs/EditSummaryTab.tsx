@@ -1,12 +1,13 @@
 "use client";
 
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format, parseISO } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, CircleUserRound, Pen, Plus, Trash2 } from "lucide-react";
 import { useAtomValue } from "jotai";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Image from "next/image";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -39,6 +40,7 @@ import type {
 import type { UserProfile } from "@/features/user/model/types";
 import { authAtom } from "@/src/store/auth/authAtom";
 import { updateUserProfile } from "../../../api/updateUserProfile";
+import { useAvatar } from "../../../hooks/useAvatar";
 
 type TimestampLike = { toDate: () => Date };
 
@@ -77,7 +79,6 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
 
     useEffect(() => {
         if (!dbUser) return;
-
         form.reset({
             firstName: dbUser.firstName ?? "",
             lastName: dbUser.lastName ?? "",
@@ -93,6 +94,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
         mutationFn: updateUserProfile,
         onSuccess: () => {
             notify.success("הפרופיל עודכן בהצלחה");
+            onProfileSaved();
             if (uid) {
                 queryClient.refetchQueries({ queryKey: ["user", uid] });
             }
@@ -100,6 +102,29 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
         onError: (error: Error) => {
             notify.error(error?.message ?? "עדכון הפרופיל נכשל");
         },
+    });
+
+    const currentPhotoUrl = useWatch({
+        control: form.control,
+        name: "photoUrl",
+    });
+
+    const {
+        fileInputRef,
+        avatarPreview,
+        isUploading,
+        isDeleting,
+        handleFileChange,
+        handleRemove,
+        onProfileSaved,
+    } = useAvatar({
+        uid,
+        currentPhotoUrl,
+        onUrlChange: (url) =>
+            form.setValue("photoUrl", url, {
+                shouldDirty: true,
+                shouldTouch: true,
+            }),
     });
 
     const onSubmit = (data: UpdateProfileFormValues) => {
@@ -114,9 +139,10 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
             languages: data.languages,
             photoUrl: data.photoUrl,
         };
-
         mutate(payload);
     };
+
+    const displaySrc = avatarPreview ?? currentPhotoUrl;
 
     return (
         <Card className="border bg-white">
@@ -130,6 +156,73 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-6"
                     >
+                        <div className="flex flex-col items-center gap-3">
+                            <div className="relative w-24 h-24">
+                                <div
+                                    className="w-full h-full rounded-full overflow-hidden border-2 border-gray-200 flex items-center justify-center bg-gray-100 cursor-pointer"
+                                    onClick={() =>
+                                        fileInputRef.current?.click()
+                                    }
+                                >
+                                    {displaySrc ? (
+                                        <Image
+                                            src={displaySrc}
+                                            alt="Avatar"
+                                            width={96}
+                                            height={96}
+                                            className="object-cover w-full h-full"
+                                         
+                                        />
+                                    ) : (
+                                        <CircleUserRound
+                                            size={100}
+                                            color="purple"
+                                        />
+                                    )}
+                                </div>
+
+                                <div
+                                    className="bg-primary p-0.5 rounded-full w-6 h-6 flex items-center justify-center absolute right-0 bottom-0 cursor-pointer"
+                                    onClick={() =>
+                                        fileInputRef.current?.click()
+                                    }
+                                >
+                                    {displaySrc ? (
+                                        <Pen size={14} color="white" />
+                                    ) : (
+                                        <Plus size={20} color="white" />
+                                    )}
+                                </div>
+                            </div>
+
+                            <input
+                                ref={fileInputRef}
+                                type="file"
+                                accept="image/jpeg,image/png,image/webp"
+                                className="hidden"
+                                onChange={handleFileChange}
+                            />
+
+                            <div className="flex gap-2">
+                                {displaySrc && (
+                                    <Button
+                                        type="button"
+                                        variant="ghost"
+                                        size="sm"
+                                        disabled={isUploading || isDeleting}
+                                        onClick={handleRemove}
+                                        className="text-red-500 hover:text-red-600"
+                                    >
+                                        {isDeleting ? (
+                                            "מוחק..."
+                                        ) : (
+                                            <Trash2 size={18} />
+                                        )}
+                                    </Button>
+                                )}
+                            </div>
+                        </div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <FormField
                                 control={form.control}
@@ -138,10 +231,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                     <FormItem>
                                         <FormLabel>שם פרטי</FormLabel>
                                         <FormControl>
-                                            <Input
-                                                placeholder=""
-                                                {...field}
-                                            />
+                                            <Input placeholder="" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -154,10 +244,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                     <FormItem>
                                         <FormLabel>שם משפחה</FormLabel>
                                         <FormControl>
-                                            <Input
-                                                placeholder=""
-                                                {...field}
-                                            />
+                                            <Input placeholder="" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -205,9 +292,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                             "PPP",
                                                         )
                                                     ) : (
-                                                        <span>
-                                                            בחר תאריך
-                                                        </span>
+                                                        <span>בחר תאריך</span>
                                                     )}
                                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                                 </Button>
@@ -256,7 +341,6 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                     זכר
                                                 </FormLabel>
                                             </FormItem>
-
                                             <FormItem className="flex items-center space-x-2 space-y-0">
                                                 <FormControl>
                                                     <RadioGroupItem value="female" />
@@ -283,7 +367,6 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                             בחר את השפות שאתה דובר.
                                         </FormDescription>
                                     </div>
-
                                     <div className="grid grid-cols-2 gap-2">
                                         {languagesList.map((lang) => (
                                             <FormField
@@ -331,7 +414,6 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                             />
                                         ))}
                                     </div>
-
                                     <FormMessage />
                                 </FormItem>
                             )}

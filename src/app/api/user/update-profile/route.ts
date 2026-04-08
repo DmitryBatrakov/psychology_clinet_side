@@ -25,7 +25,6 @@ export async function PATCH(req: Request) {
         const body = await req.json();
         const data = updateProfileApiSchema.parse(body);
 
-        // Обновляем только то, что реально пришло
         const updatePayload: Partial<UpdateProfileApiValues> & {
             updatedAt: ReturnType<typeof adminFieldValue.serverTimestamp>;
           } = {
@@ -39,7 +38,7 @@ export async function PATCH(req: Request) {
             updatePayload.phoneNumber = data.phoneNumber;
 
         if (data.birthDate !== undefined)
-            updatePayload.birthDate = data.birthDate; // уже Date после zod.transform
+            updatePayload.birthDate = data.birthDate;
         if (data.gender !== undefined) updatePayload.gender = data.gender;
         if (data.languages !== undefined)
             updatePayload.languages = data.languages;

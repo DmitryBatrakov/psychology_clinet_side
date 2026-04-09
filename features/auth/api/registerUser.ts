@@ -11,14 +11,15 @@ export async function registerUser(email: string, password: string) {
     });
 
     const json = await res.json().catch(() => ({}));
-    
+
     if (!res.ok) {
-        throw new Error(json?.error ?? "Register failed");
+        throw new Error(json?.message ?? "Register failed");
     }
 
+
     const { customToken } = json as { customToken: string };
-    
+
     await signInWithCustomToken(auth, customToken);
-    
+
     return json;
 }

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const GenderSchema = z.enum(["male", "female"]);
-const LanguageSchema = z.enum(["he", "ru", "en", "uk", "ar"]);
+const LanguageSchema = z.enum(["he", "ru", "en", "ar"]);
 
 export const updateProfileFormSchema = z.object({
   firstName: z.string().min(1).optional(),

@@ -157,7 +157,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                         className="space-y-6"
                     >
                         <div className="flex flex-col items-center gap-3">
-                            <div className="relative w-40 h-40 rounded-full">
+                            <div className="relative w-24 h-24 rounded-full">
                                 <div
                                     className="relative w-full h-full rounded-full overflow-hidden border-2 border-gray-200 flex items-center justify-center bg-gray-100 cursor-pointer"
                                     onClick={() =>
@@ -170,18 +170,15 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                             alt="Avatar"
                                             fill
                                             className="object-cover w-full h-full"
-                                         
+
                                         />
                                     ) : (
-                                        <CircleUserRound
-                                            size={100}
-                                            color="purple"
-                                        />
+                                        <CircleUserRound className="w-full h-full" color="purple" />
                                     )}
                                 </div>
 
                                 <div
-                                    className="bg-primary p-1 rounded-full w-8 h-8 flex items-center justify-center absolute right-2 bottom-0 cursor-pointer"
+                                    className="bg-primary p-1 rounded-full w-6 h-6 flex items-center justify-center absolute right-2 bottom-0 cursor-pointer"
                                     onClick={() =>
                                         fileInputRef.current?.click()
                                     }
@@ -282,7 +279,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                     className={cn(
                                                         "w-full pl-3 text-left font-normal",
                                                         !field.value &&
-                                                            "text-muted-foreground",
+                                                        "text-muted-foreground",
                                                     )}
                                                 >
                                                     {field.value ? (
@@ -309,7 +306,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                 disabled={(date) =>
                                                     date > new Date() ||
                                                     date <
-                                                        new Date("1920-01-01")
+                                                    new Date("1920-01-01")
                                                 }
                                                 initialFocus
                                             />
@@ -387,20 +384,20 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                                     ) =>
                                                                         checked
                                                                             ? field.onChange(
-                                                                                  [
-                                                                                      ...current,
-                                                                                      lang.id,
-                                                                                  ],
-                                                                              )
+                                                                                [
+                                                                                    ...current,
+                                                                                    lang.id,
+                                                                                ],
+                                                                            )
                                                                             : field.onChange(
-                                                                                  current.filter(
-                                                                                      (
-                                                                                          v,
-                                                                                      ) =>
-                                                                                          v !==
-                                                                                          lang.id,
-                                                                                  ),
-                                                                              )
+                                                                                current.filter(
+                                                                                    (
+                                                                                        v,
+                                                                                    ) =>
+                                                                                        v !==
+                                                                                        lang.id,
+                                                                                ),
+                                                                            )
                                                                     }
                                                                 />
                                                             </FormControl>

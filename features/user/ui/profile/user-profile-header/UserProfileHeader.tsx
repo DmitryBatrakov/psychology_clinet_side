@@ -20,7 +20,7 @@ export const UserProfileHeader = () => {
                         className="object-cover w-full h-full"
                     />
                 ) : (
-                    <CircleUserRound size={100} color="purple" />
+                    <CircleUserRound size={150} color="purple" />
                 )}
             </div>
             <div className="flex flex-col items-center gap-0.5">

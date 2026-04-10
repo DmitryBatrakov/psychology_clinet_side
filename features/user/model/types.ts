@@ -1,4 +1,4 @@
-export type Languages = "he" | "ru" | "en" | "uk" | "ar";
+export type Languages = "he" | "ru" | "en" | "ar";
 export type Gender = "male" | "female";
 
 export interface UserData {

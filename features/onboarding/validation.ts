@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const languagesEnum = z.enum(["he", "ru", "en", "uk", "ar"]);
+const languagesEnum = z.enum(["he", "ru", "en","ar"]);
 const genderEnum = z.enum(["male", "female"]);
 
 export const onboardingSchema = z.object({

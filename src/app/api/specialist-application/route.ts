@@ -24,7 +24,7 @@ export async function POST(req: Request) {
             .add({
                 ...parsed.data,
                 approved: false,
-                aprovedAt: null,
+                approvedAt: null,
                 createdAt: adminFieldValue.serverTimestamp(),
             });
         console.log("application submitted successfully");

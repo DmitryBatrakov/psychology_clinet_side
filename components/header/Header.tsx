@@ -14,9 +14,15 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { useUserData } from "@/features/user/hooks/useUserData";
 
 export const Header = () => {
-    const { user, loading } = useAtomValue(authAtom);
+
+    const { user, loading: authLoading } = useAtomValue(authAtom);
+    const uid = user?.uid ?? null;
+    const { data: dbUser } = useUserData(uid, authLoading);
+
     const router = useRouter();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
@@ -38,26 +44,35 @@ export const Header = () => {
     return (
         <header
             className={cn(
-                "flex items-center justify-between px-4 h-20 max-w-[1920px] w-full mx-auto top-0 left-0 z-30",
+                "flex items-center justify-between px-4 h-20 max-w-480 w-full mx-auto top-0 left-0 z-30",
                 isMainPage ? "absolute" : "relative",
             )}
         >
             <div className="hidden lg:flex items-center justify-between w-full">
-                <div className="flex items-center justify-center min-w-40">
-                    {loading ? (
-                        <div className="w-10 h-10 rounded-full bg-neutral-300 animate-pulse" />
+                <div className="flex flex-col items-center justify-center min-w-40">
+                    {authLoading ? (
+                        // <div className="w-12 h-12 rounded-full bg-neutral-300 animate-pulse overflow-hidden" />
+                        <CircleUser color="gray" className="w-12 h-12 animate-pulse" />
                     ) : user ? (
-                        <button onClick={() => router.push("/account/therapy")} className="cursor-pointer">
-                            <CircleUser size={40} color="gray" />
+                        <button onClick={() => router.push("/account/therapy")} className="cursor-pointer rounded-full overflow-hidden relative w-12 h-12">
+                            {dbUser?.photoUrl ? (
+                                <Image
+                                    src={dbUser.photoUrl}
+                                    alt="Avatar"
+                                    fill />
+                            ) : (
+                                <CircleUser color="gray" className="w-full h-full" />
+                            )}
                         </button>
                     ) : (
                         <button
-                            className="rounded bg-primary px-4 py-2 text-white cursor-pointer"
+                            className="bg-primary px-4 py-2 text-white cursor-pointer "
                             onClick={() => router.push("/auth/login")}
                         >
                             Sign In
                         </button>
                     )}
+                    {/* <p>{dbUser?.firstName}</p> */}
                 </div>
 
                 <nav className="flex items-center gap-10 text-[1.1rem] font-normal [&>a]:transition-colors [&>a:hover]:text-accent">
@@ -123,7 +138,7 @@ export const Header = () => {
                                 </Link>
                             </nav>
                             <div className="mt-4">
-                                {!loading && (
+                                {!authLoading && (
                                     <button
                                         className="w-full rounded bg-primary px-4 py-2 text-white"
                                         onClick={handleAuthClick}

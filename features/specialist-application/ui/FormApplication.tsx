@@ -42,6 +42,7 @@ import { toast } from "sonner";
 import { useRef } from "react";
 import { SpecialistApplicationCreateInput } from "../model/types";
 import { useApplicationsSpecialist } from "../hooks/useApplicationsSpecialist";
+import { useUploadDocuments } from "../hooks/useUploadDocuments";
 import { MeetingFormat, Profession } from "@/features/specialist/model/types";
 import { Gender } from "@/features/user/model/types";
 import {
@@ -52,7 +53,6 @@ import {
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
-import { useMutation } from "@tanstack/react-query";
 import { Spinner } from "@/components/ui/spinner";
 import { Separator } from "@/components/ui/separator";
 
@@ -62,6 +62,7 @@ export const FormApplication = () => {
 
     const { mutate: fetchApplSpecialistMutation, isPending } =
         useApplicationsSpecialist();
+    const { uploadDocuments } = useUploadDocuments();
 
     const form = useForm<ApplicationSchema>({
         resolver: zodResolver(applicationSchema),
@@ -70,44 +71,66 @@ export const FormApplication = () => {
             firstName: "",
             lastName: "",
             phoneNumber: "",
+            passportId: "",
             languages: [],
             birthDate: "",
             gender: "",
             profession: "",
-            meetingFormat: "",
             sessionTypes: [],
             experience: "",
             pricePerSession: "",
             hoursPerWeek: "",
-            // basicDegree: [],
-            // advancedDegree: [],
+            basicDegree: [],
+            advancedDegree: [],
             agree: false,
         },
     });
 
-    const onSubmit = (data: ApplicationSchema) => {
-        const payload: SpecialistApplicationCreateInput = {
-            ...data,
-            gender: data.gender as Gender,
-            profession: data.profession as Profession,
-            meetingFormat: data.meetingFormat as MeetingFormat,
-            experience: data.experience,
-            pricePerSession: data.pricePerSession,
-            hoursPerWeek: data.hoursPerWeek,
-        };
-        fetchApplSpecialistMutation(payload, {
-            onSuccess: () => {
-                form.reset();
-                if (basicDegreeRef.current) basicDegreeRef.current.value = "";
-                if (advancedDegreeRef.current)
-                    advancedDegreeRef.current.value = "";
-                toast.success("הטופס נשלח בהצלחה");
-            },
-            onError: () => {
-                toast.error("שגיאת רשת — נסו שוב");
-            },
-        });
+    const onSubmit = async (data: ApplicationSchema) => {
+        try {
+            const basicDegreeUrls = await uploadDocuments(data.basicDegree);
+
+            const advancedDegreeUrls =
+                data.advancedDegree && data.advancedDegree.length > 0
+                    ? await uploadDocuments(data.advancedDegree)
+                    : undefined;
+
+            const payload: SpecialistApplicationCreateInput = {
+                firstName: data.firstName,
+                lastName: data.lastName,
+                phoneNumber: data.phoneNumber,
+                passportId: data.passportId,
+                languages: data.languages,
+                birthDate: data.birthDate,
+                gender: data.gender as Gender,
+                profession: data.profession as Profession,
+                sessionTypes: data.sessionTypes,
+                experience: data.experience,
+                pricePerSession: data.pricePerSession,
+                hoursPerWeek: data.hoursPerWeek,
+                basicDegreeUrls,
+                advancedDegreeUrls,
+                agree: data.agree,
+            };
+
+            fetchApplSpecialistMutation(payload, {
+                onSuccess: () => {
+                    form.reset();
+                    if (basicDegreeRef.current) basicDegreeRef.current.value = "";
+                    if (advancedDegreeRef.current)
+                        advancedDegreeRef.current.value = "";
+                    toast.success("הטופס נשלח בהצלחה");
+                },
+                onError: () => {
+                    toast.error("שגיאת רשת — נסו שוב");
+                },
+            });
+        } catch {
+            toast.error("שגיאה בהעלאת הקבצים — נסו שוב");
+        }
     };
+
+    const isSubmitting = form.formState.isSubmitting || isPending;
 
     return (
         <Form {...form}>
@@ -159,6 +182,26 @@ export const FormApplication = () => {
                                     <Input
                                         {...field}
                                         placeholder="0500000000"
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="passportId"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-[1.1rem]">
+                                    מספר תעודת זהות
+                                </FormLabel>
+                                <FormControl>
+                                    <Input
+                                        {...field}
+                                        placeholder="000000000"
+                                        maxLength={9}
+                                        inputMode="numeric"
                                     />
                                 </FormControl>
                                 <FormMessage />
@@ -367,47 +410,6 @@ export const FormApplication = () => {
                 />
                 <FormField
                     control={form.control}
-                    name="meetingFormat"
-                    render={({ field }) => (
-                        <FormItem>
-                            <FormLabel className="text-[1.1rem]">
-                                פורמט מפגש
-                            </FormLabel>
-                            <Select
-                                value={field.value}
-                                onValueChange={field.onChange}
-                            >
-                                <FormControl>
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="בחרו פורמט מפגש" />
-                                    </SelectTrigger>
-                                </FormControl>
-                                <SelectContent
-                                    side="bottom"
-                                    align="start"
-                                    position="popper"
-                                >
-                                    <SelectGroup>
-                                        <SelectLabel>פורמט מפגש</SelectLabel>
-                                        {Object.entries(
-                                            MEETING_FORMAT_LABELS,
-                                        ).map(([value, label]) => (
-                                            <SelectItem
-                                                key={value}
-                                                value={value}
-                                            >
-                                                {label}
-                                            </SelectItem>
-                                        ))}
-                                    </SelectGroup>
-                                </SelectContent>
-                            </Select>
-                            <FormMessage />
-                        </FormItem>
-                    )}
-                />
-                <FormField
-                    control={form.control}
                     name="sessionTypes"
                     render={({ field }) => (
                         <FormItem className="w-full">
@@ -487,7 +489,6 @@ export const FormApplication = () => {
                         </FormItem>
                     )}
                 />
-
                 <FormField
                     control={form.control}
                     name="pricePerSession"
@@ -532,19 +533,23 @@ export const FormApplication = () => {
                         </FormItem>
                     )}
                 />
-                {/* <FormField
+                <Separator />
+                <FormField
                     control={form.control}
                     name="basicDegree"
-                    render={({ field }) => (
+                    render={({ field: { onChange } }) => (
                         <FormItem>
-                            <FormLabel className="text-[1.1rem]">תעודה בסיסית</FormLabel>
+                            <FormLabel className="text-[1.1rem]">
+                                תעודה בסיסית (דיפלומה / תואר)
+                            </FormLabel>
                             <FormControl>
                                 <Input
                                     type="file"
                                     multiple
+                                    accept=".pdf,.jpg,.jpeg,.png,.webp"
                                     ref={basicDegreeRef}
                                     onChange={(event) =>
-                                        field.onChange(
+                                        onChange(
                                             Array.from(
                                                 event.target.files ?? [],
                                             ),
@@ -555,20 +560,23 @@ export const FormApplication = () => {
                             <FormMessage />
                         </FormItem>
                     )}
-                /> */}
-                {/* <FormField
+                />
+                <FormField
                     control={form.control}
                     name="advancedDegree"
-                    render={({ field }) => (
+                    render={({ field: { onChange } }) => (
                         <FormItem>
-                            <FormLabel className="text-[1.1rem]">תעודות נוספות</FormLabel>
+                            <FormLabel className="text-[1.1rem]">
+                                תעודות נוספות / סרטיפיקטים (אופציונלי)
+                            </FormLabel>
                             <FormControl>
                                 <Input
                                     type="file"
                                     multiple
+                                    accept=".pdf,.jpg,.jpeg,.png,.webp"
                                     ref={advancedDegreeRef}
                                     onChange={(event) =>
-                                        field.onChange(
+                                        onChange(
                                             Array.from(
                                                 event.target.files ?? [],
                                             ),
@@ -579,7 +587,7 @@ export const FormApplication = () => {
                             <FormMessage />
                         </FormItem>
                     )}
-                /> */}
+                />
                 <Separator />
                 <FormField
                     control={form.control}
@@ -603,17 +611,12 @@ export const FormApplication = () => {
                     )}
                 />
                 <div className="col-span-3 flex justify-center items-center w-full mx-auto">
-                    {/* <Button type="submit" className="w-full h-10 rounded-2xl" >
-                        שליחה
-                    </Button> */}
                     <Button
                         type="submit"
                         className="w-full h-10 rounded-2xl"
-                        // disabled={
-                        //     !form.formState.isValid
-                        // }
+                        disabled={isSubmitting}
                     >
-                        {isPending ? (
+                        {isSubmitting ? (
                             <Spinner className="size-6 animate-spin" />
                         ) : (
                             "שליחה"

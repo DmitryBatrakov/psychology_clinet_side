@@ -12,7 +12,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     useLayoutEffect(() => {
         const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
-                setAuth({ user: currentUser, role: "user", loading: false });
+                setAuth({ user: currentUser, role: "patient", loading: false });
             } else {
                 fetch("/api/auth/session-cookies/logout", { method: "POST" });
                 setAuth({ user: null, role: null, loading: false });

@@ -19,7 +19,6 @@ export async function POST(req: Request) {
         await adminAuth.setCustomUserClaims(uid, { role: "patient" });
 
         await adminDb.collection("users").doc(uid).set({
-            role: "patient",
             profileComplete: false,
             balance: 0,
             createdAt: adminFieldValue.serverTimestamp(),

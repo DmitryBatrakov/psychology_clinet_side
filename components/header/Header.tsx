@@ -16,9 +16,9 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useUserData } from "@/features/user/hooks/useUserData";
+import Dashboard from "../../src/app/(specialist)/dashboard/page";
 
 export const Header = () => {
-
     const { user, loading: authLoading } = useAtomValue(authAtom);
     const uid = user?.uid ?? null;
     const { data: dbUser } = useUserData(uid, authLoading);
@@ -52,16 +52,26 @@ export const Header = () => {
                 <div className="flex flex-col items-center justify-center min-w-40">
                     {authLoading ? (
                         // <div className="w-12 h-12 rounded-full bg-neutral-300 animate-pulse overflow-hidden" />
-                        <CircleUser color="gray" className="w-12 h-12 animate-pulse" />
+                        <CircleUser
+                            color="gray"
+                            className="w-12 h-12 animate-pulse"
+                        />
                     ) : user ? (
-                        <button onClick={() => router.push("/account/therapy")} className="cursor-pointer rounded-full overflow-hidden relative w-12 h-12">
+                        <button
+                            onClick={() => router.push("/account/therapy")}
+                            className="cursor-pointer rounded-full overflow-hidden relative w-12 h-12"
+                        >
                             {dbUser?.photoUrl ? (
                                 <Image
                                     src={dbUser.photoUrl}
                                     alt="Avatar"
-                                    fill />
+                                    fill
+                                />
                             ) : (
-                                <CircleUser color="gray" className="w-full h-full" />
+                                <CircleUser
+                                    color="gray"
+                                    className="w-full h-full"
+                                />
                             )}
                         </button>
                     ) : (
@@ -72,8 +82,8 @@ export const Header = () => {
                             Sign In
                         </button>
                     )}
-                    {/* <p>{dbUser?.firstName}</p> */}
                 </div>
+                <Link href="/dashboard">Dashboard</Link>
 
                 <nav className="flex items-center gap-10 text-[1.1rem] font-normal [&>a]:transition-colors [&>a:hover]:text-accent">
                     <Link className="hover:text-accent" href="/">

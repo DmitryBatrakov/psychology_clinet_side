@@ -150,3 +150,18 @@
         @apply bg-background text-foreground;
     }
 }
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 0;
+    
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 9999px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: var(--muted-foreground);
+}

@@ -1,12 +1,18 @@
-'use client';
+"use client";
 
+import Widget from "@/components/blocks/widgets/widget";
+import { ScheduleDay } from "@/features/schedule-day/ui/ScheduleDay";
 
 export default function Dashboard() {
-
     return (
-        <div className="flex-1 flex-col items-start gap-2 p-3 shadow-xl h-full">
-            <div className="w-full h-full flex items-start shadow-[0_0_10px_1px] shadow-black/10 rounded-lg p-4">
-                <p className="text-[1.25rem] h-10"> Hello doctor Dima!</p>
+        <div className="flex-1 p-3 h-full">
+            <div className="grid grid-cols-3 grid-rows-3 gap-4 h-full w-full">
+                <Widget className="row-span-2 col-start-3 row-start-2 p-5 shadow-[inset_0_0_10px_0] shadow-black/10 overflow-hidden rounded-lg">
+                    <Widget.Content className="custom-scrollbar overflow-y-auto h-full">
+                        <ScheduleDay />
+                    </Widget.Content>
+                </Widget>
+                <div />
             </div>
         </div>
     );

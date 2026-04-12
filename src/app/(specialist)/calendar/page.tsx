@@ -364,7 +364,7 @@ export default function Calendar() {
     }
   };
 
-  const getDateTitle = () => {
+  const title = useMemo(() => {
     const date = getTime(shownInterval);
     switch (currTab) {
       case 'week':
@@ -379,9 +379,7 @@ export default function Calendar() {
       case 'list':
         return `${format(date, 'MMM')} ${format(startOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')} — ${format(endOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')}, ${format(date, 'yyyy')}`;
     }
-  };
-
-  const title = useMemo(() => getDateTitle(), [shownInterval, currTab]);
+  }, [shownInterval, currTab]);
 
   return (
     <ShownDateInterval.Provider

@@ -117,11 +117,11 @@ function TimelineChart({ isResizing, label, onReturn }: Props) {
                 <Bar
                   radius={1}
                   dataKey="first"
-                  shape={(props: ShapeProps) => {
+                  shape={((props: ShapeProps) => {
                     const outcome = props.payload?.outcome ?? 'pending';
                     return <Rectangle {...(props as any)} fill={colorByOutcome[outcome]} />;
-                  }}
-                  activeBar={(props: ShapeProps) => {
+                  }) as any}
+                  activeBar={((props: ShapeProps) => {
                     const outcome = props.payload?.outcome ?? 'pending';
                     return (
                       <Rectangle
@@ -131,7 +131,7 @@ function TimelineChart({ isResizing, label, onReturn }: Props) {
                         strokeWidth={2}
                       />
                     );
-                  }}
+                  }) as any}
                   isAnimationActive={false}
                 />
               </BarChart>

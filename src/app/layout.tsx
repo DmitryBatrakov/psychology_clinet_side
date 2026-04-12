@@ -37,7 +37,7 @@ export default function RootLayout({
             <body className={`${ubuntu.variable} font-sans antialiased w-full`}>
                 <main className="max-w-[1920px] w-full mx-auto">
                     <MainProvider>
-                        <Header />
+                        
                         {children}
                         <Toaster
                             richColors

@@ -13,11 +13,11 @@ export async function POST(request: NextRequest) {
         const decodedToken = await adminAuth.verifyIdToken(idToken);
         const uid = decodedToken.uid;
 
-        const userDoc = await adminDb.collection("users").doc(uid).get();
+        const userDoc = await adminDb.collection("patient").doc(uid).get();
 
         if (!userDoc.exists) {
             await adminDb.collection("users").doc(uid).set({
-                role: "user",
+                role: "patient",
                 profileComplete: false,
                 balance: 0,
                 email: decodedToken.email,

@@ -57,7 +57,6 @@ const LANGUAGE_LABELS: Record<(typeof ALLOWED_LANGUAGES)[number], string> = {
     he: "עברית",
     ru: "רוסית",
     en: "אנגלית",
-    uk: "אוקראינית",
     ar: "ערבית",
 };
 export const LANGUAGE_OPTIONS: { value: string; label: string }[] = [

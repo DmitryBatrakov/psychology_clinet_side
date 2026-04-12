@@ -14,7 +14,7 @@ export const ALLOWED_GENDERS = ["female", "male"] as const;
 export type CatalogGender = (typeof ALLOWED_GENDERS)[number];
 
 // --- Язык ---
-export const ALLOWED_LANGUAGES = ["he", "ru", "en", "uk", "ar"] as const;
+export const ALLOWED_LANGUAGES = ["he", "ru", "en", "ar"] as const;
 export type CatalogLanguage = (typeof ALLOWED_LANGUAGES)[number];
 
 // --- Формат встречи ---

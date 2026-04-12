@@ -36,9 +36,9 @@ export default function ActivityPage() {
         return new Map<string, SpecialistDTO>(list.map((s) => [s.id, s]));
     }, [specialistsData.data]);
 
-    if (sessionData.isLoading) {
-        return <ActivitySkeleton />;
-    }
+    // if (sessionData.isLoading) {
+    //     return <ActivitySkeleton />; 
+    // }
 
     if (sessionData.isError || specialistsData.isError) {
         return <div>שגיאה בטעינת הנתונים</div>;
@@ -73,6 +73,7 @@ export default function ActivityPage() {
                     <SessionUpcoming
                         sessionList={upcoming}
                         specialistsMap={specialistsMap}
+                        isLoading={sessionData.isLoading || specialistsData.isLoading}
                     />
                 </TabsContent>
             </Tabs>

@@ -31,7 +31,7 @@ export const TherapyOverview = ({
                 <div className="w-full mt-5 mb-20">
                     <h1 className="text-3xl font-bold">הטיפול שלי</h1>
                 </div>
-                <div className="grid w-full gap-5 grid-cols-1 md:grid-cols-2 min-h-60">
+                <div className="grid w-full gap-5 grid-cols-1 lg:grid-cols-2 min-h-60">
                     <div className="rounded-md bg-gray-200 min-w-20 flex flex-col justify-between items-center gap-6 p-4">
                         <h1 className="text-rihgt w-full p-0 m-0">
                             פגישה הבאה

@@ -22,7 +22,6 @@ const LANGUAGE_LABELS: Record<CatalogLanguage, string> = {
     he: "עברית",
     ru: "רוסית",
     en: "אנגלית",
-    uk: "אוקראינית",
     ar: "ערבית",
 };
 interface CatalogSpecialistCardProps {

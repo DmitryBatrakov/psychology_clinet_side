@@ -8,7 +8,6 @@ export const LANGUAGE_LABELS: Record<string, string> = {
     he: "עברית",
     ru: "רוסית",
     en: "אנגלית",
-    uk: "אוקראינית",
     ar: "ערבית",
 };
 

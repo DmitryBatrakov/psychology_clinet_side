@@ -38,7 +38,7 @@ export function SessionCompleted({
             <TableCaption>רשימת הפגישות שהסתיימו</TableCaption>
             <TableHeader>
                 <TableRow>
-                    <TableHead className="w-[100px]">תאריך</TableHead>
+                    <TableHead className="w-25">תאריך</TableHead>
                     <TableHead className="text-center">שעה</TableHead>
                     <TableHead className="text-center">פורמט</TableHead>
                     <TableHead className="text-center">מומחה</TableHead>
@@ -56,9 +56,8 @@ export function SessionCompleted({
                             {formatSessionTime(session.startAt)}
                         </TableCell>
                         <TableCell className="text-center capitalize">
-                            {session.meetingFormat === "online"
-                                ? "אונליין"
-                                : "פרונטלי"}
+                            {session.meetingFormat === "online" 
+                                && "אונליין"}
                         </TableCell>
                         <TableCell className="text-center">
                             {getSpecialistName(session.specialistId)}

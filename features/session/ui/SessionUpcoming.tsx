@@ -6,16 +6,29 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { CircleUserRound } from "lucide-react";
+import { Session } from '../model/types';
 
 type SessionUpcomingProps = {
     sessionList: SessionDTO[];
     specialistsMap: Map<string, SpecialistDTO>;
+    isLoading?: boolean;
 };
 
 export function SessionUpcoming({
     sessionList,
     specialistsMap,
+    isLoading,
 }: SessionUpcomingProps) {
+    if (isLoading) {
+        return (
+            <div className="grid grid-cols-1 gap-5">
+                {[1, 2].map((i) => (
+                   <SessionUpcomingSkeleton key={i} />
+                ))}
+            </div>
+        );
+    }
+
     if (sessionList.length === 0) {
         return (
             <div className="p-8 text-center text-muted-foreground min-h-[calc(100vh-12rem)] flex flex-col gap-5 justify-center items-center">
@@ -31,7 +44,7 @@ export function SessionUpcoming({
                 const specialist = specialistsMap.get(s.specialistId);
                 const specialistName = specialist
                     ? `${specialist.firstName} ${specialist.lastName}`
-                    : "לא זמין";
+                    : "טוען...";
 
                 return (
                     <Card key={s.id}>
@@ -42,7 +55,6 @@ export function SessionUpcoming({
                         </CardHeader>
                         <CardContent>
                             <div className="flex flex-col gap-5 sm:grid sm:grid-cols-3">
-                                {/* Specialist info */}
                                 <div className="flex flex-row sm:flex-col gap-4 justify-start sm:justify-center items-center">
                                     {specialist?.photoUrl ? (
                                         <Image
@@ -107,4 +119,13 @@ export function SessionUpcoming({
             })}
         </div>
     );
+}
+
+function SessionUpcomingSkeleton() {
+    return (
+        <div>
+            <div className="rounded-lg bg-gray-200 h-48 animate-pulse" />
+            <div className="rounded-lg bg-gray-200 h-48 animate-pulse mt-5" />
+        </div>
+    )
 }

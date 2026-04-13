@@ -1,3 +1,4 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
@@ -29,24 +30,6 @@ const actions: Action[] = [
     title: 'Add client',
     action: () => console.log('trigger'),
     color: { text: 'text-blue-500', bg: 'bg-blue-100!' },
-  },
-  {
-    icon: SendToBack,
-    title: 'Transfer',
-    action: () => console.log('trigger'),
-    color: { text: 'text-violet-500', bg: 'bg-violet-100!' },
-  },
-  {
-    icon: Megaphone,
-    title: 'Fill gap',
-    action: () => console.log('trigger'),
-    color: { text: 'text-orange-500', bg: 'bg-orange-100!' },
-  },
-  {
-    icon: Bell,
-    title: 'Remind',
-    action: () => console.log('trigger'),
-    color: { text: 'text-amber-500', bg: 'bg-amber-100!' },
   },
   {
     icon: Shredder,

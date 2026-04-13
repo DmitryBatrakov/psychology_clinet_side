@@ -8,7 +8,7 @@ function hasMarker(children: React.ReactNode, type: string) {
 
     if (!React.isValidElement(node)) continue;
 
-    if ((node.type as any).__TYPE === type) return true;
+    if (node.type && (node.type as any).__TYPE === type) return true;
 
     if ((node.props as any)?.children) {
       stack.push(...React.Children.toArray((node.props as any).children));

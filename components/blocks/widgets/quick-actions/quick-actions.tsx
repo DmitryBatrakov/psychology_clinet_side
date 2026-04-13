@@ -1,3 +1,4 @@
+'use client';
 import { Zap } from 'lucide-react';
 import Widget, { WidgetProps } from '../widget';
 import QuickActionsBody from './quick-actions-body';

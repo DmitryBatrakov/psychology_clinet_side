@@ -1,5 +1,5 @@
 import { auth } from "@/lib/firebase";
-import type { ScheduleDayItem } from "@/features/schedule-day/model/types";
+import type { ScheduleDayItem } from "@/features/dashboard/model/types";
 
 export async function fetchScheduleDay(): Promise<{ items: ScheduleDayItem[] }> {
     const user = auth.currentUser;

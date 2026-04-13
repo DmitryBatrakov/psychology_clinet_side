@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { fetchScheduleDay } from "@/features/schedule-day/api/fetchScheduleDay";
-import type { ScheduleDayItem } from "@/features/schedule-day/model/types";
+import { fetchScheduleDay } from "@/features/dashboard/api/fetchScheduleDay";
+import type { ScheduleDayItem } from "@/features/dashboard/model/types";
 
 export const useScheduleDay = (uid: string | null, authLoading: boolean) => {
     return useQuery<{ items: ScheduleDayItem[] }>({

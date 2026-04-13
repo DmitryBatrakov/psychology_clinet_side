@@ -1,18 +1,16 @@
-"use client";
-
-import Widget from "@/components/blocks/widgets/widget";
-import { ScheduleDay } from "@/features/schedule-day/ui/ScheduleDay";
+import { ScheduleDay } from "@/features/dashboard/ui/ScheduleDay";
+import { NextSession } from "@/features/dashboard/ui/NextSession";
+import QuickActions from '@/components/blocks/widgets/quick-actions/quick-actions';
+import { GreetingSection } from "@/features/dashboard/ui/Greetings";
 
 export default function Dashboard() {
     return (
-        <div className="flex-1 p-3 h-full">
-            <div className="grid grid-cols-3 grid-rows-3 gap-4 h-full w-full">
-                <Widget className="row-span-2 col-start-3 row-start-2 p-5 shadow-[inset_0_0_10px_0] shadow-black/10 overflow-hidden rounded-lg">
-                    <Widget.Content className="custom-scrollbar overflow-y-auto h-full">
-                        <ScheduleDay />
-                    </Widget.Content>
-                </Widget>
-                <div />
+        <div className="h-full flex flex-col p-3 gap-2 overflow-hidden">
+            <div className="grid grid-cols-3 grid-rows-3 gap-3 w-full flex-1 min-h-0">
+                <GreetingSection className="col-span-2 row-span-2 bg-white" />
+                <NextSession className="col-start-3 row-start-1 shadow-[0_0_10px_0] shadow-black/5 min-h-0! bg-white" />
+                <ScheduleDay className="col-start-3 row-start-2 row-span-2 shadow-[0_0_10px_0] shadow-black/5 min-h-0! bg-white" />
+                <QuickActions className="row-start-3 col-span-2 min-h-0! bg-white" />
             </div>
         </div>
     );

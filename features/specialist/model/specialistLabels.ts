@@ -11,11 +11,6 @@ export const LANGUAGE_LABELS: Record<string, string> = {
     ar: "ערבית",
 };
 
-export const MEETING_FORMAT_LABELS: Record<string, string> = {
-    online: "אונליין",
-    offline: "פרונטלי",
-};
-
 export const GENDER_LABELS: Record<string, string> = {
     male: "זכר",
     female: "נקבה",

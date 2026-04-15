@@ -3,7 +3,6 @@ import {
     isAllowedProfession,
     isAllowedGender,
     isAllowedLanguage,
-    isAllowedMeetingFormat,
     isAllowedSessionType,
     isAllowedSort,
 } from "@/features/catalog/model/catalogEnums";
@@ -16,8 +15,6 @@ export function parseFiltersFromSearchParams(searchParams: URLSearchParams): Cat
     filters.profession = profession && isAllowedProfession(profession) ? profession : "psychologist";
     const gender = searchParams.get("gender");
     if (gender && isAllowedGender(gender)) filters.gender = gender;
-    const meetingFormat = searchParams.get("meetingFormat");
-    if (meetingFormat && isAllowedMeetingFormat(meetingFormat)) filters.meetingFormat = meetingFormat;
     const language = searchParams.get("language");
     if (language && isAllowedLanguage(language)) filters.language = language;
     const sessionType = searchParams.get("sessionType");

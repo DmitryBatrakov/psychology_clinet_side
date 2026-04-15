@@ -28,7 +28,6 @@ function toSpecialistDTO(
             data.profession === "therapist" || data.profession === "coach"
                 ? data.profession
                 : "psychologist",
-        meetingFormat: (data.meetingFormat === "offline" ? "offline" : "online") as "offline" | "online",
         sessionTypes: Array.isArray(data.sessionTypes) ? data.sessionTypes : [],
         experience: Number(data.experience ?? 0),
         pricePerSession: Number(data.pricePerSession ?? 0),

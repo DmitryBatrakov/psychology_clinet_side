@@ -18,7 +18,7 @@ const db = admin.firestore();
 const SPECIALIST_UID = "o3FrozdLfycefrqL42agXseoeWu1";
 
 // Тестовый пациент (создадим одного для всех сессий)
-const PATIENT_UID = "test-patient-001";
+const PATIENT_UID = "test-patient-002";
 
 function dayTimestamp(offsetDays: number, hour: number, minute = 0) {
     const d = new Date();
@@ -42,8 +42,8 @@ async function main() {
     // 3. Убедиться что тестовый пациент существует
     await db.collection("users").doc(PATIENT_UID).set(
         {
-            firstName: "Иван",
-            lastName: "Тестов",
+            firstName: "User",
+            lastName: "Test",
             photoUrl: null,
             role: "patient",
         },
@@ -90,7 +90,6 @@ async function main() {
             endAt,
             date: startAt,
             status: s.status,
-            meetingFormat: "online",
             meetingUrl: "https://meet.google.com/test-link",
             income: 200,
             desription: "Тестовая сессия",

@@ -10,10 +10,13 @@ import { useTimeUntil } from "@/features/dashboard/lib/useTimeUntil";
 import { getDisplayTimes } from "@/features/dashboard/lib/sessionDisplayTime";
 import { CircleUserRound } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function NextSessionBody() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
     const { data, isLoading } = useScheduleDay(user?.uid ?? null, authLoading);
+    const router = useRouter();
 
     const next = findNextSession(data?.items);
 
@@ -25,8 +28,8 @@ export function NextSessionBody() {
 
     if (!next) {
         return (
-            <div className="flex flex-col items-center justify-center h-full text-muted-foreground gap-2">
-                <p className="text-sm">אין פגישות קרובות</p>
+            <div className="flex flex-col items-center justify-center w-full h-full gap-2">
+                <Badge className="text-sm text-foreground bg-primary">אין פגישות בקרוב</Badge>
             </div>
         );
     }
@@ -34,7 +37,6 @@ export function NextSessionBody() {
     const { session, patient } = next;
     const patientName = `${patient.firstName} ${patient.lastName}`.trim() || "מטופל";
     const initials = `${patient.firstName[0] ?? ""}${patient.lastName[0] ?? ""}`.toUpperCase();
-    const isOnline = session.meetingFormat === "online";
     const [displayStart, displayEnd] = getDisplayTimes(session.startAt, session.endAt);
 
     return (
@@ -63,9 +65,9 @@ export function NextSessionBody() {
 
             <div className="flex gap-2">
                 <Button size="sm" variant="outline" className="flex-1">
-                    פרטים
+                    <Link href="/"> פרטים</Link>
                 </Button>
-                {isOnline && session.meetingUrl && (
+                {session.meetingUrl && (
                     <Button size="sm" className="flex-1" asChild>
                         <a href={session.meetingUrl} target="_blank" rel="noopener noreferrer">
                             כניסה

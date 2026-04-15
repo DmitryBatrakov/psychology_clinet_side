@@ -2,7 +2,6 @@ import { CatalogFilters, CatalogMatchMode, CatalogSpecialistsResponse, CatalogSo
 import {
     isAllowedGender,
     isAllowedLanguage,
-    isAllowedMeetingFormat,
     isAllowedProfession,
     isAllowedSessionType,
     isAllowedSort,
@@ -99,11 +98,6 @@ function parseFilters(searchParams: URLSearchParams): CatalogFilters {
     const gender = searchParams.get("gender");
     if (gender && isAllowedGender(gender)) filters.gender = gender;
 
-    const meetingFormat = searchParams.get("meetingFormat");
-    if (meetingFormat && isAllowedMeetingFormat(meetingFormat)) {
-        filters.meetingFormat = meetingFormat;
-    }
-
     const language = searchParams.get("language");
     if (language && isAllowedLanguage(language)) filters.language = language;
 
@@ -149,7 +143,6 @@ function toSpecialistDTO(
             data.profession === "therapist" || data.profession === "coach"
                 ? data.profession
                 : "psychologist",
-        meetingFormat: data.meetingFormat === "offline" ? "offline" : "online",
         sessionTypes: Array.isArray(data.sessionTypes) ? data.sessionTypes : [],
         experience: Number(data.experience ?? 0),
         pricePerSession: Number(data.pricePerSession ?? 0),
@@ -179,7 +172,6 @@ function applyStrictBaseFilters(s: SpecialistDTO, f: CatalogFilters): boolean {
 function matchesStrictOptionalFilters(s: SpecialistDTO, f: CatalogFilters): boolean {
     if (f.gender && s.gender !== f.gender) return false;
     if (f.language && !s.languages.includes(f.language)) return false;
-    if (f.meetingFormat && s.meetingFormat !== f.meetingFormat) return false;
     if (f.sessionType && !s.sessionTypes.includes(f.sessionType)) return false;
     if (f.services && f.services.length > 0) {
         const svcs = s.services.map((v) => String(v).toLowerCase());
@@ -191,7 +183,7 @@ function matchesStrictOptionalFilters(s: SpecialistDTO, f: CatalogFilters): bool
 
 function hasAnySoftFilter(f: CatalogFilters): boolean {
     return Boolean(
-        f.gender || f.language || f.meetingFormat || f.sessionType ||
+        f.gender || f.language || f.sessionType ||
         (f.services && f.services.length > 0)
     );
 }
@@ -199,7 +191,6 @@ function hasAnySoftFilter(f: CatalogFilters): boolean {
 function matchesAnySoftFilter(s: SpecialistDTO, f: CatalogFilters): boolean {
     if (f.gender && s.gender === f.gender) return true;
     if (f.language && s.languages.includes(f.language)) return true;
-    if (f.meetingFormat && s.meetingFormat === f.meetingFormat) return true;
     if (f.sessionType && s.sessionTypes.includes(f.sessionType)) return true;
     if (f.services && f.services.length > 0) {
         const svcs = s.services.map((v) => String(v).toLowerCase());

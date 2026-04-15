@@ -94,10 +94,6 @@ export function SessionUpcoming({
                                         <span className="font-medium">נושא:</span>
                                         <span>{s.desription}</span>
                                     </div>
-                                    <div className="flex gap-2">
-                                        <span className="font-medium">פורמט פגישה:</span>
-                                        <span>{s.meetingFormat}</span>
-                                    </div>
                                 </div>
 
                                 {/* Actions */}

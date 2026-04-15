@@ -19,7 +19,7 @@ export const SpecialistBooking = ({}: {}) => {
         <div className="flex flex-col w-full p-2">
             <div className="flex items-center justify-around">
                 <div className="text-sm text-muted-foreground">
-                    <SessionDatePicker specialistId={specialistQuery.data.id} sessionType={specialistQuery.data.sessionTypes} meetingFormat={specialistQuery.data.meetingFormat} />
+                    <SessionDatePicker specialistId={specialistQuery.data.id} sessionType={specialistQuery.data.sessionTypes} />
                 </div>
             </div>
         </div>

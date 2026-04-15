@@ -29,9 +29,6 @@ export const useCatalogSpecialists = ({
             if (cursor) params.set("cursor", cursor);
             if (filters?.profession) params.set("profession", filters.profession);
             if (filters?.gender) params.set("gender", filters.gender);
-            if (filters?.meetingFormat) {
-                params.set("meetingFormat", filters.meetingFormat);
-            }
             if (filters?.language) params.set("language", filters.language);
             if (filters?.sessionType) {
                 params.set("sessionType", filters.sessionType);

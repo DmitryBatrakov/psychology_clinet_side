@@ -1,7 +1,7 @@
 import { ScheduleDay } from "@/features/dashboard/ui/ScheduleDay";
 import { NextSession } from "@/features/dashboard/ui/NextSession";
-import QuickActions from '@/components/blocks/widgets/quick-actions/quick-actions';
 import { GreetingSection } from "@/features/dashboard/ui/Greetings";
+import { QuickActions } from "@/features/dashboard/ui/QuickActions";
 
 export default function Dashboard() {
     return (

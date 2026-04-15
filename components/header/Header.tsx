@@ -76,7 +76,7 @@ export const Header = () => {
                         </button>
                     ) : (
                         <button
-                            className="bg-primary px-4 py-2 text-white cursor-pointer "
+                            className="bg-primary px-4 py-2 text-white cursor-pointer rounded-lg "
                             onClick={() => router.push("/auth/login")}
                         >
                             Sign In

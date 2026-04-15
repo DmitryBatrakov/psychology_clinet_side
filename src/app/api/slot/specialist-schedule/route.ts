@@ -69,7 +69,6 @@ function toSessionDTO(doc: FirebaseFirestore.QueryDocumentSnapshot): SessionDTO 
         income: Number(data.income ?? 0),
         desription: data.desription,
         meetingUrl: data.meetingUrl,
-        meetingFormat: data.meetingFormat ?? "online",
     };
 }
 

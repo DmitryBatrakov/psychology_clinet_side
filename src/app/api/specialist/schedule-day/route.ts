@@ -18,7 +18,6 @@ function toPlainSession(doc: FirebaseFirestore.QueryDocumentSnapshot): SessionDT
         income: data.income,
         desription: data.desription,
         meetingUrl: data.meetingUrl,
-        meetingFormat: data.meetingFormat,
         createdAt: data.createdAt,
         date: data.date.toDate().toISOString(),
         startAt: data.startAt.toDate().toISOString(),
@@ -42,6 +41,7 @@ export async function GET(req: NextRequest) {
 
         const sessionsSnap = await adminDb
             .collection("sessions")
+            // .where("status", "==", "upcoming")
             .where("specialistId", "==", uid)
             .where("startAt", ">=", Timestamp.fromDate(startOfDay))
             .where("startAt", "<=", Timestamp.fromDate(endOfDay))

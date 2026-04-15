@@ -1,7 +1,6 @@
 import type { CatalogSort } from "./types";
 import {
     ALLOWED_GENDERS,
-    ALLOWED_MEETING_FORMATS,
     ALLOWED_LANGUAGES,
     ALLOWED_SESSION_TYPES,
     ALLOWED_SORT_VALUES,
@@ -31,15 +30,6 @@ export const GENDER_OPTIONS: { value: string; label: string }[] = [
         value,
         label: value === "female" ? "נקבה" : "זכר",
     })),
-];
-
-const MEETING_FORMAT_LABELS: Record<(typeof ALLOWED_MEETING_FORMATS)[number], string> = {
-    online: "אונליין",
-    offline: "פרונטלי",
-};
-export const MEETING_FORMAT_OPTIONS: { value: string; label: string }[] = [
-    { value: FILTER_ANY, label: "כל" },
-    ...ALLOWED_MEETING_FORMATS.map((value) => ({ value, label: MEETING_FORMAT_LABELS[value] })),
 ];
 
 const SESSION_TYPE_LABELS: Record<(typeof ALLOWED_SESSION_TYPES)[number], string> = {

@@ -3,7 +3,6 @@ import { UserData } from "@/features/user/model/types";
 export type SessionType = "individual" | "couple" | "child" | "teen";
 
 export type Profession = "psychologist" | "therapist" | "coach";
-export type MeetingFormat = "online" | "offline";
 
 export type WorkMethod =
     | "CBT"
@@ -28,7 +27,6 @@ export type Degree = {
 export interface SpecialistData extends UserData {
     id: string;
     profession: Profession;
-    meetingFormat: MeetingFormat;
     sessionTypes: SessionType[];
     experience: number;
     pricePerSession: number;

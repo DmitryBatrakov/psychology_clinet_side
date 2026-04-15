@@ -28,3 +28,4 @@ export type UserProfile = {
     balance: number;
     profileComplete: boolean;
 };
+ 

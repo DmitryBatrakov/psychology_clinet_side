@@ -15,6 +15,7 @@ import { Badge } from "@/components/ui/badge";
 import { CircleUserRound, ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export function ScheduleDayBody() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
@@ -28,8 +29,8 @@ export function ScheduleDayBody() {
 
     if (items.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center py-16 text-muted-foreground gap-2">
-                <p className="text-base">אין פגישות להיום</p>
+            <div className="flex flex-col items-center justify-center py-16 gap-2 w-full h-full">
+                <Badge className="text-sm text-foreground bg-primary">אין פגישות להיום</Badge>
             </div>
         );
     }
@@ -51,7 +52,6 @@ function ScheduleDayCard({ item }: { item: ScheduleDayItem }) {
 
     const state = resolveSessionState(session.status, session.startAt, session.endAt);
     const isBlocked = state === "completed" || state === "canceled" || state === "past";
-    const isOnline = session.meetingFormat === "online";
     const [displayStart, displayEnd] = getDisplayTimes(session.startAt, session.endAt);
 
     const handleCardClick = () => {
@@ -97,22 +97,9 @@ function ScheduleDayCard({ item }: { item: ScheduleDayItem }) {
                 <div className={`grid transition-all duration-300 ease-in-out ${isCardOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
                     <div className="overflow-hidden">
                         <div className="flex gap-2 pt-3 pb-1">
-                            <Button size="sm" variant="outline" className="flex-1" onClick={(e) => e.stopPropagation()}>
-                                פרטים
+                            <Button size="sm" variant="outline" className="flex-1">
+                                <Link href="/"> פרטים</Link>
                             </Button>
-                            {isOnline && session.meetingUrl && (
-                                <Button
-                                    size="sm"
-                                    className="flex-1"
-                                    disabled={isBlocked}
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        if (!isBlocked) window.open(session.meetingUrl, "_blank", "noopener,noreferrer");
-                                    }}
-                                >
-                                    כניסה לפגישה
-                                </Button>
-                            )}
                             <Button
                                 size="sm"
                                 variant="destructive"

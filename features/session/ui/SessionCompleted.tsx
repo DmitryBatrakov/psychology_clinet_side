@@ -55,10 +55,6 @@ export function SessionCompleted({
                         <TableCell className="text-center">
                             {formatSessionTime(session.startAt)}
                         </TableCell>
-                        <TableCell className="text-center capitalize">
-                            {session.meetingFormat === "online" 
-                                && "אונליין"}
-                        </TableCell>
                         <TableCell className="text-center">
                             {getSpecialistName(session.specialistId)}
                         </TableCell>

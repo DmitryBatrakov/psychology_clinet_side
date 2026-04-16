@@ -6,6 +6,7 @@ import {
     ALLOWED_SORT_VALUES,
     type CatalogProfession,
 } from "./catalogEnums";
+import { LANGUAGE_LABELS, SESSION_TYPE_LABELS } from "@/lib/labels";
 
 export const PAGE_SIZE = 6;
 
@@ -32,23 +33,11 @@ export const GENDER_OPTIONS: { value: string; label: string }[] = [
     })),
 ];
 
-const SESSION_TYPE_LABELS: Record<(typeof ALLOWED_SESSION_TYPES)[number], string> = {
-    individual: "אינדיבידואלית",
-    couple: "זוגית",
-    child: "ילדים עד 12",
-    teen: "נוער 12–18",
-};
 export const SESSION_TYPE_OPTIONS: { value: string; label: string }[] = [
     { value: FILTER_ANY, label: "כל" },
     ...ALLOWED_SESSION_TYPES.map((value) => ({ value, label: SESSION_TYPE_LABELS[value] })),
 ];
 
-const LANGUAGE_LABELS: Record<(typeof ALLOWED_LANGUAGES)[number], string> = {
-    he: "עברית",
-    ru: "רוסית",
-    en: "אנגלית",
-    ar: "ערבית",
-};
 export const LANGUAGE_OPTIONS: { value: string; label: string }[] = [
     { value: FILTER_ANY, label: "כל" },
     ...ALLOWED_LANGUAGES.map((value) => ({ value, label: LANGUAGE_LABELS[value] })),

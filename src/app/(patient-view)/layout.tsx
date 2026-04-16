@@ -1,6 +1,3 @@
-import { ReactNode } from 'react';
-
-
 export default function PatientViewLayout({
     children
 }: Readonly<{

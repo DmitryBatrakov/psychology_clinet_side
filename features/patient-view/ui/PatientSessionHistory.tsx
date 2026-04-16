@@ -61,7 +61,7 @@ export function PatientSessionHistory({ sessions }: PatientSessionHistoryProps) 
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {sessions.map((session) => {
+                        {[...sessions].sort((a, b) => new Date(b.startAt).getTime() - new Date(a.startAt).getTime()).map((session) => {
                             const badge = STATUS_BADGE[session.status];
                             return (
                                 <TableRow key={session.id}>

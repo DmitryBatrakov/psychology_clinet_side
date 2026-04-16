@@ -23,39 +23,39 @@ export function PatientStats({ sessions }: PatientStatsProps) {
             label: "סה״כ פגישות",
             value: sessions.length,
             sub: firstSession ? `מאז ${formatSessionDate(firstSession.startAt)}` : "—",
-            icon: <Layers size={20} className="text-primary" />,
+            icon: <Layers size={30} className="text-primary" />,
         },
         {
             label: "הושלמו",
             value: completed.length,
             sub: `${sessions.length > 0 ? Math.round((completed.length / sessions.length) * 100) : 0}%`,
-            icon: <CalendarCheck size={20} className="text-green-500" />,
+            icon: <CalendarCheck size={30} className="text-green-500" />,
         },
         {
             label: "בוטלו",
             value: canceled.length,
             sub: `${sessions.length > 0 ? Math.round((canceled.length / sessions.length) * 100) : 0}%`,
-            icon: <CalendarX size={20} className="text-destructive" />,
+            icon: <CalendarX size={30} className="text-destructive" />,
         },
         {
             label: "הכנסה כוללת",
             value: `₪${totalIncome.toLocaleString()}`,
             sub: `${completed.length} פגישות משולמות`,
-            icon: <CircleDollarSign size={20} className="text-blue-500" />,
+            icon: <CircleDollarSign size={30} className="text-blue-500" />,
         },
     ];
 
     return (
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
             {stats.map((stat) => (
-                <Card key={stat.label}>
-                    <CardContent className="flex flex-col gap-2 p-4">
+                <Card key={stat.label} className="p-4">
+                    <CardContent className="flex flex-col justify-start gap-2 p-0">
                         <div className="flex items-center justify-between">
-                            <p className="text-xs text-muted-foreground">{stat.label}</p>
+                            <span className="text-xl font-bold text-muted-foreground">{stat.label}</span>
                             {stat.icon}
                         </div>
                         <p className="text-2xl font-bold">{stat.value}</p>
-                        <p className="text-xs text-muted-foreground">{stat.sub}</p>
+                        <p className="text-base text-muted-foreground">{stat.sub}</p>
                     </CardContent>
                 </Card>
             ))}

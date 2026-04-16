@@ -97,8 +97,8 @@ function ScheduleDayCard({ item }: { item: ScheduleDayItem }) {
                 <div className={`grid transition-all duration-300 ease-in-out ${isCardOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
                     <div className="overflow-hidden">
                         <div className="flex gap-2 pt-3 pb-1">
-                            <Button size="sm" variant="outline" className="flex-1">
-                                <Link href="/"> פרטים</Link>
+                            <Button size="sm" variant="outline" className="flex-1" asChild>
+                                <Link href={`/patient-view/${patient.id}`}>פרטים</Link>
                             </Button>
                             <Button
                                 size="sm"

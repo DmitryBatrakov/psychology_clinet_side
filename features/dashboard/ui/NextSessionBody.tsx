@@ -16,7 +16,6 @@ import Link from "next/link";
 export function NextSessionBody() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
     const { data, isLoading } = useScheduleDay(user?.uid ?? null, authLoading);
-    const router = useRouter();
 
     const next = findNextSession(data?.items);
 
@@ -42,7 +41,7 @@ export function NextSessionBody() {
     return (
         <div className="flex flex-col gap-4 h-full justify-center w-full">
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-end gap-6">
                 <Avatar className="w-12 h-12 shrink-0">
                     <AvatarImage src={patient.photoUrl ?? undefined} alt={patientName} />
                     <AvatarFallback>
@@ -56,16 +55,22 @@ export function NextSessionBody() {
                         {displayEnd && ` — ${formatSessionTime(displayEnd)}`}
                     </p>
                 </div>
+            </div>
+            <div className="w-full flex items-center justify-center">
                 {timeUntil && (
-                    <Badge className="ml-auto text-xs font-medium text-muted-foreground whitespace-nowrap">
-                        {timeUntil}
+                    <Badge className="text-sm text-muted-foreground whitespace-nowrap flex items-center justify-center gap-1">
+                        <span className="">בעוד:</span>
+                        <span className="font-semibold">
+                            {timeUntil}
+                        </span>
                     </Badge>
                 )}
             </div>
-
             <div className="flex gap-2">
-                <Button size="sm" variant="outline" className="flex-1">
-                    <Link href="/"> פרטים</Link>
+                <Button size="sm" variant="outline" className="flex-1" asChild>
+                    <Link href={`/patient-view/${patient.id}`}>
+                        פרטים
+                    </Link>
                 </Button>
                 {session.meetingUrl && (
                     <Button size="sm" className="flex-1" asChild>

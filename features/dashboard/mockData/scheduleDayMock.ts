@@ -153,7 +153,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 status: "upcoming",
                 createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 10).toISOString(),
                 income: 350,
-                meetingUrl: "https://meet.example.com/def456",
+                meetingUrl: undefined,
                 type: "teen",
             },
             patient: {

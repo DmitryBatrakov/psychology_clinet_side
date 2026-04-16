@@ -7,7 +7,7 @@ export const userProfile: UserProfile =
     firstName: "Dima",
     lastName: "Batrakov",
     phoneNumber: "0534012105",
-    photoUrl: null,
+    photoUrl: "https://pub-2f6cea07e8de44c5a4fe8de80370629d.r2.dev/avatars/1xYgBO5IXSWg4tl0jGFSMRLTZWt2-1775808882469.jpeg",
     birthDate: "2024-06-10T09:00:00.000Z",
     gender: "male",
     languages: ["en", "he", "ru"],

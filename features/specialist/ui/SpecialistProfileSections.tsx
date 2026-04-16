@@ -34,7 +34,7 @@ export const SpecialistProfileSections = ({
                     <ul className="list-disc list-inside space-y-1">
                         {specialist.workMethods.map((method) => (
                             <li key={method}>
-                                {WORK_METHOD_LABELS[method] ?? method}
+                                {WORK_METHOD_LABELS[method as keyof typeof WORK_METHOD_LABELS] ?? method}
                             </li>
                         ))}
                     </ul>

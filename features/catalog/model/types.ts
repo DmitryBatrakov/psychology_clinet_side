@@ -2,7 +2,6 @@ import type {
     CatalogProfession,
     CatalogGender,
     CatalogLanguage,
-    CatalogMeetingFormat,
     CatalogSessionType,
 } from "./catalogEnums";
 
@@ -13,7 +12,6 @@ export interface CatalogFilters {
     gender?: CatalogGender;
     services?: string[];
     language?: CatalogLanguage;
-    meetingFormat?: CatalogMeetingFormat;
     sessionType?: CatalogSessionType;
 }
 

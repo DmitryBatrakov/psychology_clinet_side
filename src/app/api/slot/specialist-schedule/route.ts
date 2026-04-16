@@ -65,11 +65,10 @@ function toSessionDTO(doc: FirebaseFirestore.QueryDocumentSnapshot): SessionDTO 
         endAt: toIsoString(data.endAt),
         date: toIsoString(data.date) ?? new Date().toISOString(),
         status: data.status ?? "upcoming",
+        type: data.type,
         createdAt: toIsoString(data.createdAt) ?? String(data.createdAt ?? ""),
         income: Number(data.income ?? 0),
-        desription: data.desription,
         meetingUrl: data.meetingUrl,
-        meetingFormat: data.meetingFormat ?? "online",
     };
 }
 

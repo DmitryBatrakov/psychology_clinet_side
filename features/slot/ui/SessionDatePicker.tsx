@@ -18,18 +18,14 @@ import {
     startOfWeekSunday,
     toDateKey,
 } from "../lib/utils";
-import { MeetingFormat } from "@/features/session/model/types";
-import { ALLOWED_MEETING_FORMATS } from "@/features/catalog/model/catalogEnums";
 import { useSpecialistSchedule } from "../hooks/useSpecialistSchedule";
 
 export const SessionDatePicker = ({
     specialistId,
     sessionType,
-    meetingFormat,
 }: {
     specialistId: string;
     sessionType: SessionType[];
-    meetingFormat: MeetingFormat;
 }) => {
     const scheduleQuery = useSpecialistSchedule(specialistId);
     const scheduleRule = scheduleQuery.data?.rule ?? null;
@@ -153,30 +149,6 @@ export const SessionDatePicker = ({
                                         />
                                         <FieldLabel htmlFor={type}>
                                             {type}
-                                        </FieldLabel>
-                                    </Field>
-                                ))}
-                            </RadioGroup>
-                        </FieldSet>
-                    </div>
-                    <div className="flex items-center justify-center">
-                        <FieldSet className="w-full max-w-xs">
-                            <FieldLegend variant="label">
-                                בחרו סוג פגישה
-                            </FieldLegend>
-                            <RadioGroup defaultValue={meetingFormat}>
-                                {ALLOWED_MEETING_FORMATS.map((format) => (
-                                    <Field
-                                        key={format}
-                                        className=""
-                                        orientation="horizontal"
-                                    >
-                                        <RadioGroupItem
-                                            id={format}
-                                            value={format}
-                                        />
-                                        <FieldLabel htmlFor={format}>
-                                            {format}
                                         </FieldLabel>
                                     </Field>
                                 ))}

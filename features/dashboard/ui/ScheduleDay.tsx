@@ -8,7 +8,7 @@ export function ScheduleDay({ ...rest }: WidgetProps) {
     return (
         <Widget {...rest}>
             <Widget.Header>
-                <Widget.Title className="flex items-center gap-2 text-lg">
+                <Widget.Title className="flex items-center gap-2 text-lg font-semibold">
                     <CalendarDays size={18} /> לוח יום
                 </Widget.Title>
             </Widget.Header>

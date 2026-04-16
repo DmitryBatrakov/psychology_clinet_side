@@ -22,7 +22,6 @@ import {
     FILTER_ANY,
     PROFESSION_OPTIONS,
     GENDER_OPTIONS,
-    MEETING_FORMAT_OPTIONS,
     SESSION_TYPE_OPTIONS,
     LANGUAGE_OPTIONS,
     PRICE_RANGE_OPTIONS,
@@ -102,24 +101,6 @@ export function CatalogFilters({
                     </SelectTrigger>
                     <SelectContent side="bottom" align="start" position="popper">
                         {GENDER_OPTIONS.map((opt) => (
-                            <SelectItem key={opt.value} value={opt.value}>
-                                {opt.label}
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-            </div>
-            <div>
-                <label className="text-sm font-medium text-right block mb-2">פורמט פגישה</label>
-                <Select
-                    value={filters.meetingFormat ?? FILTER_ANY}
-                    onValueChange={(v) => setFilter("meetingFormat", v)}
-                >
-                    <SelectTrigger className="w-full justify-between" dir="rtl">
-                        <SelectValue placeholder="כל" />
-                    </SelectTrigger>
-                    <SelectContent side="bottom" align="start" position="popper">
-                        {MEETING_FORMAT_OPTIONS.map((opt) => (
                             <SelectItem key={opt.value} value={opt.value}>
                                 {opt.label}
                             </SelectItem>

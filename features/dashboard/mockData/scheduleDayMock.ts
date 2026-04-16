@@ -1,0 +1,232 @@
+import type { ScheduleDayResponse } from "@/features/dashboard/model/types";
+
+const today = new Date();
+
+function todayAt(hours: number, minutes = 0): string {
+    const d = new Date(today);
+    d.setHours(hours, minutes, 0, 0);
+    return d.toISOString();
+}
+ 
+export const scheduleDayMock: ScheduleDayResponse = {
+    items: [
+        {
+            session: {
+                id: "session-1",
+                userId: "patient-1",
+                specialistId: "specialist-1",
+                startAt: todayAt(9, 0),
+                endAt: todayAt(9, 50),
+                date: todayAt(9, 0),
+                status: "completed",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7).toISOString(),
+                income: 350,
+                meetingUrl: "https://meet.example.com/xyz789",
+                type: "individual",
+            },
+            patient: {
+                id: "patient-1",
+                firstName: "יוסי",
+                lastName: "כהן",
+                photoUrl: "https://picsum.photos/200",
+                birthDate: "1985-03-14",
+            },
+        },
+        {
+            session: {
+                id: "session-2",
+                userId: "patient-2",
+                specialistId: "specialist-1",
+                startAt: todayAt(10, 0),
+                endAt: todayAt(10, 50),
+                date: todayAt(10, 0),
+                status: "completed",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3).toISOString(),
+                income: 400,
+                meetingUrl: "https://meet.example.com/abc123",
+                type: "individual",
+            },
+            patient: {
+                id: "patient-2",
+                firstName: "מיכל",
+                lastName: "לוי",
+                photoUrl: "https://picsum.photos/200",
+               
+            },
+        },
+        {
+            session: {
+                id: "session-3",
+                userId: "patient-3",
+                specialistId: "specialist-1",
+                startAt: todayAt(11, 30),
+                endAt: todayAt(12, 20),
+                date: todayAt(11, 30),
+                status: "canceled",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 1).toISOString(),
+                income: 0,
+                meetingUrl: "https://meet.example.com/xyz789",
+                type: "individual",
+            },
+            patient: {
+                id: "patient-3",
+                firstName: "דנה",
+                lastName: "אברהם",
+                photoUrl: "https://picsum.photos/200",
+                birthDate: "1998-11-05",
+            },
+        },
+        {
+            session: {
+                id: "session-4",
+                userId: "patient-4",
+                specialistId: "specialist-1",
+                startAt: todayAt(14, 0),
+                endAt: todayAt(14, 50),
+                date: todayAt(14, 0),
+                status: "upcoming",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 2).toISOString(),
+                income: 350,
+                meetingUrl: "https://meet.example.com/xyz789",
+                type: "couple",
+            },
+            patient: {
+                id: "patient-4",
+                firstName: "אבי",
+                lastName: "שמעון",
+                photoUrl: "https://picsum.photos/200",
+                birthDate: "1979-01-30",
+            },
+        },
+        {
+            session: {
+                id: "session-5",
+                userId: "patient-5",
+                specialistId: "specialist-1",
+                startAt: todayAt(15, 30),
+                endAt: todayAt(16, 20),
+                date: todayAt(15, 30),
+                status: "upcoming",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 5).toISOString(),
+                income: 450,
+                meetingUrl: "https://meet.example.com/xyz789",
+                type: "individual",
+            },
+            patient: {
+                id: "patient-5",
+                firstName: "רחל",
+                lastName: "גולן",
+                photoUrl: "https://picsum.photos/200",
+                birthDate: "2001-09-17",
+            },
+        },
+        {
+            session: {
+                id: "session-6",
+                userId: "patient-6",
+                specialistId: "specialist-1",
+                startAt: todayAt(17, 0),
+                endAt: todayAt(17, 50),
+                date: todayAt(17, 0),
+                status: "upcoming",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 10).toISOString(),
+                income: 350,
+                meetingUrl: "https://meet.example.com/def456",
+                type: "individual",
+            },
+            patient: {
+                id: "patient-6",
+                firstName: "נועם",
+                lastName: "ברק",
+                photoUrl: "https://picsum.photos/200",
+                birthDate: "1990-04-08",
+            },
+        },
+        {
+            session: {
+                id: "session-7",
+                userId: "patient-7",
+                specialistId: "specialist-1",
+                startAt: todayAt(18, 0),
+                endAt: todayAt(18, 50),
+                date: todayAt(17, 0),
+                status: "upcoming",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 10).toISOString(),
+                income: 350,
+                meetingUrl: undefined,
+                type: "teen",
+            },
+            patient: {
+                id: "patient-7",
+                firstName: "נועם",
+                lastName: "גולן",
+                photoUrl: "https://picsum.photos/200",
+                birthDate: "2009-06-25",
+            },
+        },
+        {
+            session: {
+                id: "session-8",
+                userId: "patient-2",
+                specialistId: "specialist-1",
+                startAt: todayAt(19, 0),
+                endAt: todayAt(19, 50),
+                date: todayAt(10, 0),
+                status: "upcoming",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3).toISOString(),
+                income: 400,
+                meetingUrl: "https://meet.example.com/abc123",
+                type: "couple",
+            },
+            patient: {
+                id: "patient-2",
+                firstName: "מיכל",
+                lastName: "לוי",
+                photoUrl: "https://picsum.photos/200",
+               
+            },
+        },
+        {
+            session: {
+                id: "session-9",
+                userId: "patient-2",
+                specialistId: "specialist-1",
+                startAt: todayAt(20, 0),
+                endAt: todayAt(20, 50),
+                date: todayAt(10, 0),
+                status: "upcoming",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3).toISOString(),
+                income: 400,
+                meetingUrl: "https://meet.example.com/abc123",
+                type: "individual",
+            },
+            patient: {
+                id: "patient-2",
+                firstName: "מיכל",
+                lastName: "לוי",
+                photoUrl: "https://picsum.photos/200",
+            },
+        },
+        {
+            session: {
+                id: "session-10",
+                userId: "patient-2",
+                specialistId: "specialist-1",
+                startAt: todayAt(21, 0),
+                endAt: todayAt(21, 50),
+                date: todayAt(17, 0),
+                status: "upcoming",
+                createdAt: new Date(today.getFullYear(), today.getMonth(), today.getDate() - 3).toISOString(),
+                income: 400,
+                meetingUrl: "https://meet.example.com/abc123",
+                type: "individual",
+            },
+            patient: {
+                id: "patient-2",
+                firstName: "מיכל",
+                lastName: "לוי",
+                photoUrl: "https://picsum.photos/200",
+            },
+        },
+    ],
+};

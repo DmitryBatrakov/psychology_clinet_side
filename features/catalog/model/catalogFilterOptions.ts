@@ -1,12 +1,12 @@
 import type { CatalogSort } from "./types";
 import {
     ALLOWED_GENDERS,
-    ALLOWED_MEETING_FORMATS,
     ALLOWED_LANGUAGES,
     ALLOWED_SESSION_TYPES,
     ALLOWED_SORT_VALUES,
     type CatalogProfession,
 } from "./catalogEnums";
+import { LANGUAGE_LABELS, SESSION_TYPE_LABELS } from "@/lib/labels";
 
 export const PAGE_SIZE = 6;
 
@@ -33,32 +33,11 @@ export const GENDER_OPTIONS: { value: string; label: string }[] = [
     })),
 ];
 
-const MEETING_FORMAT_LABELS: Record<(typeof ALLOWED_MEETING_FORMATS)[number], string> = {
-    online: "אונליין",
-    offline: "פרונטלי",
-};
-export const MEETING_FORMAT_OPTIONS: { value: string; label: string }[] = [
-    { value: FILTER_ANY, label: "כל" },
-    ...ALLOWED_MEETING_FORMATS.map((value) => ({ value, label: MEETING_FORMAT_LABELS[value] })),
-];
-
-const SESSION_TYPE_LABELS: Record<(typeof ALLOWED_SESSION_TYPES)[number], string> = {
-    individual: "אינדיבידואלית",
-    couple: "זוגית",
-    child: "ילדים עד 12",
-    teen: "נוער 12–18",
-};
 export const SESSION_TYPE_OPTIONS: { value: string; label: string }[] = [
     { value: FILTER_ANY, label: "כל" },
     ...ALLOWED_SESSION_TYPES.map((value) => ({ value, label: SESSION_TYPE_LABELS[value] })),
 ];
 
-const LANGUAGE_LABELS: Record<(typeof ALLOWED_LANGUAGES)[number], string> = {
-    he: "עברית",
-    ru: "רוסית",
-    en: "אנגלית",
-    ar: "ערבית",
-};
 export const LANGUAGE_OPTIONS: { value: string; label: string }[] = [
     { value: FILTER_ANY, label: "כל" },
     ...ALLOWED_LANGUAGES.map((value) => ({ value, label: LANGUAGE_LABELS[value] })),

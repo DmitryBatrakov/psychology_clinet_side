@@ -8,8 +8,10 @@ import { formatSessionTime } from "@/features/session/lib/formatSession";
 import { findNextSession } from "@/features/dashboard/lib/findNextSession";
 import { useTimeUntil } from "@/features/dashboard/lib/useTimeUntil";
 import { getDisplayTimes } from "@/features/dashboard/lib/sessionDisplayTime";
-import { CircleUserRound } from "lucide-react";
+import { CircleUser } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function NextSessionBody() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
@@ -25,8 +27,8 @@ export function NextSessionBody() {
 
     if (!next) {
         return (
-            <div className="flex flex-col items-center justify-center h-full text-muted-foreground gap-2">
-                <p className="text-sm">אין פגישות קרובות</p>
+            <div className="flex flex-col items-center justify-center w-full h-full gap-2">
+                <Badge className="text-sm text-foreground bg-primary">אין פגישות בקרוב</Badge>
             </div>
         );
     }
@@ -34,38 +36,42 @@ export function NextSessionBody() {
     const { session, patient } = next;
     const patientName = `${patient.firstName} ${patient.lastName}`.trim() || "מטופל";
     const initials = `${patient.firstName[0] ?? ""}${patient.lastName[0] ?? ""}`.toUpperCase();
-    const isOnline = session.meetingFormat === "online";
     const [displayStart, displayEnd] = getDisplayTimes(session.startAt, session.endAt);
 
     return (
-        <div className="flex flex-col gap-4 h-full justify-center w-full">
+        <div className="flex flex-col gap-4 h-full justify-between py-5 w-full">
 
-            <div className="flex items-center gap-3">
-                <Avatar className="w-12 h-12 shrink-0">
+            <div className="flex items-center gap-5">
+                <Avatar className="w-16 h-16 shrink-0">
                     <AvatarImage src={patient.photoUrl ?? undefined} alt={patientName} />
                     <AvatarFallback>
-                        {initials || <CircleUserRound size={20} />}
+                        {initials || <CircleUser size={20} />}
                     </AvatarFallback>
                 </Avatar>
-                <div className="flex flex-col gap-0.5 min-w-0">
-                    <p className="font-semibold text-base truncate">{patientName}</p>
-                    <p className="text-sm text-muted-foreground" dir="ltr">
-                        {formatSessionTime(displayStart)}
-                        {displayEnd && ` — ${formatSessionTime(displayEnd)}`}
-                    </p>
+                <div className="flex justify-between items-start w-full gap-0.5 min-w-0">
+                    <div>
+                        <p className="font-semibold text-base truncate">{patientName}</p>
+                        <p className="text-sm text-muted-foreground" dir="ltr">
+                            {formatSessionTime(displayStart)}
+                            {displayEnd && ` — ${formatSessionTime(displayEnd)}`}
+                        </p>
+                    </div>
+                    {timeUntil && (
+                        <Badge className="text-sm text-muted-foreground whitespace-nowrap flex items-center justify-center gap-1">
+                            <span className="font-semibold">
+                                {timeUntil}
+                            </span>
+                        </Badge>
+                    )}
                 </div>
-                {timeUntil && (
-                    <Badge className="ml-auto text-xs font-medium text-muted-foreground whitespace-nowrap">
-                        {timeUntil}
-                    </Badge>
-                )}
             </div>
-
             <div className="flex gap-2">
-                <Button size="sm" variant="outline" className="flex-1">
-                    פרטים
+                <Button size="sm" variant="outline" className="flex-1" asChild>
+                    <Link href={`/patient-view/${patient.id}`}>
+                        פרטים
+                    </Link>
                 </Button>
-                {isOnline && session.meetingUrl && (
+                {session.meetingUrl && (
                     <Button size="sm" className="flex-1" asChild>
                         <a href={session.meetingUrl} target="_blank" rel="noopener noreferrer">
                             כניסה

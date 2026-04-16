@@ -35,7 +35,7 @@ export default function RootLayout({
     return (
         <html lang="he" dir="rtl">
             <body className={`${ubuntu.variable} font-sans antialiased w-full`}>
-                <main className="max-w-[1920px] w-full mx-auto">
+                <main className="max-w-480 w-full mx-auto">
                     <MainProvider>
                         
                         {children}

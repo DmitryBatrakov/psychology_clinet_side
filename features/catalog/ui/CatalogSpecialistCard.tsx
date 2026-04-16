@@ -10,20 +10,7 @@ import type { SpecialistDTO } from "@/features/specialist/model/types";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { CatalogLanguage } from "../model/catalogEnums";
-
-const PROFESSION_LABELS: Record<SpecialistDTO["profession"], string> = {
-    psychologist: "פסיכולוג/ית",
-    therapist: "פסיכותרפיסט/ת",
-    coach: " מאמן/ת אישי",
-};
-
-const LANGUAGE_LABELS: Record<CatalogLanguage, string> = {
-    he: "עברית",
-    ru: "רוסית",
-    en: "אנגלית",
-    ar: "ערבית",
-};
+import { LANGUAGE_LABELS, PROFESSION_LABELS } from "@/lib/labels";
 interface CatalogSpecialistCardProps {
     specialist: SpecialistDTO;
 }

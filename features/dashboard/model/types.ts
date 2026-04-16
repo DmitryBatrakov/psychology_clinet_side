@@ -5,6 +5,7 @@ export interface ScheduleDayPatient {
     firstName: string;
     lastName: string;
     photoUrl?: string | null;
+    birthDate?: string | null;
 }
 
 export interface ScheduleDayItem {

@@ -326,7 +326,7 @@ export default function Inbox() {
   }, [headerRef.current?.clientHeight]);
 
   return (
-    <div className="flex min-w-210 flex-1 flex-col">
+    <div className="flex h-full min-w-210 flex-1 flex-col">
       <div ref={headerRef} className="flex flex-col">
         <div className="w-full p-2">
           <Widget className="flex h-fit min-h-fit w-full flex-row flex-nowrap items-center justify-between p-2">

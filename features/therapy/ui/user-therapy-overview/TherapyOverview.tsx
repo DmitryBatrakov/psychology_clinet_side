@@ -5,10 +5,9 @@ import { CircleUserRound } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import {
-    MEETING_FORMAT_LABELS,
     PROFESSION_LABELS,
 } from "@/features/specialist/model/specialistLabels";
-import { MeetingFormat, Profession } from "@/features/specialist/model/types";
+import { Profession } from "@/features/specialist/model/types";
 import { formatDateTime } from "@/lib/utils";
 import Link from "next/link";
 import { Spinner } from "@/components/ui/spinner";
@@ -69,16 +68,6 @@ export const TherapyOverview = ({
                                     </div>
                                 </div>
                                 <div className="flex flex-col gap-2 w-full">
-                                    <div className="flex justify-start items-center gap-2 text-[1rem]">
-                                        <span>סוג הפגישה:</span>
-                                        <span>
-                                            {
-                                                MEETING_FORMAT_LABELS[
-                                                    session?.meetingFormat as MeetingFormat
-                                                ]
-                                            }
-                                        </span>
-                                    </div>
                                     <div className="flex  justify-start items-start  gap-10 text-[1rem]">
                                         <div className="flex  gap-2">
                                             <span>תאריך:</span>

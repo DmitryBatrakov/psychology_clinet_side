@@ -51,7 +51,6 @@ export const Header = () => {
             <div className="hidden lg:flex items-center justify-between w-full">
                 <div className="flex flex-col items-center justify-center min-w-40">
                     {authLoading ? (
-                        // <div className="w-12 h-12 rounded-full bg-neutral-300 animate-pulse overflow-hidden" />
                         <CircleUser
                             color="gray"
                             className="w-12 h-12 animate-pulse"
@@ -76,7 +75,7 @@ export const Header = () => {
                         </button>
                     ) : (
                         <button
-                            className="bg-primary px-4 py-2 text-white cursor-pointer "
+                            className="bg-primary px-4 py-2 text-white cursor-pointer rounded-lg "
                             onClick={() => router.push("/auth/login")}
                         >
                             Sign In

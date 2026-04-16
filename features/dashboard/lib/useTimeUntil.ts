@@ -24,7 +24,7 @@ export function useTimeUntil(
             }
 
             const start = t2 && !isNaN(t2) ? Math.min(t1, t2) : t1;
-            const end   = t2 && !isNaN(t2) ? Math.max(t1, t2) : null;
+            const end = t2 && !isNaN(t2) ? Math.max(t1, t2) : null;
 
             if (end && now >= start && now < end) {
                 setLabel("מתקיימת כעת");
@@ -43,11 +43,11 @@ export function useTimeUntil(
             const s = diff % 60;
 
             if (h > 0) {
-                setLabel(`בעוד ${h} ч ${m > 0 ? `${m} דקות` : ""}`.trim());
+                setLabel(`${m > 0 ? `דקות ${m} ` : ""} שעות ${h}  בעוד:`);
             } else if (m > 0) {
-                setLabel(`בעוד ${m} דקות`);
+                setLabel(`בעוד: דקות ${m} `);
             } else {
-                setLabel(`בעוד ${s} שניות`);
+                setLabel(`בעוד: שניות ${s} `);
             }
         }
 

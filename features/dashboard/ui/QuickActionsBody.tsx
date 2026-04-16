@@ -5,8 +5,6 @@ import {
   Bell,
   CalendarPlus,
   LucideIcon,
-  Megaphone,
-  SendToBack,
   Shredder,
   UserPlus,
 } from 'lucide-react';
@@ -39,7 +37,7 @@ const actions: Action[] = [
   },
 ];
 
-function QuickActionsBody() {
+export default function QuickActionsBody() {
   return (
     <div className="grid size-full grid-cols-3 gap-2">
       {actions.map(({ action, title, icon: Icon, color }, index) => {
@@ -63,4 +61,3 @@ function QuickActionsBody() {
   );
 }
 
-export default QuickActionsBody;

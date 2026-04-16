@@ -24,7 +24,6 @@ import { cn, languagesList } from "@/lib/utils";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
     GENDER_LABELS,
-    MEETING_FORMAT_LABELS,
     PROFESSION_LABELS,
     SESSION_TYPE_LABELS,
 } from "@/features/specialist/model/specialistLabels";
@@ -43,7 +42,7 @@ import { useRef } from "react";
 import { SpecialistApplicationCreateInput } from "../model/types";
 import { useApplicationsSpecialist } from "../hooks/useApplicationsSpecialist";
 import { useUploadDocuments } from "../hooks/useUploadDocuments";
-import { MeetingFormat, Profession } from "@/features/specialist/model/types";
+import { Profession } from "@/features/specialist/model/types";
 import { Gender } from "@/features/user/model/types";
 import {
     Popover,

@@ -40,10 +40,9 @@ export function SessionCompleted({
                 <TableRow>
                     <TableHead className="w-25">תאריך</TableHead>
                     <TableHead className="text-center">שעה</TableHead>
-                    <TableHead className="text-center">פורמט</TableHead>
                     <TableHead className="text-center">מומחה</TableHead>
-                    <TableHead className="text-right">מחיר</TableHead>
                     <TableHead className="text-right">סטטוס</TableHead>
+                    <TableHead className="text-right">מחיר</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -55,18 +54,14 @@ export function SessionCompleted({
                         <TableCell className="text-center">
                             {formatSessionTime(session.startAt)}
                         </TableCell>
-                        <TableCell className="text-center capitalize">
-                            {session.meetingFormat === "online" 
-                                && "אונליין"}
-                        </TableCell>
                         <TableCell className="text-center">
                             {getSpecialistName(session.specialistId)}
                         </TableCell>
-                        <TableCell className="text-right">
-                            {session.income}
-                        </TableCell>
                         <TableCell className="text-right capitalize">
                             {session.status}
+                        </TableCell>
+                        <TableCell className="text-right capitalize">
+                            {session.income}
                         </TableCell>
                     </TableRow>
                 ))}

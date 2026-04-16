@@ -22,14 +22,12 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <div className={`${roboto.variable} antialiased **:font-mono flex h-screen overflow-hidden bg-primary/25`}>
+        <div className={`${roboto.variable} antialiased **:font-mono flex h-screen overflow-hidden bg-primary/25 `}>
             <SpecialistSidebar />
-            <div className="flex flex-col flex-1 overflow-hidden">
-                {/* <div className='bg-white rounded-r-lg flex flex-col flex-1 overflow-hidden'> */}
-                    <main className="flex-1 min-h-0 overflow-hidden h-full  ">
-                        {children}
-                    </main>
-                {/* </div> */}
+            <div className="flex flex-col flex-1">
+                <main className="flex-1 min-h-0 h-full ">
+                    {children}
+                </main>
             </div>
         </div>
     );

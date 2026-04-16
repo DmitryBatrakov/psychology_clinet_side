@@ -88,18 +88,6 @@ export function SessionUpcoming({
                                     <p>שעה: {formatSessionTime(s.startAt)}</p>
                                 </div>
 
-                                {/* Details */}
-                                <div className="flex flex-col gap-2 justify-center items-start text-sm">
-                                    <div className="flex gap-2">
-                                        <span className="font-medium">נושא:</span>
-                                        <span>{s.desription}</span>
-                                    </div>
-                                    <div className="flex gap-2">
-                                        <span className="font-medium">פורמט פגישה:</span>
-                                        <span>{s.meetingFormat}</span>
-                                    </div>
-                                </div>
-
                                 {/* Actions */}
                                 <div className="flex flex-row sm:flex-col sm:col-start-2 gap-2">
                                     <Button

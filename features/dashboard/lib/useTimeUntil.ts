@@ -43,11 +43,11 @@ export function useTimeUntil(
             const s = diff % 60;
 
             if (h > 0) {
-                setLabel(`${m > 0 ? `דקות ${m} ` : ""} שעות ${h} `);
+                setLabel(`${m > 0 ? `דקות ${m} ` : ""} שעות ${h}  בעוד:`);
             } else if (m > 0) {
-                setLabel(`דקות ${m} `);
+                setLabel(`בעוד: דקות ${m} `);
             } else {
-                setLabel(`שניות ${s} `);
+                setLabel(`בעוד: שניות ${s} `);
             }
         }
 

@@ -92,7 +92,6 @@ async function main() {
             status: s.status,
             meetingUrl: "https://meet.google.com/test-link",
             income: 200,
-            desription: "Тестовая сессия",
             createdAt: new Date().toISOString(),
         });
     }

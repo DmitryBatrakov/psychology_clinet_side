@@ -13,9 +13,8 @@ export const sessionData: SessionMock[] = [
         status: "completed",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 120,
-        desription: "Initial intake session",
         meetingUrl: "https://meet.example.com/session-1",
-
+        type: "individual",
     },
     {
         id: "session-2",
@@ -27,9 +26,8 @@ export const sessionData: SessionMock[] = [
         status: "completed",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 140,
-        desription: "CBT follow-up",
         meetingUrl: "https://meet.example.com/session-2",
-
+        type: "individual",
     },
     {
         id: "session-3",
@@ -41,9 +39,8 @@ export const sessionData: SessionMock[] = [
         status: "upcoming",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 130,
-        desription: "Anxiety and coping strategies",
         meetingUrl: "https://meet.example.com/session-3",
-
+        type: "individual",
     },
     {
         id: "session-4",
@@ -55,9 +52,8 @@ export const sessionData: SessionMock[] = [
         status: "canceled",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 0,
-        desription: "Canceled by client",
         meetingUrl: "https://meet.example.com/session-4",
-
+        type: "individual",
     },
     {
         id: "session-5",
@@ -69,9 +65,8 @@ export const sessionData: SessionMock[] = [
         status: "completed",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 150,
-        desription: "Stress management",
         meetingUrl: "https://meet.example.com/session-5",
-
+        type: "individual",
     },
     {
         id: "session-6",
@@ -83,9 +78,8 @@ export const sessionData: SessionMock[] = [
         status: "upcoming",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 140,
-        desription: "Burnout and work-life balance",
         meetingUrl: "https://meet.example.com/session-6",
-
+        type: "couple",
     },
     {
         id: "session-7",
@@ -97,9 +91,8 @@ export const sessionData: SessionMock[] = [
         status: "upcoming",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 120,
-        desription: "Career goals and motivation",
         meetingUrl: "https://meet.example.com/session-7",
-
+        type: "individual",
     },
     {
         id: "session-8",
@@ -111,9 +104,8 @@ export const sessionData: SessionMock[] = [
         status: "upcoming",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 150,
-        desription: "Relationships and communication",
         meetingUrl: "https://meet.example.com/session-8",
-
+        type: "couple",
     },
     {
         id: "session-9",
@@ -125,8 +117,7 @@ export const sessionData: SessionMock[] = [
         status: "upcoming",
         createdAt: "2024-06-10T08:00:00.000Z",
         income: 135,
-        desription: "Sleep and mindfulness",
         meetingUrl: "https://meet.example.com/session-9",
-
+        type: "individual",
     },
 ];

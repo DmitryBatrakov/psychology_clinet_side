@@ -20,48 +20,26 @@ import {
 } from "@/features/patient-view/ui/PatientSessionHistory";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
+import Widget, { WidgetProps } from "@/components/blocks/widgets/widget";
+import { PatientBody } from '../../../../../features/patient-view/ui/PatientBody';
 
-export default function PatientViewPage() {
-    const { id } = useParams<{ id: string }>();
-    const { data, isLoading } = usePatientView(id);
-
-    console.log(data?.patient.id);
-    
-
-    if (isLoading) {
-        return (
-            <div className="flex flex-col gap-5 p-5 max-w-4xl mx-auto w-full">
-                <PatientHeaderSkeleton />
-                <PatientStatsSkeleton />
-                <PatientNextSessionSkeleton />
-                <PatientSessionHistorySkeleton />
-            </div>
-        );
-    }
-
-    if (!data) {
-        return (
-            <div className="flex items-center justify-center min-h-[50vh]">
-                <p className="text-muted-foreground">המטופל לא נמצא</p>
-            </div>
-        );
-    }
-
+export default function PatientViewPage({ ...rest }: WidgetProps) {
     return (
-        <div className="flex flex-col gap-5 p-5 max-w-6xl mx-auto w-full">
-            <div className="w-full flex items-center justify-start gap-2">
-                <Link
-                    href="/dashboard"
-                    className="flex items-center justify-center gap-2 text-primary "
-                >
-                    <MoveRight size={20} />
-                    <span>חזרה</span>
-                </Link>
-            </div>
-            <PatientHeader patient={data.patient} />
-            <PatientStats sessions={data.sessions} />
-            <PatientNextSession sessions={data.sessions} />
-            <PatientSessionHistory sessions={data.sessions} />
-        </div>
+        <Widget {...rest}>
+            <Widget.Header>
+                <Widget.Title className="flex items-center gap-2 text-lg font-semibold">
+                    <Link
+                        href="/dashboard"
+                        className="flex items-center justify-center gap-2 text-primary cursor-pointer"
+                    >
+                        <MoveRight size={20} />
+                        <span>חזרה</span>
+                    </Link>
+                </Widget.Title>
+            </Widget.Header>
+            <Widget.Content className="overflow-y-auto custom-scrollbar">
+                <PatientBody />
+            </Widget.Content>
+        </Widget>
     );
 }

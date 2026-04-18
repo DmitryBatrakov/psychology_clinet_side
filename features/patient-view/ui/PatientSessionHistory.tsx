@@ -11,17 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SessionDTO } from "@/features/session/model/types";
-import { SESSION_TYPE_LABELS } from "@/features/session/lib/sessionTypeLabels";
+import { SESSION_TYPE_LABELS, SESSION_STATUS_LABELS } from "@/lib/labels";
 import { formatSessionDate, formatSessionTime } from "@/features/session/lib/formatSession";
-
-const STATUS_BADGE: Record<
-    SessionDTO["status"],
-    { label: string; variant: "default" | "secondary" | "destructive" | "outline" }
-> = {
-    upcoming: { label: "קרובה", variant: "default" },
-    completed: { label: "הושלמה", variant: "secondary" },
-    canceled: { label: "בוטלה", variant: "destructive" },
-};
 
 type PatientSessionHistoryProps = {
     sessions: SessionDTO[];
@@ -43,6 +34,11 @@ export function PatientSessionHistory({ sessions }: PatientSessionHistoryProps) 
         );
     }
 
+    const sessionSorted = [...sessions]
+        .filter(s => s.status === "completed")
+        .sort((a, b) => new Date(b.startAt).getTime() - new Date(a.startAt).getTime());
+
+
     return (
         <Card>
             <CardHeader>
@@ -61,8 +57,8 @@ export function PatientSessionHistory({ sessions }: PatientSessionHistoryProps) 
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {[...sessions].sort((a, b) => new Date(b.startAt).getTime() - new Date(a.startAt).getTime()).map((session) => {
-                            const badge = STATUS_BADGE[session.status];
+                        {sessionSorted.sort((a, b) => new Date(b.startAt).getTime() - new Date(a.startAt).getTime()).map((session) => {
+                            const badge = SESSION_STATUS_LABELS[session.status];
                             return (
                                 <TableRow key={session.id}>
                                     <TableCell className="font-medium">

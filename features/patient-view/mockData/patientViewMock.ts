@@ -27,6 +27,20 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
         },
         sessions: [
             {
+                id: "p1-s0",
+                userId: "patient-1",
+                specialistId: "specialist-1",
+                startAt: daysAgo(0, new Date().getHours(), new Date().getMinutes() - 20),
+                endAt: daysFromNow(0, new Date().getHours(), new Date().getMinutes() + 30),
+                date: daysAgo(0, new Date().getHours(), new Date().getMinutes() - 20),
+                status: "upcoming",
+                createdAt: daysAgo(1, 8, 0),
+                income: 350,
+                meetingUrl: "https://meet.example.com/p1-s0",
+                type: "individual",
+                notes: "undefined",
+            },
+            {
                 id: "p1-s1",
                 userId: "patient-1",
                 specialistId: "specialist-1",
@@ -38,6 +52,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p1-s1",
                 type: "individual",
+                notes: undefined,
             },
             {
                 id: "p1-s2",
@@ -51,6 +66,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p1-s2",
                 type: "individual",
+                notes: "המטופל דיווח על שיפור ניכר בדפוסי השינה. עדיין מתקשה עם חרדה חברתית בסביבת עבודה. המטופל דיווח על שיפור ניכר בדפוסי השינה. עדיין מתקשה עם חרדה חברתית בסביבת עבודה. המטופל דיווח על שיפור ניכר בדפוסי השינה. עדיין מתקשה עם חרדה חברתית בסביבת עבודה.",
             },
             {
                 id: "p1-s3",
@@ -64,6 +80,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p1-s3",
                 type: "individual",
+                notes: "עבדנו על טכניקות נשימה ורגיעה. המטופל מתרגל בבית.",
             },
             {
                 id: "p1-s4",
@@ -77,6 +94,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 0,
                 meetingUrl: undefined,
                 type: "individual",
+                notes: undefined,
             },
             {
                 id: "p1-s5",
@@ -90,6 +108,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p1-s5",
                 type: "individual",
+                notes: "פגישה ראשונה. הצגה הדדית. זיהוי נושאים עיקריים לטיפול.",
             },
         ],
     },
@@ -118,6 +137,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p2-s1",
                 type: "individual",
+                notes: undefined,
             },
             {
                 id: "p2-s2",
@@ -131,6 +151,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p2-s2",
                 type: "couple",
+                notes: "הזוג הגיע עם מתח גבוה. עבדנו על תקשורת אפקטיבית ועל הקשבה פעילה.",
             },
             {
                 id: "p2-s3",
@@ -144,6 +165,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p2-s3",
                 type: "individual",
+                notes: undefined,
             },
             {
                 id: "p2-s4",
@@ -157,6 +179,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 0,
                 meetingUrl: undefined,
                 type: "couple",
+                notes: undefined,
             },
         ],
     },
@@ -185,6 +208,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p3-s1",
                 type: "individual",
+                notes: undefined,
             },
             {
                 id: "p3-s2",
@@ -198,6 +222,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p3-s2",
                 type: "individual",
+                notes: "מטופלת מדווחת על קשיים בניהול זמן ולחץ לפני בחינות. הצענו כלים מעשיים לתכנון.",
             },
             {
                 id: "p3-s3",
@@ -211,6 +236,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 0,
                 meetingUrl: undefined,
                 type: "individual",
+                notes: undefined,
             },
         ],
     },
@@ -239,6 +265,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p4-s1",
                 type: "couple",
+                notes: undefined,
             },
             {
                 id: "p4-s2",
@@ -252,6 +279,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p4-s2",
                 type: "couple",
+                notes: "שיחה על ניהול קונפליקטים בזוגיות. שניהם מחויבים לשינוי.",
             },
             {
                 id: "p4-s3",
@@ -265,6 +293,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p4-s3",
                 type: "couple",
+                notes: undefined,
             },
         ],
     },
@@ -293,6 +322,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p5-s1",
                 type: "individual",
+                notes: undefined,
             },
             {
                 id: "p5-s2",
@@ -306,6 +336,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p5-s2",
                 type: "individual",
+                notes: "פגישת היכרות. המטופלת דיברה על קשיים במערכות יחסים. מוכנה לעבוד.",
             },
         ],
     },
@@ -334,6 +365,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p6-s1",
                 type: "individual",
+                notes: undefined,
             },
             {
                 id: "p6-s2",
@@ -347,6 +379,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/p6-s2",
                 type: "individual",
+                notes: "עבדנו על זיהוי טריגרים לכעס. המטופל מוכן לנסות טכניקות הרגעה עצמית.",
             },
             {
                 id: "p6-s3",
@@ -360,6 +393,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 0,
                 meetingUrl: undefined,
                 type: "individual",
+                notes: undefined,
             },
         ],
     },
@@ -388,6 +422,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: undefined,
                 type: "teen",
+                notes: undefined,
             },
             {
                 id: "p7-s2",
@@ -401,6 +436,7 @@ const patientViewMockMap: Record<string, PatientViewResponse> = {
                 income: 350,
                 meetingUrl: undefined,
                 type: "teen",
+                notes: "נער מספר על לחצים בבית הספר. נעבוד על ביטחון עצמי ויחסי חברים.",
             },
         ],
     },

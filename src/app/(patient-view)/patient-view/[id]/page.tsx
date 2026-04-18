@@ -1,23 +1,5 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { usePatientView } from "@/features/patient-view/hooks/usePatientView";
-import {
-    PatientHeader,
-    PatientHeaderSkeleton,
-} from "@/features/patient-view/ui/PatientHeader";
-import {
-    PatientStats,
-    PatientStatsSkeleton,
-} from "@/features/patient-view/ui/PatientStats";
-import {
-    PatientNextSession,
-    PatientNextSessionSkeleton,
-} from "@/features/patient-view/ui/PatientNextSession";
-import {
-    PatientSessionHistory,
-    PatientSessionHistorySkeleton,
-} from "@/features/patient-view/ui/PatientSessionHistory";
 import Link from "next/link";
 import { MoveRight } from "lucide-react";
 import Widget, { WidgetProps } from "@/components/blocks/widgets/widget";

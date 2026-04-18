@@ -22,6 +22,7 @@ function toPlainSession(doc: FirebaseFirestore.QueryDocumentSnapshot): SessionDT
         date: data.date.toDate().toISOString(),
         startAt: data.startAt.toDate().toISOString(),
         endAt: data.endAt ? data.endAt.toDate().toISOString() : undefined,
+        notes: data.notes,
     };
 }
 

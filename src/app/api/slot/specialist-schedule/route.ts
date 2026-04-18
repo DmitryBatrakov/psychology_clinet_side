@@ -69,6 +69,7 @@ function toSessionDTO(doc: FirebaseFirestore.QueryDocumentSnapshot): SessionDTO 
         createdAt: toIsoString(data.createdAt) ?? String(data.createdAt ?? ""),
         income: Number(data.income ?? 0),
         meetingUrl: data.meetingUrl,
+        notes: data.notes
     };
 }
 

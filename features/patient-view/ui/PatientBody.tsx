@@ -6,6 +6,8 @@ import { PatientStats, PatientStatsSkeleton } from "./PatientStats";
 import { usePatientView } from "../hooks/usePatientView";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { MoveRight } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 export function PatientBody() {
 
@@ -28,7 +30,7 @@ export function PatientBody() {
         return (
             <div className="w-full h-full flex flex-col items-center justify-center min-h-[50vh]">
                 <span className="text-base text-muted-foreground text-center py-4">
-                   המטופל לא נמצא
+                    המטופל לא נמצא
                 </span>
                 <Button>
                     <Link href="/dashboard">חזרה לדשבורד</Link>
@@ -39,6 +41,15 @@ export function PatientBody() {
 
     return (
         <div className="flex flex-col gap-5 w-full">
+            <Link
+                href="/dashboard"
+                className="flex items-center w-full justify-start cursor-pointer hover:brightness-85 duration-300 transform-color"
+            >
+                <Badge className="text-sm font-semibold gap-3 text-foreground px-3 py-1">
+                    <MoveRight size={20} />
+                    <span>חזרה</span>
+                </Badge>
+            </Link>
             <PatientHeader patient={data.patient} />
             <PatientStats sessions={data.sessions} />
             <PatientNextSession sessions={data.sessions} />

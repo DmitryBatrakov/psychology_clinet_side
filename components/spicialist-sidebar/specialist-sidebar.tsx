@@ -30,7 +30,7 @@ export default function SpecialistSidebar() {
     return (
         <aside
             dir="rtl"
-            className="hidden md:flex min-w-56 bg-primary text-foreground p-4 h-full flex-col justify-between min-h-screen shadow-[inset_0_0_15px_0] shadow-black/50 rounded-l-2xl"
+            className="hidden lg:flex min-w-56 bg-primary text-foreground p-4 h-full flex-col justify-between min-h-screen shadow-[inset_0_0_15px_0] shadow-black/50 rounded-l-2xl"
         >
             <div className="flex flex-col gap-5 ">
                 <p className="text-[2rem] font-bold ">Logo</p>

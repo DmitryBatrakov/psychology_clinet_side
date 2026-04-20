@@ -8,7 +8,7 @@ import { cn } from '@/lib/utils';
 import { eachDayOfInterval, endOfWeek, format, isSameDay, startOfWeek } from 'date-fns';
 import { useContext, useMemo } from 'react';
 import CalendarAddItemButton from './calendar-add-item-button';
-import { getGaps, getWeekDates } from './halpers';
+import { computeOverlapLayout, getGaps, getWeekDates } from './halpers';
 
 interface Props {
     schedule: Schedule;
@@ -76,34 +76,35 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
                         </div>
 
                         <div className="relative grid h-full min-h-0 w-full grid-cols-7 gap-1">
-                            {Object.values(weekSchedule).map((meetings, index) => (
-                                <div
-                                    key={`calendar-day-column-${index}`}
-                                    className="z-10 grid h-[calc(100%-16px)] min-h-0 grid-cols-1"
-                                    style={{
-                                        gridTemplateRows: `repeat(${(rows - 1) * 2}, minmax(0, 1fr))`,
-                                    }}
-                                >
-                                    {meetings.map((meeting, index) => (
-                                        <CalendarItem
-                                            key={`calendar-item-week-${index}`}
-                                            workTimeLimit={workTimeLimit}
-                                            meeting={meeting as any}
-                                            index={index}
-                                        />
-                                    ))}
-                                    {getGaps({
-                                        meetings: meetings,
-                                        workTimeLimit: workTimeLimit,
-                                    }).map((gap, gapIndex) => (
-                                        <CalendarAddItemButton
-                                            item={gap}
-                                            workTimeLimit={workTimeLimit}
-                                            key={`calendar-add-item-${gapIndex}`}
-                                        />
-                                    ))}
-                                </div>
-                            ))}
+                            {Object.values(weekSchedule).map((meetings, index) => {
+                                const layout = computeOverlapLayout(meetings as any);
+                                return (
+                                    <div
+                                        key={`calendar-day-column-${index}`}
+                                        className="relative z-10 h-[calc(100%-16px)] min-h-0"
+                                    >
+                                        {meetings.map((meeting, mIndex) => (
+                                            <CalendarItem
+                                                key={`calendar-item-week-${mIndex}`}
+                                                workTimeLimit={workTimeLimit}
+                                                meeting={meeting as any}
+                                                columnIndex={layout[mIndex].columnIndex}
+                                                totalColumns={layout[mIndex].totalColumns}
+                                            />
+                                        ))}
+                                        {getGaps({
+                                            meetings: meetings,
+                                            workTimeLimit: workTimeLimit,
+                                        }).map((gap, gapIndex) => (
+                                            <CalendarAddItemButton
+                                                item={gap}
+                                                workTimeLimit={workTimeLimit}
+                                                key={`calendar-add-item-${gapIndex}`}
+                                            />
+                                        ))}
+                                    </div>
+                                );
+                            })}
 
                             <div
                                 className="absolute grid size-full min-h-0 pb-3.5"

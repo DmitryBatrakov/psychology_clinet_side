@@ -23,6 +23,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/xyz789",
                 type: "individual",
+                notes: undefined,
             },
             patient: {
                 id: "patient-1",
@@ -45,13 +46,14 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 400,
                 meetingUrl: "https://meet.example.com/abc123",
                 type: "individual",
+                notes: undefined,
             },
             patient: {
                 id: "patient-2",
                 firstName: "מיכל",
                 lastName: "לוי",
                 photoUrl: "https://picsum.photos/200",
-               
+
             },
         },
         {
@@ -67,6 +69,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 0,
                 meetingUrl: "https://meet.example.com/xyz789",
                 type: "individual",
+                notes: undefined,
             },
             patient: {
                 id: "patient-3",
@@ -89,6 +92,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/xyz789",
                 type: "couple",
+                notes: undefined,
             },
             patient: {
                 id: "patient-4",
@@ -111,6 +115,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 450,
                 meetingUrl: "https://meet.example.com/xyz789",
                 type: "individual",
+                notes: undefined,
             },
             patient: {
                 id: "patient-5",
@@ -133,6 +138,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 350,
                 meetingUrl: "https://meet.example.com/def456",
                 type: "individual",
+                notes: undefined,
             },
             patient: {
                 id: "patient-6",
@@ -155,6 +161,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 350,
                 meetingUrl: undefined,
                 type: "teen",
+                notes: undefined,
             },
             patient: {
                 id: "patient-7",
@@ -177,13 +184,14 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 400,
                 meetingUrl: "https://meet.example.com/abc123",
                 type: "couple",
+                notes: undefined,
             },
             patient: {
                 id: "patient-2",
                 firstName: "מיכל",
                 lastName: "לוי",
                 photoUrl: "https://picsum.photos/200",
-               
+
             },
         },
         {
@@ -199,6 +207,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 400,
                 meetingUrl: "https://meet.example.com/abc123",
                 type: "individual",
+                notes: undefined,
             },
             patient: {
                 id: "patient-2",
@@ -220,6 +229,7 @@ export const scheduleDayMock: ScheduleDayResponse = {
                 income: 400,
                 meetingUrl: "https://meet.example.com/abc123",
                 type: "individual",
+                notes: undefined,
             },
             patient: {
                 id: "patient-2",

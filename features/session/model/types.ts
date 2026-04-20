@@ -16,6 +16,7 @@ export interface Session {
     income: number;
     meetingUrl: string | undefined;
     type: SessionType;
+    notes: string | undefined;
 }
 
 
@@ -24,4 +25,5 @@ export type SessionDTO = Omit<Session, 'startAt' | 'endAt' | 'date'> & {
     startAt: string,
     endAt: string | undefined,
     date: string,
+    notes: string | undefined,
 }

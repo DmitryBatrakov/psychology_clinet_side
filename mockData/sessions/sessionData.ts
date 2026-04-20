@@ -15,6 +15,7 @@ export const sessionData: SessionMock[] = [
         income: 120,
         meetingUrl: "https://meet.example.com/session-1",
         type: "individual",
+        notes: undefined,
     },
     {
         id: "session-2",
@@ -28,6 +29,7 @@ export const sessionData: SessionMock[] = [
         income: 140,
         meetingUrl: "https://meet.example.com/session-2",
         type: "individual",
+        notes: undefined,
     },
     {
         id: "session-3",
@@ -41,6 +43,7 @@ export const sessionData: SessionMock[] = [
         income: 130,
         meetingUrl: "https://meet.example.com/session-3",
         type: "individual",
+        notes: undefined,
     },
     {
         id: "session-4",
@@ -54,6 +57,7 @@ export const sessionData: SessionMock[] = [
         income: 0,
         meetingUrl: "https://meet.example.com/session-4",
         type: "individual",
+        notes: undefined,
     },
     {
         id: "session-5",
@@ -67,6 +71,7 @@ export const sessionData: SessionMock[] = [
         income: 150,
         meetingUrl: "https://meet.example.com/session-5",
         type: "individual",
+        notes: undefined,
     },
     {
         id: "session-6",
@@ -80,6 +85,7 @@ export const sessionData: SessionMock[] = [
         income: 140,
         meetingUrl: "https://meet.example.com/session-6",
         type: "couple",
+        notes: undefined,
     },
     {
         id: "session-7",
@@ -93,6 +99,7 @@ export const sessionData: SessionMock[] = [
         income: 120,
         meetingUrl: "https://meet.example.com/session-7",
         type: "individual",
+        notes: undefined,
     },
     {
         id: "session-8",
@@ -106,6 +113,7 @@ export const sessionData: SessionMock[] = [
         income: 150,
         meetingUrl: "https://meet.example.com/session-8",
         type: "couple",
+        notes: undefined,
     },
     {
         id: "session-9",
@@ -119,5 +127,6 @@ export const sessionData: SessionMock[] = [
         income: 135,
         meetingUrl: "https://meet.example.com/session-9",
         type: "individual",
+        notes: undefined,
     },
 ];

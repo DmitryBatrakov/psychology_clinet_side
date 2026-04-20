@@ -26,16 +26,7 @@ const workTimeLimit = { start: 6, end: 16 };
 
 const data: Schedule = [
     {
-        date: '2026-01-03',
-        name: 'Bob Johnson',
-        description: 'Morning sync.',
-        meet_url: 'https://meet.google.com/abc-defg-hij',
-        uid: 'mtg-001',
-        time: [8, 9],
-        color: '#3b82f6',
-    },
-    {
-        date: '2026-01-04',
+        date: '2026-04-04',
         name: 'Bob Johnson',
         description: 'Planning session.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -44,7 +35,7 @@ const data: Schedule = [
         color: '#22c55e',
     },
     {
-        date: '2026-01-05',
+        date: '2026-04-05',
         name: 'Bob Johnson',
         description: 'Design review.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -53,7 +44,7 @@ const data: Schedule = [
         color: '#a855f7',
     },
     {
-        date: '2026-01-06',
+        date: '2026-04-06',
         name: 'Bob Johnson',
         description: 'Client call.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -62,7 +53,7 @@ const data: Schedule = [
         color: '#f97316',
     },
     {
-        date: '2026-01-07',
+        date: '2026-04-07',
         name: 'Bob Johnson',
         description: 'Team sync.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -72,7 +63,7 @@ const data: Schedule = [
     },
 
     {
-        date: '2026-01-08',
+        date: '2026-04-08',
         name: 'Bob Johnson',
         description: 'Daily standup.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -81,7 +72,7 @@ const data: Schedule = [
         color: '#14b8a6',
     },
     {
-        date: '2026-01-09',
+        date: '2026-04-09',
         name: 'Bob Johnson',
         description: 'Sprint review.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -90,7 +81,7 @@ const data: Schedule = [
         color: '#6366f1',
     },
     {
-        date: '2026-01-10',
+        date: '2026-04-10',
         name: 'Bob Johnson',
         description: 'Architecture discussion.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -99,7 +90,7 @@ const data: Schedule = [
         color: '#84cc16',
     },
     {
-        date: '2026-01-11',
+        date: '2026-04-11',
         name: 'Bob Johnson',
         description: 'Code review.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -108,7 +99,7 @@ const data: Schedule = [
         color: '#ec4899',
     },
     {
-        date: '2026-01-12',
+        date: '2026-04-12',
         name: 'Bob Johnson',
         description: 'Retrospective.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -118,7 +109,7 @@ const data: Schedule = [
     },
 
     {
-        date: '2026-01-13',
+        date: '2026-04-13',
         name: 'Bob Johnson',
         description: 'Morning sync.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -127,16 +118,7 @@ const data: Schedule = [
         color: '#f59e0b',
     },
     {
-        date: '2026-01-14',
-        name: 'Bob Johnson',
-        description: 'Planning meeting.',
-        meet_url: 'https://meet.google.com/abc-defg-hij',
-        uid: 'mtg-012',
-        time: [9, 10],
-        color: '#10b981',
-    },
-    {
-        date: '2026-01-15',
+        date: '2026-04-15',
         name: 'Bob Johnson',
         description: 'Design sync.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -145,7 +127,7 @@ const data: Schedule = [
         color: '#8b5cf6',
     },
     {
-        date: '2026-01-16',
+        date: '2026-04-16',
         name: 'Bob Johnson',
         description: 'Client presentation.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -154,7 +136,7 @@ const data: Schedule = [
         color: '#fb7185',
     },
     {
-        date: '2026-01-17',
+        date: '2026-04-17',
         name: 'Bob Johnson',
         description: 'Wrap-up.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -164,7 +146,7 @@ const data: Schedule = [
     },
 
     {
-        date: '2026-01-18',
+        date: '2026-04-18',
         name: 'Bob Johnson',
         description: 'Team check-in.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -173,7 +155,7 @@ const data: Schedule = [
         color: '#4ade80',
     },
     {
-        date: '2026-01-19',
+        date: '2026-04-19',
         name: 'Bob Johnson',
         description: 'Planning.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -182,7 +164,7 @@ const data: Schedule = [
         color: '#c084fc',
     },
     {
-        date: '2026-01-20',
+        date: '2026-04-20',
         name: 'Bob Johnson',
         description: 'Design review.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -191,7 +173,7 @@ const data: Schedule = [
         color: '#f87171',
     },
     {
-        date: '2026-01-21',
+        date: '2026-04-21',
         name: 'Bob Johnson',
         description: 'Sprint demo.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -200,7 +182,7 @@ const data: Schedule = [
         color: '#60a5fa',
     },
     {
-        date: '2026-01-22',
+        date: '2026-04-22',
         name: 'Bob Johnson',
         description: 'Retrospective.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -210,7 +192,7 @@ const data: Schedule = [
     },
 
     {
-        date: '2026-01-23',
+        date: '2026-04-23',
         name: 'Bob Johnson',
         description: 'One-on-one.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -219,7 +201,7 @@ const data: Schedule = [
         color: '#fbbf24',
     },
     {
-        date: '2026-01-24',
+        date: '2026-04-24',
         name: 'Bob Johnson',
         description: 'Architecture review.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -228,7 +210,7 @@ const data: Schedule = [
         color: '#818cf8',
     },
     {
-        date: '2026-01-25',
+        date: '2026-04-25',
         name: 'Bob Johnson',
         description: 'Code review.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -237,7 +219,7 @@ const data: Schedule = [
         color: '#fb923c',
     },
     {
-        date: '2026-01-26',
+        date: '2026-04-26',
         name: 'Bob Johnson',
         description: 'Team sync.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -246,7 +228,7 @@ const data: Schedule = [
         color: '#2dd4bf',
     },
     {
-        date: '2026-01-27',
+        date: '2026-04-27',
         name: 'Bob Johnson',
         description: 'Planning.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -256,7 +238,7 @@ const data: Schedule = [
     },
 
     {
-        date: '2026-02-01',
+        date: '2026-04-01',
         name: 'Bob Johnson',
         description: 'Kickoff.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -265,7 +247,7 @@ const data: Schedule = [
         color: '#38bdf8',
     },
     {
-        date: '2026-02-02',
+        date: '2026-04-02',
         name: 'Bob Johnson',
         description: 'Daily sync.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -274,7 +256,7 @@ const data: Schedule = [
         color: '#4ade80',
     },
     {
-        date: '2026-02-03',
+        date: '2026-04-03',
         name: 'Bob Johnson',
         description: 'Design review.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -283,7 +265,7 @@ const data: Schedule = [
         color: '#a78bfa',
     },
     {
-        date: '2026-02-04',
+        date: '2026-04-04',
         name: 'Bob Johnson',
         description: 'Client call.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -292,7 +274,7 @@ const data: Schedule = [
         color: '#fb7185',
     },
     {
-        date: '2026-02-05',
+        date: '2026-04-05',
         name: 'Bob Johnson',
         description: 'Wrap-up.',
         meet_url: 'https://meet.google.com/abc-defg-hij',
@@ -300,6 +282,49 @@ const data: Schedule = [
         time: [15.5, 16.5],
         color: '#22d3ee',
     },
+    { date: '2026-04-14', name: 'Alice Petrova', description: 'Morning consultation.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-101', time: [6, 7], color: '#3b82f6' },
+    { date: '2026-04-14', name: 'Ivan Sokolov', description: 'Anxiety session.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-102', time: [7, 8], color: '#22c55e' },
+    { date: '2026-04-14', name: 'Maria Volkova', description: 'Cognitive therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-103', time: [8, 9], color: '#a855f7' },
+    { date: '2026-04-14', name: 'Dmitry Lebedev', description: 'Family counseling.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-104', time: [9, 10], color: '#f97316' },
+    { date: '2026-04-14', name: 'Olga Smirnova', description: 'Depression follow-up.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-105', time: [10, 11], color: '#ef4444' },
+    { date: '2026-04-14', name: 'Pavel Morozov', description: 'Stress management.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-106', time: [11, 12], color: '#14b8a6' },
+    { date: '2026-04-14', name: 'Elena Kozlova', description: 'Trauma therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-107', time: [12, 13], color: '#6366f1' },
+    { date: '2026-04-14', name: 'Sergey Novikov', description: 'Relationship counseling.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-108', time: [13, 14], color: '#84cc16' },
+    { date: '2026-04-14', name: 'Anna Fedorova', description: 'CBT session.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-109', time: [14, 15], color: '#ec4899' },
+    { date: '2026-04-14', name: 'Nikita Orlov', description: 'Closing consultation.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-110', time: [15, 16], color: '#0ea5e9' },
+
+    { date: '2026-04-08', name: 'Alice Petrova', description: 'Morning consultation.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-101', time: [6, 7], color: '#3b82f6' },
+    { date: '2026-04-08', name: 'Ivan Sokolov', description: 'Anxiety session.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-102', time: [7, 8], color: '#22c55e' },
+    { date: '2026-04-08', name: 'Maria Volkova', description: 'Cognitive therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-103', time: [8, 9], color: '#a855f7' },
+    { date: '2026-04-08', name: 'Dmitry Lebedev', description: 'Family counseling.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-104', time: [9, 10], color: '#f97316' },
+    { date: '2026-04-08', name: 'Olga Smirnova', description: 'Depression follow-up.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-105', time: [10, 11], color: '#ef4444' },
+    { date: '2026-04-08', name: 'Pavel Morozov', description: 'Stress management.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-106', time: [11, 12], color: '#14b8a6' },
+    { date: '2026-04-08', name: 'Elena Kozlova', description: 'Trauma therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-107', time: [12, 13], color: '#6366f1' },
+    { date: '2026-04-08', name: 'Sergey Novikov', description: 'Relationship counseling.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-108', time: [13, 14], color: '#84cc16' },
+    { date: '2026-04-08', name: 'Anna Fedorova', description: 'CBT session.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-109', time: [14, 15], color: '#ec4899' },
+    { date: '2026-04-08', name: 'Nikita Orlov', description: 'Closing consultation.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-110', time: [15, 16], color: '#0ea5e9' },
+
+    // April 15
+    { date: '2026-04-15', name: 'Tatiana Belova', description: 'Morning consultation.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-111', time: [6, 7], color: '#f59e0b' },
+    { date: '2026-04-15', name: 'Andrey Zaytsev', description: 'Phobia treatment.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-112', time: [7, 8], color: '#10b981' },
+    { date: '2026-04-15', name: 'Yulia Stepanova', description: 'Cognitive therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-113', time: [8, 9], color: '#8b5cf6' },
+    { date: '2026-04-15', name: 'Viktor Romanov', description: 'Grief counseling.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-114', time: [9, 10], color: '#fb7185' },
+    { date: '2026-04-15', name: 'Maxim Pavlov', description: 'Stress management.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-116', time: [11, 12], color: '#4ade80' },
+    { date: '2026-04-15', name: 'Natalia Volkov', description: 'Depression session.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-117', time: [12, 13], color: '#c084fc' },
+    { date: '2026-04-15', name: 'Roman Alekseev', description: 'Family therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-118', time: [13, 14], color: '#f87171' },
+    { date: '2026-04-15', name: 'Svetlana Guseva', description: 'Trauma follow-up.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-119', time: [14, 15], color: '#60a5fa' },
+    { date: '2026-04-15', name: 'Artem Sidorov', description: 'Closing consultation.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-120', time: [15, 16], color: '#34d399' },
+
+    // April 16
+    { date: '2026-04-16', name: 'Ksenia Popova', description: 'Morning consultation.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-121', time: [6, 7], color: '#fbbf24' },
+    { date: '2026-04-16', name: 'Mikhail Egorov', description: 'OCD therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-122', time: [7, 8], color: '#818cf8' },
+    { date: '2026-04-16', name: 'Daria Tikhonova', description: 'Cognitive therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-123', time: [8, 9], color: '#fb923c' },
+    { date: '2026-04-16', name: 'Alexey Baranov', description: 'Burnout counseling.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-124', time: [9, 10], color: '#2dd4bf' },
+    { date: '2026-04-16', name: 'Polina Voronova', description: 'Anxiety session.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-125', time: [10, 11], color: '#f472b6' },
+    { date: '2026-04-16', name: 'Denis Korolev', description: 'Stress management.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-126', time: [11, 12], color: '#38bdf8' },
+    { date: '2026-04-16', name: 'Veronika Moiseeva', description: 'Trauma therapy.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-127', time: [12, 13], color: '#4ade80' },
+    { date: '2026-04-16', name: 'Ludmila Fomina', description: 'CBT session.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-129', time: [14, 15], color: '#fb7185' },
+    { date: '2026-04-16', name: 'Grigory Nikitin', description: 'Closing consultation.', meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'mtg-130', time: [15, 16], color: '#22d3ee' },
 
     // ещё 20 элементов по такому же принципу при необходимости
 ];
@@ -390,7 +415,7 @@ export default function Calendar() {
         >
             <Widget
                 variant="default"
-                className="relative m-2 flex max-h-[calc(100%-16px)] min-h-0 min-w-220 flex-1 flex-col gap-0 overflow-hidden p-0"
+                className="relative m-2 flex max-h-[calc(100%-16px)] min-h-0 min-w-0 flex-1 flex-col gap-0 overflow-hidden p-0"
             >
                 <Widget.Content className="max-h-full *:max-h-full">
                     <Tabs
@@ -399,16 +424,16 @@ export default function Calendar() {
                         onValueChange={setCurrTab}
                         className="flex h-full min-h-0 w-full flex-col gap-0"
                     >
-                        <ItemHeader className="w-full basis-0 justify-between p-3 *:w-full">
-                            <h1 className="text-lg">{title}</h1>
-                            <TabsList className="*:w-26 *:cursor-pointer *:font-normal bg-primary/60">
+                        <ItemHeader className="w-full basis-0 flex-wrap justify-between gap-y-2 p-3">
+                            <h1 className="min-w-0 truncate text-lg">{title}</h1>
+                            <TabsList className="*:flex-1 *:cursor-pointer *:font-normal bg-primary/60">
                                 <TabsTrigger value="month">Month</TabsTrigger>
                                 <TabsTrigger value="week">Week</TabsTrigger>
                                 <TabsTrigger value="day">Day</TabsTrigger>
                                 <TabsTrigger value="list">List</TabsTrigger>
                             </TabsList>
 
-                            <div className="flex justify-end gap-2 *:cursor-pointer *:shadow-sm ">
+                            <div className="flex justify-end gap-2 *:cursor-pointer *:shadow-sm">
                                 <Button onClick={() => intervalStep(-1)} variant="ghost" size={'icon'} className='bg-white'>
                                     <ChevronLeft />
                                 </Button>

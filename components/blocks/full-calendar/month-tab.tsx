@@ -7,7 +7,6 @@ import { TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns';
 import { useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useWidgetStorage } from '../widgets/widget-storage';
 
 interface Props {
     schedule: Schedule;
@@ -36,10 +35,6 @@ function MonthTab({ schedule }: Props) {
         return result;
     }, [monthDates]);
 
-    console.log(monthSchedule);
-
-    const { isResizing } = useWidgetStorage();
-
     const calendar = useRef<HTMLDivElement>(null);
 
     return (
@@ -58,9 +53,9 @@ function MonthTab({ schedule }: Props) {
                         month: 'flex flex-col w-full h-full',
                         month_grid: 'flex flex-col h-full flex-1 gap-2',
                         weekdays: 'flex gap-1',
-                        weeks: 'flex flex-col flex-1 gap-1',
-                        week: 'flex w-full m-0 gap-1 flex-1',
-                        day: 'flex w-full h-full rounded-none justify-center items-center rounded-sm aspect-auto',
+                        weeks: 'flex flex-col flex-1 gap-1 min-h-0',
+                        week: 'flex w-full m-0 gap-1 flex-1 min-h-0',
+                        day: 'flex w-full h-full min-h-0 rounded-none justify-center items-center rounded-sm aspect-auto',
                     }}
                     components={{
                         Weekday: (props) => {
@@ -72,7 +67,8 @@ function MonthTab({ schedule }: Props) {
                         },
                         DayButton: (props) => {
                             const BADGE_GAP = 4;
-                            const TOP_PADDING = 32;
+                            const TOP_PADDING = 32 + 8; // header + CardContent py-2 top
+                            const BOTTOM_PADDING = 8; // CardContent py-2 bottom
                             const BADGE_HEIGHT = 20;
                             const { day, modifiers } = props;
                             const ref = useRef<HTMLDivElement>(null);
@@ -81,12 +77,22 @@ function MonthTab({ schedule }: Props) {
                             const extraTasks = dayTasks.length - maxBadges;
 
                             useLayoutEffect(() => {
-                                const innerHeight = Math.floor(ref.current?.getBoundingClientRect().height || 0);
-                                const maxCount = Math.floor(
-                                    (innerHeight - TOP_PADDING) / (BADGE_HEIGHT + BADGE_GAP)
-                                );
-                                maxBadges !== maxCount && setMaxBadges(maxCount);
-                            }, [ref.current, isResizing]);
+                                const el = ref.current;
+                                if (!el) return;
+
+                                const update = () => {
+                                    const innerHeight = Math.floor(el.getBoundingClientRect().height);
+                                    const maxCount = Math.floor(
+                                        (innerHeight - TOP_PADDING - BOTTOM_PADDING) / (BADGE_HEIGHT + BADGE_GAP)
+                                    );
+                                    setMaxBadges((prev) => (prev !== maxCount ? maxCount : prev));
+                                };
+
+                                update();
+                                const ro = new ResizeObserver(update);
+                                ro.observe(el);
+                                return () => ro.disconnect();
+                            }, []);
 
                             return (
                                 <Card
@@ -96,7 +102,7 @@ function MonthTab({ schedule }: Props) {
                                         'group size-full cursor-pointer gap-0 overflow-hidden rounded-sm border-none p-0 shadow-[0_0_15px_0] shadow-black/5 transition-all hover:bg-gray-200',
                                         format(day.date, 'dd') === format(new Date(), 'dd') &&
                                         'bg-accent shadow-[inset_0_0_4px_0]',
-                                        modifiers.outside && 'opacity-30 cursor-not-allowed'
+                                        modifiers.outside && 'opacity-30'
                                     )}
                                     onClick={() => {
                                         setShownInterval(day.date);
@@ -106,7 +112,7 @@ function MonthTab({ schedule }: Props) {
                                     <CardHeader className="justify-end px-2 pt-1 group-hover:underline">
                                         {format(day.date, 'dd')}
                                     </CardHeader>
-                                    <CardContent className="m-0 flex flex-col gap-1 p-0 h-full">
+                                    <CardContent className="m-0 flex flex-col gap-1 overflow-hidden px-1 py-2">
                                         {dayTasks
                                             .slice(0, extraTasks ? maxBadges - 1 : maxBadges)
                                             .map((task, index) => (

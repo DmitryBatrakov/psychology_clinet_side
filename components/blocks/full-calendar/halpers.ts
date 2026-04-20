@@ -121,4 +121,51 @@ function getWeekDates(interval: Date) {
   return week;
 }
 
-export { getGaps, getMiddleDate, getWeekDates };
+type OverlapLayout = { columnIndex: number; totalColumns: number };
+
+function computeOverlapLayout(meetings: Meeting[]): OverlapLayout[] {
+  const n = meetings.length;
+  if (!n) return [];
+
+  const order = Array.from({ length: n }, (_, i) => i).sort(
+    (a, b) => meetings[a].time[0] - meetings[b].time[0]
+  );
+
+  const columnOf = new Array<number>(n).fill(-1);
+  const colEnd: number[] = [];
+
+  for (const i of order) {
+    const [s, e] = meetings[i].time;
+    let col = colEnd.findIndex((end) => end <= s);
+    if (col === -1) col = colEnd.length;
+    columnOf[i] = col;
+    colEnd[col] = e;
+  }
+
+  const parent = Array.from({ length: n }, (_, i) => i);
+  const find = (x: number): number => {
+    if (parent[x] !== x) parent[x] = find(parent[x]);
+    return parent[x];
+  };
+
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      const [s1, e1] = meetings[i].time;
+      const [s2, e2] = meetings[j].time;
+      if (s1 < e2 && s2 < e1) parent[find(i)] = find(j);
+    }
+  }
+
+  const groupMax: Record<number, number> = {};
+  for (let i = 0; i < n; i++) {
+    const root = find(i);
+    groupMax[root] = Math.max(groupMax[root] ?? 0, columnOf[i] + 1);
+  }
+
+  return meetings.map((_, i) => ({
+    columnIndex: columnOf[i],
+    totalColumns: groupMax[find(i)],
+  }));
+}
+
+export { computeOverlapLayout, getGaps, getMiddleDate, getWeekDates };

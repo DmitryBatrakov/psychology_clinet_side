@@ -9,18 +9,19 @@ function CalendarAddItemButton({
   item: { start: number; end: number };
   workTimeLimit: { start: number; end: number };
 }) {
-  const rowStart = (start - workTimeLimit.start) * 2 + 1;
-  const rowEnd = (end - workTimeLimit.start) * 2 + 1;
+  const rows = workTimeLimit.end - workTimeLimit.start;
+  const top = ((start - workTimeLimit.start) / rows) * 100;
+  const height = ((end - start) / rows) * 100;
+
   return (
     <Button
       variant={'ghost'}
       className={cn(
-        'group dur row-span-1 my-1.5 h-[calc(100%-9px)] shrink cursor-pointer border-2 border-dashed border-transparent hover:border-green-400 hover:bg-emerald-50',
-        (end - start) % 1 !== 0 ? 'row-span-2' : 'row-span-1'
+        'group absolute left-0 w-full shrink cursor-pointer border-2 border-dashed border-transparent hover:border-green-400 hover:bg-emerald-50'
       )}
       style={{
-        gridRowStart: rowStart,
-        gridRowEnd: rowEnd,
+        top: `calc(${top}% + 3px)`,
+        height: `calc(${height}% - 6px)`,
       }}
     >
       <Plus className="stroke-green-400 opacity-0 transition-all group-hover:opacity-100" />

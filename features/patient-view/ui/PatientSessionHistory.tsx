@@ -109,7 +109,7 @@ export function PatientSessionHistory({ sessions }: PatientSessionHistoryProps) 
                             <Row label="תאריך" value={formatSessionDate(selectedSession.startAt)} />
                             <Row label="שעה" value={formatSessionTime(selectedSession.startAt)} dir="ltr" />
                             <Row label="סוג" value={SESSION_TYPE_LABELS[selectedSession.type]} />
-                            <Row
+                            <Row            
                                 label="סטטוס"
                                 value={
                                     <Badge

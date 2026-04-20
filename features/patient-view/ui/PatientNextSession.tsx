@@ -55,7 +55,6 @@ export function PatientNextSession({ sessions }: PatientNextSessionProps) {
     return (
         <div className="flex flex-col gap-3 w-full">
             <div className="flex gap-3 w-full">
-                {/* Previous session */}
                 <Card className="w-full">
                     <CardHeader>
                         <CardTitle className="text-base">פגישה קודמת</CardTitle>
@@ -96,7 +95,6 @@ export function PatientNextSession({ sessions }: PatientNextSessionProps) {
                         )}
                     </CardContent>
                 </Card>
-                {/* Current session */}
                 {current && (
                     <Card className="w-full border-green-500/50 bg-green-500/5">
                         <CardHeader>
@@ -145,7 +143,6 @@ export function PatientNextSession({ sessions }: PatientNextSessionProps) {
                         </CardContent>
                     </Card>
                 )}
-                {/* Next session */}
                 <Card className="w-full">
                     <CardHeader>
                         <CardTitle className="text-base">פגישה הבאה</CardTitle>

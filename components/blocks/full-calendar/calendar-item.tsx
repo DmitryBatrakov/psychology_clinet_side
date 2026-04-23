@@ -32,7 +32,7 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
                 background: color,
                 top: `calc(${top}% + 3px)`,
                 height: `calc(${height}% - 6px)`,
-                left: `calc(${left}% + 1px)`,
+                left: `calc(${left}% - 3px)`,
                 width: `calc(${width}% - 2px)`,
             }}
         >
@@ -45,13 +45,7 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
             </ItemHeader>
             <ItemContent className="flex h-fit max-w-full overflow-hidden p-1 text-xs text-gray-700">
                 <div className="line-clamp-1 h-fit max-w-full overflow-hidden text-ellipsis">
-                    <span>
-                        {String(s).replace('.5', '')}:{s % 1 !== 0 ? '30' : '00'}
-                    </span>
-                    <span> — </span>
-                    <span>
-                        {String(e).replace('.5', '')}:{e % 1 !== 0 ? '30' : '00'}
-                    </span>
+                    {s}:00 — {e}:00
                 </div>
             </ItemContent>
         </Item>

@@ -9,37 +9,14 @@ import {
 type Meeting = { name: string; time: [number, number] };
 type Gap = { start: number; end: number };
 
-const STEP = 0.5;
-
-const roundToStep = (x: number, step = STEP) => Math.round(x / step) * step;
-
-/**
- * Нарезает [from, to] на:
- * - сначала до ближайшего целого часа шагом 0.5
- * - потом целые часы по 1
- * - потом хвост 0.5 (если есть)
- */
 function pushChunked(gaps: Gap[], from: number, to: number) {
-  let s = roundToStep(from);
-  const e = roundToStep(to);
+  let s = Math.ceil(from);
+  const e = Math.floor(to);
 
-  if (e <= s) return;
-
-  // доводим до целого часа шагом 0.5
-  while (s < e && s % 1 !== 0) {
-    const next = Math.min(e, s + STEP);
-    gaps.push({ start: s, end: next });
-    s = next;
-  }
-
-  // режем по 1 часу
   while (s + 1 <= e) {
     gaps.push({ start: s, end: s + 1 });
     s += 1;
   }
-
-  // хвост
-  if (s < e) gaps.push({ start: s, end: e });
 }
 
 /** Сливает пересекающиеся и касающиеся интервалы */
@@ -69,9 +46,8 @@ const getGaps = ({
 }) => {
   const gaps: Gap[] = [];
 
-  // как в твоём коде: рабочее окно до end - 1
   const dayStart = workTimeLimit.start;
-  const dayEnd = workTimeLimit.end - 1;
+  const dayEnd = workTimeLimit.end;
 
   if (dayEnd <= dayStart) return gaps;
 

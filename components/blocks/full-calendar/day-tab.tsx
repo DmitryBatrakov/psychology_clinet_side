@@ -2,7 +2,7 @@ import { Item, ItemContent, ItemHeader } from '@/components/ui/item';
 import { Separator } from '@/components/ui/separator';
 import { TabsContent } from '@/components/ui/tabs';
 import { format, isSameDay } from 'date-fns';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import CalendarItem from './calendar-item';
 import { cn } from '@/lib/utils';
 import { computeOverlapLayout, getGaps } from './halpers';
@@ -19,7 +19,8 @@ interface Props {
 
 function DayTab({ workTimeLimit, schedule }: Props) {
     const {
-        getter: { shownInterval },
+        getter: { shownInterval, selectedUid },
+        setter: { setSelectedUid },
     } = useContext(ShownDateInterval);
 
     const rows = useMemo(() => workTimeLimit.end - workTimeLimit.start, [workTimeLimit]);
@@ -29,12 +30,11 @@ function DayTab({ workTimeLimit, schedule }: Props) {
         return schedule.filter((item) => item.date === dateKey);
     }, [shownInterval, schedule]);
 
-    const [selectedUid, setSelectedUid] = useState<string | null>(null);
-    const selectedMeeting = daySchedule.find((m) => m.uid === selectedUid) ?? null;
+    const selectedMeeting = daySchedule.find((m) => m.uid === selectedUid) ?? daySchedule[0] ?? null;
 
     return (
         <TabsContent value="day" className="flex h-full min-h-0">
-            <ItemContent className="flex h-full flex-col gap-0">
+            <ItemContent className="flex h-full flex-col gap-7">
                 <section className="grid grid-cols-[46px_1fr] grid-rows-1 px-3 pt-3">
                     <div />
                     <button
@@ -47,16 +47,15 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                     </button>
                 </section>
 
-                <div className="custom-scrollbar h-full overflow-y-scroll pt-1 pr-0.5 pb-3 pl-3 flex gap-5">
-                    <section className="grid min-h-full grid-cols-[46px_1fr] grid-rows-1 w-full max-w-1/2">
-                        <div
-                            className="grid -translate-y-1.75 grid-cols-1 items-start justify-between pr-2 text-center"
-                            style={{
-                                gridTemplateRows: `repeat(${rows - 1}, minmax(0, 1fr))`,
-                            }}
-                        >
-                            {Array.from({ length: rows }).map((_, index) => (
-                                <div key={`time-slot-${index}`} className="text-xs text-gray-500">
+                <div className="custom-scrollbar h-full overflow-y-scroll py-3 pr-0.5 pl-3 flex gap-5">
+                    <section className="grid min-h-full grid-cols-[46px_1fr] grid-rows-1 w-full max-w-1/2" style={{ minHeight: `${rows * 84}px` }}>
+                        <div className="relative pr-2 text-center" style={{ height: '100%' }}>
+                            {Array.from({ length: rows + 1 }).map((_, index) => (
+                                <div
+                                    key={`time-slot-${index}`}
+                                    className="absolute text-xs text-gray-500 -translate-y-1/2 right-2 left-0"
+                                    style={{ top: `${(index / rows) * 100}%` }}
+                                >
                                     {index + workTimeLimit.start}:00
                                 </div>
                             ))}
@@ -91,16 +90,12 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                                 ))}
                             </div>
 
-                            <div
-                                className="absolute grid size-full min-h-0 pb-3.5"
-                                style={{
-                                    gridTemplateRows: `repeat(${(rows - 1) * 2}, minmax(0, 1fr))`,
-                                }}
-                            >
-                                {Array.from({ length: rows * 2 }).map((_, index) => (
+                            <div className="absolute inset-0">
+                                {Array.from({ length: rows * 2 + 1 }).map((_, index) => (
                                     <Separator
                                         key={`hour-separator-${index}`}
-                                        className={cn('bg-accent h-0.5!', index % 2 !== 0 && 'h-px!')}
+                                        className={cn('absolute w-full bg-accent h-0.5!', index % 2 !== 0 && 'h-px!')}
+                                        style={{ top: `${(index / (rows * 2)) * 100}%` }}
                                     />
                                 ))}
                             </div>

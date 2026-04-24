@@ -18,7 +18,7 @@ interface Props {
 function WeekTab({ workTimeLimit, schedule }: Props) {
     const {
         getter: { shownInterval },
-        setter: { setShownInterval, setCurrTab },
+        setter: { setShownInterval, setCurrTab, setSelectedUid },
     } = useContext(ShownDateInterval);
 
     const rows = useMemo(() => workTimeLimit.end - workTimeLimit.start, [workTimeLimit]);
@@ -35,7 +35,7 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
 
     return (
         <TabsContent value="week" className="flex h-full min-h-0">
-            <ItemContent className="flex h-full flex-col gap-0">
+            <ItemContent className="flex h-full flex-col gap-7">
                 <section className="grid grid-cols-[46px_1fr] grid-rows-1 px-3 pt-3">
                     <div />
                     <div className="flex w-full gap-1 *:w-full">
@@ -61,27 +61,26 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
                 </section>
 
                 <div className="custom-scrollbar h-full overflow-y-scroll pt-1 pr-0.5 pb-3 pl-3">
-                    <section className="grid min-h-full grid-cols-[46px_1fr] grid-rows-1">
-                        <div
-                            className="grid -translate-y-1.75 grid-cols-1 items-start justify-between pr-2 text-center"
-                            style={{
-                                gridTemplateRows: `repeat(${rows - 1}, minmax(0, 1fr))`,
-                            }}
-                        >
-                            {Array.from({ length: rows }).map((_, index) => (
-                                <div key={`time-slot-${index}`} className="text-xs text-gray-500">
+                    <section className="grid min-h-full grid-cols-[46px_1fr] grid-rows-1 items-center justify-center" style={{ minHeight: `${rows * 84}px` }}>
+                        <div className="relative pr-2 text-center" style={{ height: '100%' }}>
+                            {Array.from({ length: rows + 1 }).map((_, index) => (
+                                <div
+                                    key={`time-slot-${index}`}
+                                    className="absolute text-xs text-gray-500 -translate-y-1/2 right-2 left-0"
+                                    style={{ top: `${(index / rows) * 100}%` }}
+                                >
                                     {index + workTimeLimit.start}:00
                                 </div>
                             ))}
                         </div>
 
-                        <div className="relative grid h-full min-h-0 w-full grid-cols-7 gap-1">
+                        <div className="relative grid h-full w-full grid-cols-7 gap-1">
                             {Object.values(weekSchedule).map((meetings, index) => {
                                 const layout = computeOverlapLayout(meetings as any);
                                 return (
                                     <div
                                         key={`calendar-day-column-${index}`}
-                                        className="relative z-10 h-[calc(100%-16px)] min-h-0"
+                                        className="relative z-10 h-full min-h-0"
                                     >
                                         {meetings.map((meeting, mIndex) => (
                                             <CalendarItem
@@ -90,6 +89,11 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
                                                 meeting={meeting as any}
                                                 columnIndex={layout[mIndex].columnIndex}
                                                 totalColumns={layout[mIndex].totalColumns}
+                                                onClick={() => {
+                                                    setSelectedUid(meeting.uid);
+                                                    setShownInterval(weekDates[index]);
+                                                    setCurrTab('day');
+                                                }}
                                             />
                                         ))}
                                         {getGaps({
@@ -106,16 +110,12 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
                                 );
                             })}
 
-                            <div
-                                className="absolute grid size-full min-h-0 pb-3.5"
-                                style={{
-                                    gridTemplateRows: `repeat(${(rows - 1) * 2}, minmax(0, 1fr))`,
-                                }}
-                            >
-                                {Array.from({ length: rows * 2 }).map((_, index) => (
+                            <div className="absolute inset-0">
+                                {Array.from({ length: rows * 2 + 1 }).map((_, index) => (
                                     <Separator
                                         key={`hour-separator-${index}`}
-                                        className={cn('bg-accent h-0.5!', index % 2 !== 0 && 'h-px!')}
+                                        className={cn('absolute w-full bg-accent h-0.5!', index % 2 !== 0 && 'h-px!')}
+                                        style={{ top: `${(index / (rows * 2)) * 100}%` }}
                                     />
                                 ))}
                             </div>
@@ -126,5 +126,7 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
         </TabsContent>
     );
 }
+
+
 
 export default WeekTab;

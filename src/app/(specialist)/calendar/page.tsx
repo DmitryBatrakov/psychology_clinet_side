@@ -19,7 +19,7 @@ import {
     startOfMonth,
     startOfWeek,
 } from 'date-fns';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
 
 const workTimeLimit = { start: 6, end: 18 };
@@ -113,18 +113,21 @@ export const ShownDateInterval = createContext({
     getter: {
         currTab: 'week' as ({} & string) | 'month' | 'week' | 'day' | 'list',
         shownInterval: new Date(),
+        selectedUid: null as string | null,
     },
     setter: {
         setShownInterval: function () { } as Dispatch<SetStateAction<Date>>,
         setCurrTab: function () { } as Dispatch<
             SetStateAction<({} & string) | 'month' | 'week' | 'day' | 'list'>
         >,
+        setSelectedUid: function () { } as Dispatch<SetStateAction<string | null>>,
     },
 });
 
 export default function Calendar() {
     const [shownInterval, setShownInterval] = useState(new Date());
     const [currTab, setCurrTab] = useState<'month' | 'week' | 'day' | 'list' | ({} & string)>('month');
+    const [selectedUid, setSelectedUid] = useState<string | null>(null);
 
     const intervalStep = (dir: -1 | 1) => {
         let end, start;
@@ -178,13 +181,13 @@ export default function Calendar() {
     return (
         <ShownDateInterval.Provider
             value={{
-                getter: { shownInterval: shownInterval, currTab: currTab },
-                setter: { setShownInterval: setShownInterval, setCurrTab: setCurrTab },
+                getter: { shownInterval, currTab, selectedUid },
+                setter: { setShownInterval, setCurrTab, setSelectedUid },
             }}
         >
             <Widget
                 variant="default"
-                className="relative m-2 flex max-h-[calc(100%-16px)] min-h-0 flex-1 flex-col gap-0 overflow- p-0"
+                className="relative m-2 flex max-h-[calc(100%-16px)] min-h-0 flex-1 flex-col gap-0"
             >
                 <Widget.Content className="max-h-full *:max-h-full">
                     <Tabs
@@ -203,6 +206,7 @@ export default function Calendar() {
                             </TabsList>
 
                             <div className="flex justify-end gap-2 *:cursor-pointer *:shadow-sm">
+                                <Button variant="ghost" className="mx-3 bg-white" size={'icon'}><Plus /></Button>
                                 <Button onClick={() => intervalStep(-1)} variant="ghost" size={'icon'} className='bg-white'>
                                     <ChevronLeft />
                                 </Button>

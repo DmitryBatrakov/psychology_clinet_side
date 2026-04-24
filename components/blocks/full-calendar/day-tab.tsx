@@ -2,7 +2,7 @@ import { Item, ItemContent, ItemHeader } from '@/components/ui/item';
 import { Separator } from '@/components/ui/separator';
 import { TabsContent } from '@/components/ui/tabs';
 import { format, isSameDay } from 'date-fns';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useMemo } from 'react';
 import CalendarItem from './calendar-item';
 import { cn } from '@/lib/utils';
 import { computeOverlapLayout, getGaps } from './halpers';
@@ -19,7 +19,8 @@ interface Props {
 
 function DayTab({ workTimeLimit, schedule }: Props) {
     const {
-        getter: { shownInterval },
+        getter: { shownInterval, selectedUid },
+        setter: { setSelectedUid },
     } = useContext(ShownDateInterval);
 
     const rows = useMemo(() => workTimeLimit.end - workTimeLimit.start, [workTimeLimit]);
@@ -29,8 +30,7 @@ function DayTab({ workTimeLimit, schedule }: Props) {
         return schedule.filter((item) => item.date === dateKey);
     }, [shownInterval, schedule]);
 
-    const [selectedUid, setSelectedUid] = useState<string | null>(null);
-    const selectedMeeting = daySchedule.find((m) => m.uid === selectedUid) ?? null;
+    const selectedMeeting = daySchedule.find((m) => m.uid === selectedUid) ?? daySchedule[0] ?? null;
 
     return (
         <TabsContent value="day" className="flex h-full min-h-0">
@@ -47,11 +47,15 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                     </button>
                 </section>
 
-                <div className="custom-scrollbar h-full overflow-y-scroll pt-1 pr-0.5 pb-3 pl-3 flex gap-5">
+                <div className="custom-scrollbar h-full overflow-y-scroll py-3 pr-0.5 pl-3 flex gap-5">
                     <section className="grid min-h-full grid-cols-[46px_1fr] grid-rows-1 w-full max-w-1/2" style={{ minHeight: `${rows * 84}px` }}>
-                        <div className="flex flex-col justify-between pr-2 text-center" style={{ height: '100%' }}>
+                        <div className="relative pr-2 text-center" style={{ height: '100%' }}>
                             {Array.from({ length: rows + 1 }).map((_, index) => (
-                                <div key={`time-slot-${index}`} className="text-xs text-gray-500">
+                                <div
+                                    key={`time-slot-${index}`}
+                                    className="absolute text-xs text-gray-500 -translate-y-1/2 right-2 left-0"
+                                    style={{ top: `${(index / rows) * 100}%` }}
+                                >
                                     {index + workTimeLimit.start}:00
                                 </div>
                             ))}

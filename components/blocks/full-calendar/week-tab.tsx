@@ -18,7 +18,7 @@ interface Props {
 function WeekTab({ workTimeLimit, schedule }: Props) {
     const {
         getter: { shownInterval },
-        setter: { setShownInterval, setCurrTab },
+        setter: { setShownInterval, setCurrTab, setSelectedUid },
     } = useContext(ShownDateInterval);
 
     const rows = useMemo(() => workTimeLimit.end - workTimeLimit.start, [workTimeLimit]);
@@ -61,10 +61,14 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
                 </section>
 
                 <div className="custom-scrollbar h-full overflow-y-scroll pt-1 pr-0.5 pb-3 pl-3">
-                    <section className="grid min-h-full grid-cols-[46px_1fr] grid-rows-1" style={{ minHeight: `${rows * 84}px` }}>
-                        <div className="flex flex-col justify-between pr-2 text-center" style={{ height: '100%' }}>
+                    <section className="grid min-h-full grid-cols-[46px_1fr] grid-rows-1 items-center justify-center" style={{ minHeight: `${rows * 84}px` }}>
+                        <div className="relative pr-2 text-center" style={{ height: '100%' }}>
                             {Array.from({ length: rows + 1 }).map((_, index) => (
-                                <div key={`time-slot-${index}`} className="text-xs text-gray-500">
+                                <div
+                                    key={`time-slot-${index}`}
+                                    className="absolute text-xs text-gray-500 -translate-y-1/2 right-2 left-0"
+                                    style={{ top: `${(index / rows) * 100}%` }}
+                                >
                                     {index + workTimeLimit.start}:00
                                 </div>
                             ))}
@@ -85,6 +89,11 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
                                                 meeting={meeting as any}
                                                 columnIndex={layout[mIndex].columnIndex}
                                                 totalColumns={layout[mIndex].totalColumns}
+                                                onClick={() => {
+                                                    setSelectedUid(meeting.uid);
+                                                    setShownInterval(weekDates[index]);
+                                                    setCurrTab('day');
+                                                }}
                                             />
                                         ))}
                                         {getGaps({

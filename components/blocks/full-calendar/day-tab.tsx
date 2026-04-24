@@ -1,7 +1,8 @@
-import { Item, ItemContent, ItemHeader } from '@/components/ui/item';
+import { ItemContent } from '@/components/ui/item';
 import { Separator } from '@/components/ui/separator';
 import { TabsContent } from '@/components/ui/tabs';
 import { format, isSameDay } from 'date-fns';
+import { he } from 'date-fns/locale';
 import { useContext, useMemo } from 'react';
 import CalendarItem from './calendar-item';
 import { cn } from '@/lib/utils';
@@ -30,10 +31,10 @@ function DayTab({ workTimeLimit, schedule }: Props) {
         return schedule.filter((item) => item.date === dateKey);
     }, [shownInterval, schedule]);
 
-    const selectedMeeting = daySchedule.find((m) => m.uid === selectedUid) ?? daySchedule[0] ?? null;
+    const selectedMeeting = daySchedule.find((m) => m.uid === selectedUid) ?? daySchedule[0] ?? null;    
 
     return (
-        <TabsContent value="day" className="flex h-full min-h-0">
+        <TabsContent value="day" dir="rtl" className="flex h-full min-h-0">
             <ItemContent className="flex h-full flex-col gap-7">
                 <section className="grid grid-cols-[46px_1fr] grid-rows-1 px-3 pt-3">
                     <div />
@@ -43,7 +44,7 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                             isSameDay(shownInterval, new Date()) && 'bg-blue-500 text-white hover:bg-blue-600'
                         )}
                     >
-                        {format(shownInterval, 'EEEE')}
+                        {format(shownInterval, 'EEEE', { locale: he })}
                     </button>
                 </section>
 
@@ -61,7 +62,7 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                             ))}
                         </div>
 
-                        <div className="relative grid h-full min-h-0 w-full">
+                        <div className="relative grid h-full min-h-0 w-full ">
                             <div className="relative z-10 size-full min-h-0 pb-3.5">
                                 {(() => {
                                     const layout = computeOverlapLayout(daySchedule);
@@ -108,7 +109,7 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                                     <CardHeader className="gap-1 pb-3" style={{ borderBottom: `3px solid ${selectedMeeting.color}` }}>
                                         <CardTitle className="text-base">{selectedMeeting.name}</CardTitle>
                                         <p className="text-muted-foreground text-xs">
-                                            {format(shownInterval, 'EEEE, MMMM d')}
+                                            {format(shownInterval, 'EEEE, MMMM d', { locale: he })}
                                             {' · '}
                                             {String(Math.floor(selectedMeeting.time[0])).padStart(2, '0')}:{selectedMeeting.time[0] % 1 !== 0 ? '30' : '00'}
                                             {' — '}
@@ -117,15 +118,15 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                                     </CardHeader>
                                     <CardContent className="flex flex-col gap-4 pt-4">
                                         <div>
-                                            <p className="text-muted-foreground mb-1 text-xs font-medium uppercase tracking-wide">Description</p>
+                                            <p className="text-muted-foreground mb-1 text-xs font-medium uppercase tracking-wide">תיאור</p>
                                             <p className="text-sm">{selectedMeeting.description}</p>
                                         </div>
                                         <div>
-                                            <p className="text-muted-foreground mb-1 text-xs font-medium uppercase tracking-wide">Meet link</p>
+                                            <p className="text-muted-foreground mb-1 text-xs font-medium uppercase tracking-wide">קישור לפגישה</p>
                                             <Button asChild variant="outline" size="sm" className="gap-2">
                                                 <a href={selectedMeeting.meet_url} target="_blank" rel="noopener noreferrer">
                                                     <ExternalLink className="h-3.5 w-3.5" />
-                                                    Join meeting
+                                                    הצטרף לפגישה
                                                 </a>
                                             </Button>
                                         </div>
@@ -133,7 +134,7 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                                 </>
                             ) : (
                                 <CardContent className="flex h-full items-center justify-center">
-                                    <p className="text-muted-foreground text-sm">Select a session to view details</p>
+                                    <p className="text-muted-foreground text-sm">בחר פגישה לצפייה בפרטים</p>
                                 </CardContent>
                             )}
                         </Card>

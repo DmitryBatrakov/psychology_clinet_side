@@ -6,7 +6,7 @@ import MonthTab from '@/components/blocks/full-calendar/month-tab';
 import WeekTab from '@/components/blocks/full-calendar/week-tab';
 import Widget from '@/components/blocks/widgets/widget';
 import { Button } from '@/components/ui/button';
-import { Item, ItemHeader } from '@/components/ui/item';
+import { ItemHeader } from '@/components/ui/item';
 import { Separator } from '@/components/ui/separator';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -19,8 +19,10 @@ import {
     startOfMonth,
     startOfWeek,
 } from 'date-fns';
+import { he } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { locales } from 'zod';
 
 const workTimeLimit = { start: 6, end: 18 };
 
@@ -165,16 +167,16 @@ export default function Calendar() {
         const date = getTime(shownInterval);
         switch (currTab) {
             case 'week':
-                return `${format(date, 'MMM')} ${format(startOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')} — ${format(endOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')}, ${format(date, 'yyyy')}`;
+                return `${format(date, 'MMM', { locale: he })} ${format(startOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')} — ${format(endOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')}, ${format(date, 'yyyy')}`;
 
             case 'month':
-                return format(date, 'MMMM, yyyy');
+                return format(date, 'MMMM, yyyy', { locale: he });
 
             case 'day':
-                return format(shownInterval, 'MMMM dd, yyyy');
+                return format(shownInterval, 'MMMM dd, yyyy', { locale: he });
 
             case 'list':
-                return `${format(date, 'MMM')} ${format(startOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')} — ${format(endOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')}, ${format(date, 'yyyy')}`;
+                return `${format(date, 'MMM', { locale: he })} ${format(startOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')} — ${format(endOfWeek(shownInterval, { weekStartsOn: 0 }), 'dd')}, ${format(date, 'yyyy')}`;
         }
     }, [shownInterval, currTab]);
 
@@ -187,6 +189,7 @@ export default function Calendar() {
         >
             <Widget
                 variant="default"
+                dir="rtl"
                 className="relative m-2 flex max-h-[calc(100%-16px)] min-h-0 flex-1 flex-col gap-0"
             >
                 <Widget.Content className="max-h-full *:max-h-full">
@@ -195,29 +198,31 @@ export default function Calendar() {
                         defaultValue="week"
                         onValueChange={setCurrTab}
                         className="flex h-full min-h-0 w-full flex-col gap-0"
+                        dir='rtl'
                     >
-                        <ItemHeader className="w-full basis-0 grid grid-cols-[1fr_auto_1fr] items-center gap-y-2 p-3">
+                        <ItemHeader className="w-full basis-0 grid grid-cols-[1fr_auto_1fr] items-center justify-items gap-y-2 p-3">
                             <h1 className="truncate text-lg">{title}</h1>
                             <TabsList className="*:flex-1 *:cursor-pointer *:font-normal bg-primary/60 min-w-100">
-                                <TabsTrigger value="month" >Month</TabsTrigger>
-                                <TabsTrigger value="week" >Week</TabsTrigger>
-                                <TabsTrigger value="day" >Day</TabsTrigger>
-                                <TabsTrigger value="list" >List</TabsTrigger>
+                                <TabsTrigger value="month" >חודש</TabsTrigger>
+                                <TabsTrigger value="week" >שבוע</TabsTrigger>
+                                <TabsTrigger value="day" >יום</TabsTrigger>
+                                <TabsTrigger value="list" >רשימה</TabsTrigger>
                             </TabsList>
 
                             <div className="flex justify-end gap-2 *:cursor-pointer *:shadow-sm">
                                 <Button variant="ghost" className="mx-3 bg-white" size={'icon'}><Plus /></Button>
                                 <Button onClick={() => intervalStep(-1)} variant="ghost" size={'icon'} className='bg-white'>
-                                    <ChevronLeft />
+                                    <ChevronLeft className='rotate-180' />
                                 </Button>
                                 <Button onClick={() => setShownInterval(new Date())} variant="ghost" className='bg-white'>
-                                    Today
+                                    היום
                                 </Button>
                                 <Button onClick={() => intervalStep(1)} variant="ghost" size={'icon'} className='bg-white'>
-                                    <ChevronRight />
+                                    <ChevronRight className='rotate-180'/>
                                 </Button>
                             </div>
                         </ItemHeader>
+                        
                         <Separator />
 
                         <MonthTab schedule={data} />

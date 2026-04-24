@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { he } from 'date-fns/locale';
 import { Circle } from 'lucide-react';
 import React, { useContext, useMemo } from 'react';
 import { getWeekDates } from './halpers';
@@ -35,7 +36,7 @@ function ListTab({ schedule, workTimeLimit }: Props) {
   }, [listDates]);
 
   return (
-    <TabsContent value="list" className="flex h-full min-h-0">
+    <TabsContent value="list" dir="rtl" className="flex h-full min-h-0">
       <ItemContent
         className={cn(
           'flex h-full flex-col gap-0 p-3',
@@ -52,11 +53,11 @@ function ListTab({ schedule, workTimeLimit }: Props) {
                     className="bg-accent hover:bg-accent *:*:cursor-pointer *:*:underline-offset-1 *:*:hover:underline"
                   >
                     <TableCell className="font-normal">
-                      <button onClick={() => openDate(new Date(day))}>{format(day, 'EEEE')}</button>
+                      <button onClick={() => openDate(new Date(day))}>{format(day, 'EEEE', { locale: he })}</button>
                     </TableCell>
                     <TableCell className="text-right text-xs">
                       <button onClick={() => openDate(new Date(day))}>
-                        {format(day, 'MMMM dd, yyyy')}
+                        {format(day, 'MMMM dd, yyyy', { locale: he })}
                       </button>
                     </TableCell>
                   </TableRow>
@@ -78,7 +79,7 @@ function ListTab({ schedule, workTimeLimit }: Props) {
             {Object.values(listSchedule).find((list) => Boolean(list.length)) === undefined && (
               <TableRow className="absolute top-0 flex size-full items-center justify-center">
                 <TableCell className="">
-                  <span className="text-sm">There is nothing for now.</span>
+                  <span className="text-sm">אין פגישות כרגע</span>
                 </TableCell>
               </TableRow>
             )}

@@ -5,7 +5,8 @@ import { ItemContent } from '@/components/ui/item';
 import { Separator } from '@/components/ui/separator';
 import { TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
-import { eachDayOfInterval, endOfWeek, format, isSameDay, startOfWeek } from 'date-fns';
+import { format, isSameDay } from 'date-fns';
+import { he } from 'date-fns/locale';
 import { useContext, useMemo } from 'react';
 import CalendarAddItemButton from './calendar-add-item-button';
 import { computeOverlapLayout, getGaps, getWeekDates } from './halpers';
@@ -31,10 +32,10 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
             result[dateKey] = schedule.filter((item) => item.date === dateKey);
         });
         return result;
-    }, [weekDates]);
+    }, [weekDates, schedule]);
 
     return (
-        <TabsContent value="week" className="flex h-full min-h-0">
+        <TabsContent value="week" dir="rtl" className="flex h-full min-h-0">
             <ItemContent className="flex h-full flex-col gap-7">
                 <section className="grid grid-cols-[46px_1fr] grid-rows-1 px-3 pt-3">
                     <div />
@@ -54,7 +55,7 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
                                 )}
                             >
                                 <span className="">{format(day, 'dd')}</span>
-                                <span className="pt-0.5 text-xs font-light uppercase">{format(day, 'EEE')}</span>
+                                <span className="pt-0.5 text-xs font-light uppercase">{format(day, 'EEE', { locale: he })}</span>
                             </Button>
                         ))}
                     </div>
@@ -76,7 +77,7 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
 
                         <div className="relative grid h-full w-full grid-cols-7 gap-1">
                             {Object.values(weekSchedule).map((meetings, index) => {
-                                const layout = computeOverlapLayout(meetings as any);
+                                const layout = computeOverlapLayout(meetings);
                                 return (
                                     <div
                                         key={`calendar-day-column-${index}`}
@@ -86,7 +87,7 @@ function WeekTab({ workTimeLimit, schedule }: Props) {
                                             <CalendarItem
                                                 key={`calendar-item-week-${mIndex}`}
                                                 workTimeLimit={workTimeLimit}
-                                                meeting={meeting as any}
+                                                meeting={meeting}
                                                 columnIndex={layout[mIndex].columnIndex}
                                                 totalColumns={layout[mIndex].totalColumns}
                                                 onClick={() => {

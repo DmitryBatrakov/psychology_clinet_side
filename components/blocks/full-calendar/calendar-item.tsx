@@ -1,6 +1,6 @@
-import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Item, ItemContent, ItemHeader } from '@/components/ui/item';
-import { Avatar } from '@radix-ui/react-avatar';
+import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Item, ItemContent, ItemHeader } from "@/components/ui/item";
+import { Avatar } from "@radix-ui/react-avatar";
 
 interface CalendarItemProps {
     workTimeLimit: { start: number; end: number };
@@ -11,7 +11,14 @@ interface CalendarItemProps {
     isSelected?: boolean;
 }
 
-function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onClick, isSelected }: CalendarItemProps) {
+function CalendarItem({
+    workTimeLimit,
+    meeting,
+    columnIndex,
+    totalColumns,
+    onClick,
+    isSelected,
+}: CalendarItemProps) {
     const {
         name,
         time: [s, e],
@@ -24,22 +31,34 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
     const left = (columnIndex / totalColumns) * 100;
     const width = (1 / totalColumns) * 100;
 
+    console.log("colorc", color);
+
     return (
         <Item
             onClick={onClick}
-            className={`absolute flex shrink-0 cursor-pointer flex-col gap-0 overflow-hidden rounded-sm border-2 bg-blue-200 p-0 transition-all *:w-full hover:brightness-105 ${isSelected ? 'border-white ring-2 ring-white ring-offset-1 brightness-105' : 'border-blue-400'}`}
+            className={`absolute flex shrink-0 cursor-pointer flex-col gap-0 overflow-hidden rounded-sm bg-blue-200 p-0 transition-all *:w-full border-0 ${isSelected ? "brightness-110" : "brightness-95 hover:brightness-110"}`}
             style={{
                 background: color,
                 top: `calc(${top}% + 3px)`,
                 height: `calc(${height}% - 6px)`,
-                left: `calc(${left}% - 3px)`,
+                left: `calc(${left}% + 1px)`,
                 width: `calc(${width}% - 2px)`,
+                ...(isSelected
+                    ? {
+                          boxShadow: `0 0 0 2px ${color} `,
+                      }
+                    : {}),
             }}
         >
             <ItemHeader className="basis-0 justify-start bg-blue-300 p-1">
                 <Avatar className="h-5.5 w-5.5 min-w-5.5">
-                    <AvatarImage className="rounded-full" src={'https://ui.shadcn.com/avatars/shadcn.jpg'} />
-                    <AvatarFallback className="size-full text-xs">JD</AvatarFallback>
+                    <AvatarImage
+                        className="rounded-full"
+                        src={"https://ui.shadcn.com/avatars/shadcn.jpg"}
+                    />
+                    <AvatarFallback className="size-full text-xs">
+                        JD
+                    </AvatarFallback>
                 </Avatar>
                 <span className="line-clamp-1 pr-1">{name}</span>
             </ItemHeader>

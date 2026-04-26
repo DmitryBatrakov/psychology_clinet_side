@@ -46,7 +46,6 @@ function MonthTab({ schedule }: Props) {
                     hideNavigation
                     showOutsideDays
                     locale={he}
-                    dir="rtl"
                     month={shownInterval}
                     className="h-full w-full p-0 **:aspect-auto"
                     classNames={{
@@ -109,7 +108,9 @@ function MonthTab({ schedule }: Props) {
                                     )}
                                     onClick={() => {
                                         setShownInterval(day.date);
-                                        setCurrTab('day');
+                                        if (!modifiers.outside) {
+                                            setCurrTab('day');
+                                        }
                                     }}
                                 >
                                     <CardHeader className="justify-end px-2 pt-1 group-hover:underline">

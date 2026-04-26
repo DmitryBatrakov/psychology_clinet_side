@@ -36,7 +36,7 @@ function ModalContent({ x, y }: { x: number; y: number }) {
             animate={{ opacity: 1, x: 0, scale: 1 }}
             exit={{ opacity: 0, x: 34, scale: 0.98 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed z-80 w-80 h-90 rounded-lg border border-secondary bg-white shadow-xl"
+            className="fixed z-80 w-100 h-100 rounded-lg border border-secondary bg-white shadow-xl"
             style={{ left: pos.left, top: pos.top }}
         >
             <div className="flex items-center justify-between border-b px-4 py-3">

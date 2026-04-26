@@ -1,9 +1,9 @@
 'use client';
-import DayTab from '@/components/blocks/full-calendar/day-tab';
-import { getMiddleDate } from '@/components/blocks/full-calendar/halpers';
-import ListTab from '@/components/blocks/full-calendar/list-tab';
-import MonthTab from '@/components/blocks/full-calendar/month-tab';
-import WeekTab from '@/components/blocks/full-calendar/week-tab';
+import DayTab from '@/features/calendar/ui/day-tab';
+import { getMiddleDate } from '@/features/calendar/lib/halpers';
+import ListTab from '@/features/calendar/ui/list-tab';
+import MonthTab from '@/features/calendar/ui/month-tab';
+import WeekTab from '@/features/calendar/ui/week-tab';
 import Widget from '@/components/blocks/widgets/widget';
 import { Button } from '@/components/ui/button';
 import { ItemHeader } from '@/components/ui/item';
@@ -22,7 +22,7 @@ import {
 import { he } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { createContext, Dispatch, SetStateAction, useMemo, useState } from 'react';
-import { locales } from 'zod';
+import { NewSessionModal } from '@/features/calendar/ui/create-new-session-modal';
 
 const workTimeLimit = { start: 6, end: 18 };
 
@@ -111,11 +111,14 @@ type visitRecord = {
     time: [number, number];
 };
 
+type NewSession = { date: Date; startHour: number; endHour: number; name: string; x: number; y: number } | null;
+
 export const ShownDateInterval = createContext({
     getter: {
         currTab: 'week' as ({} & string) | 'month' | 'week' | 'day' | 'list',
         shownInterval: new Date(),
         selectedUid: null as string | null,
+        newSession: null as NewSession,
     },
     setter: {
         setShownInterval: function () { } as Dispatch<SetStateAction<Date>>,
@@ -123,6 +126,7 @@ export const ShownDateInterval = createContext({
             SetStateAction<({} & string) | 'month' | 'week' | 'day' | 'list'>
         >,
         setSelectedUid: function () { } as Dispatch<SetStateAction<string | null>>,
+        setNewSession: function () { } as Dispatch<SetStateAction<NewSession>>,
     },
 });
 
@@ -130,6 +134,7 @@ export default function Calendar() {
     const [shownInterval, setShownInterval] = useState(new Date());
     const [currTab, setCurrTab] = useState<'month' | 'week' | 'day' | 'list' | ({} & string)>('month');
     const [selectedUid, setSelectedUid] = useState<string | null>(null);
+    const [newSession, setNewSession] = useState<NewSession>(null);
 
     const intervalStep = (dir: -1 | 1) => {
         let end, start;
@@ -183,8 +188,8 @@ export default function Calendar() {
     return (
         <ShownDateInterval.Provider
             value={{
-                getter: { shownInterval, currTab, selectedUid },
-                setter: { setShownInterval, setCurrTab, setSelectedUid },
+                getter: { shownInterval, currTab, selectedUid, newSession },
+                setter: { setShownInterval, setCurrTab, setSelectedUid, setNewSession },
             }}
         >
             <Widget
@@ -192,6 +197,9 @@ export default function Calendar() {
                 dir="rtl"
                 className="relative m-2 flex max-h-[calc(100%-16px)] min-h-0 flex-1 flex-col gap-0"
             >
+                {newSession && (
+                    <NewSessionModal />
+                )}
                 <Widget.Content className="max-h-full *:max-h-full">
                     <Tabs
                         value={currTab}

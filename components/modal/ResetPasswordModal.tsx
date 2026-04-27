@@ -33,11 +33,11 @@ export function ForgotPasswordDialog() {
         if (email) {
             passwordResetMutation.mutate(email, {
                 onSuccess: () => {
-                    notify.success("The letter has been sent by mail ");
+                    notify.success("המייל נשלח בהצלחה");
                     closeAndReset();
                 },
                 onError: (error: any) => {
-                    notify.error(error?.message ?? "Something went wrong");
+                    notify.error(error?.message ?? "משהו השתבש");
                 },
             });
         }
@@ -58,12 +58,12 @@ export function ForgotPasswordDialog() {
             }}
         >
             <DialogTrigger asChild>
-                <Button variant="link" className="pl-3 h-auto text-sm">
-                    Forgot the password?
+                <Button variant="link" className="pr-3 h-auto text-sm">
+                    שכחת סיסמה?
                 </Button>
             </DialogTrigger>
 
-            <DialogContent className="sm:max-w-md">
+            <DialogContent className="sm:max-w-md" dir="rtl">
                 <DialogHeader>
                     <DialogTitle>איפוס סיסמה</DialogTitle>
                     <DialogDescription>
@@ -72,11 +72,12 @@ export function ForgotPasswordDialog() {
                 </DialogHeader>
                 <div className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="reset-email">Email</Label>
+                        <Label htmlFor="reset-email">אימייל</Label>
                         <Input
                             id="reset-email"
                             type="email"
                             placeholder="your@email.com"
+                            dir="ltr"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             disabled={isLoading}

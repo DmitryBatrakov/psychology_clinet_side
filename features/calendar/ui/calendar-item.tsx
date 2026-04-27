@@ -4,7 +4,7 @@ import { Avatar } from '@radix-ui/react-avatar';
 
 interface CalendarItemProps {
     workTimeLimit: { start: number; end: number };
-    meeting: { name: string; time: [number, number]; color: string };
+    meeting: { name: string; time: [number, number]; color: string; status?: string };
     columnIndex: number;
     totalColumns: number;
     onClick?: () => void;
@@ -16,8 +16,10 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
         name,
         time: [s, e],
         color,
+        status,
     } = meeting;
 
+    const isPending = status === 'pending';
     const rows = workTimeLimit.end - workTimeLimit.start;
     const top = ((s - workTimeLimit.start) / rows) * 100;
     const height = ((e - s) / rows) * 100;
@@ -27,13 +29,15 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
     return (
         <Item
             onClick={onClick}
-            className={`absolute flex shrink-0 cursor-pointer flex-col gap-0 overflow-hidden rounded-sm border-2 bg-blue-200 p-0 transition-all *:w-full hover:brightness-105 ${isSelected ? 'border-white ring-2 ring-white ring-offset-1 brightness-105' : 'border-blue-400'}`}
+            className={`absolute flex shrink-0 cursor-pointer flex-col gap-0 overflow-hidden rounded-sm bg-blue-200 p-0 transition-all *:w-full ${isPending ? 'border-2 border-red-700' : 'border-0'} ${isSelected ? "brightness-110" : "brightness-95 hover:brightness-110"}`}
             style={{
                 background: color,
+                opacity: isPending ? 0.80 : 1,
                 top: `calc(${top}% + 3px)`,
                 height: `calc(${height}% - 6px)`,
-                left: `calc(${left}% - 3px)`,
+                left: `calc(${left}% + 1px)`,
                 width: `calc(${width}% - 2px)`,
+                ...(isSelected ? { boxShadow: `0 0 0 2px ${color}` } : {}),
             }}
         >
             <ItemHeader className="basis-0 justify-start bg-blue-300 p-1">
@@ -43,11 +47,16 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
                 </Avatar>
                 <span className="line-clamp-1 pr-1">{name}</span>
             </ItemHeader>
-            <ItemContent className="flex h-fit max-w-full overflow-hidden p-1 text-xs text-gray-700">
+            <ItemContent className="flex h-fit max-w-full overflow-hidden p-1 text-xs text-gray-700 relative items-start justify-start">
                 <div className="line-clamp-1 h-fit max-w-full overflow-hidden text-ellipsis">
                     {s}:00 — {e}:00
                 </div>
             </ItemContent>
+            {isPending && (
+                <div className="absolute bottom-0 right-0 bg-red-700 w-full text-start text-white text-[10px] px-2 py-1 font-semibold leading-tight pointer-events-none">
+                    ממתין לאישור ממטופל
+                </div>
+            )}
         </Item>
     );
 }

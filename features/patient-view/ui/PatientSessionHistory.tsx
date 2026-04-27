@@ -67,7 +67,7 @@ export function PatientSessionHistory({ sessions }: PatientSessionHistoryProps) 
                         </TableHeader>
                         <TableBody>
                             {sessionSorted.map((session) => {
-                                const badge = SESSION_STATUS_LABELS[session.status];
+                                const badge = SESSION_STATUS_LABELS[session.status]; 
                                 return (
                                     <TableRow
                                         key={session.id}

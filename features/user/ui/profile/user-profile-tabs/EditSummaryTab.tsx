@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format, parseISO } from "date-fns";
+import { toDateKey } from "@/lib/func/to-date-key/toDateKey";
 import { CalendarIcon, CircleUserRound, Pen, Plus, Trash2 } from "lucide-react";
 import { useAtomValue } from "jotai";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -41,6 +42,7 @@ import type { UserProfile } from "@/features/user/model/types";
 import { authAtom } from "@/src/store/auth/authAtom";
 import { updateUserProfile } from "../../../api/updateUserProfile";
 import { useAvatar } from "../../../hooks/useAvatar";
+import { he } from "date-fns/locale";
 
 type TimestampLike = { toDate: () => Date };
 
@@ -133,7 +135,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
             lastName: data.lastName,
             phoneNumber: data.phoneNumber,
             birthDate: data.birthDate
-                ? format(data.birthDate, "yyyy-MM-dd")
+                ? toDateKey(data.birthDate)
                 : undefined,
             gender: data.gender,
             languages: data.languages,
@@ -283,10 +285,7 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                                     )}
                                                 >
                                                     {field.value ? (
-                                                        format(
-                                                            field.value,
-                                                            "PPP",
-                                                        )
+                                                        format(field.value, "PPP", { locale: he })
                                                     ) : (
                                                         <span>בחר תאריך</span>
                                                     )}
@@ -297,12 +296,14 @@ export function EditSummaryTab({ dbUser }: { dbUser?: UserProfile | null }) {
                                         <PopoverContent
                                             className="w-auto p-0"
                                             align="start"
+                                            dir="rtl"
                                         >
                                             <Calendar
                                                 mode="single"
                                                 captionLayout="dropdown"
                                                 selected={field.value}
                                                 onSelect={field.onChange}
+                                                locale={he}
                                                 disabled={(date) =>
                                                     date > new Date() ||
                                                     date <

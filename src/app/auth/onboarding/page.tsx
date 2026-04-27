@@ -3,6 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
+import { he } from "date-fns/locale";
 import { CalendarIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
@@ -36,10 +37,10 @@ import { useAtomValue } from "jotai";
 import { authAtom } from "@/src/store/auth/authAtom";
 
 const languagesList = [
-    { id: "he", label: "Hebrew" },
-    { id: "ru", label: "Русский" },
-    { id: "en", label: "English" },
-    { id: "ar", label: "Arabic" },
+    { id: "he", label: "עברית" },
+    { id: "ru", label: "רוסית" },
+    { id: "en", label: "אנגלית" },
+    { id: "ar", label: "ערבית" },
 ] as const;
 
 export default function OnboardingPage() {
@@ -52,14 +53,14 @@ export default function OnboardingPage() {
         mutationFn: (data: UserData) => completeOnboarding(data),
 
         onSuccess: () => {
-            notify.success("Onboarding completed successfully");
+            notify.success("ההרשמה הושלמה בהצלחה");
             queryClient.refetchQueries({
                 queryKey: ["user", uid],
             });
             router.replace("/account/profile");
         },
         onError: (error) => {
-            notify.error(error?.message ?? "Failed to complete onboarding");
+            notify.error(error?.message ?? "ההרשמה נכשלה");
         },
     });
 
@@ -76,19 +77,15 @@ export default function OnboardingPage() {
     });
 
     const onSubmit = (data: UserData) => {
-        mutate({
-            ...data,
-            birthDate: format(data.birthDate, "yyyy-MM-dd"),
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        } as any);
+        mutate(data);
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-slate-50 p-6">
+        <div className="flex items-center justify-center min-h-screen bg-slate-50 p-6" dir="rtl">
             <Card className="w-full max-w-2xl">
                 <CardHeader>
                     <CardTitle className="text-2xl text-center">
-                        Завершение регистрации
+                        השלמת הרשמה
                     </CardTitle>
                 </CardHeader>
                 <CardContent>
@@ -97,17 +94,16 @@ export default function OnboardingPage() {
                             onSubmit={form.handleSubmit(onSubmit)}
                             className="space-y-6"
                         >
-                            {/* Имя и Фамилия */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <FormField
                                     control={form.control}
                                     name="firstName"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Имя</FormLabel>
+                                            <FormLabel>שם פרטי</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Иван"
+                                                    placeholder="ישראל"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -120,10 +116,10 @@ export default function OnboardingPage() {
                                     name="lastName"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Фамилия</FormLabel>
+                                            <FormLabel>שם משפחה</FormLabel>
                                             <FormControl>
                                                 <Input
-                                                    placeholder="Иванов"
+                                                    placeholder="ישראלי"
                                                     {...field}
                                                 />
                                             </FormControl>
@@ -133,13 +129,12 @@ export default function OnboardingPage() {
                                 />
                             </div>
 
-                            {/* Телефон */}
                             <FormField
                                 control={form.control}
                                 name="phoneNumber"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Номер телефона</FormLabel>
+                                        <FormLabel>מספר טלפון</FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="+972..."
@@ -151,45 +146,41 @@ export default function OnboardingPage() {
                                 )}
                             />
 
-                            {/* Дата рождения */}
                             <FormField
                                 control={form.control}
                                 name="birthDate"
                                 render={({ field }) => (
                                     <FormItem className="flex flex-col">
-                                        <FormLabel>Дата рождения</FormLabel>
+                                        <FormLabel>תאריך לידה</FormLabel>
                                         <Popover>
                                             <PopoverTrigger asChild>
                                                 <FormControl>
                                                     <Button
                                                         variant="outline"
                                                         className={cn(
-                                                            "w-full pl-3 text-left font-normal",
+                                                            "w-full pl-3 text-right font-normal",
                                                             !field.value &&
                                                             "text-muted-foreground",
                                                         )}
                                                     >
                                                         {field.value ? (
-                                                            format(
-                                                                field.value,
-                                                                "PPP",
-                                                            )
+                                                            format(field.value, "PPP", { locale: he })
                                                         ) : (
-                                                            <span>
-                                                                Выберите дату
-                                                            </span>
+                                                            <span>בחר תאריך</span>
                                                         )}
-                                                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                                        <CalendarIcon className="mr-auto h-4 w-4 opacity-50" />
                                                     </Button>
                                                 </FormControl>
                                             </PopoverTrigger>
                                             <PopoverContent
                                                 className="w-auto p-0"
                                                 align="start"
+                                                dir="rtl"
                                             >
                                                 <Calendar
                                                     mode="single"
                                                     captionLayout="dropdown"
+                                                    locale={he}
                                                     selected={field.value}
                                                     onSelect={field.onChange}
                                                     disabled={(date) =>
@@ -208,13 +199,12 @@ export default function OnboardingPage() {
                                 )}
                             />
 
-                            {/* Пол */}
                             <FormField
                                 control={form.control}
                                 name="gender"
                                 render={({ field }) => (
                                     <FormItem className="space-y-3">
-                                        <FormLabel>Пол</FormLabel>
+                                        <FormLabel>מין</FormLabel>
                                         <FormControl>
                                             <RadioGroup
                                                 onValueChange={field.onChange}
@@ -226,7 +216,7 @@ export default function OnboardingPage() {
                                                         <RadioGroupItem value="male" />
                                                     </FormControl>
                                                     <FormLabel className="font-normal">
-                                                        Мужской
+                                                        זכר
                                                     </FormLabel>
                                                 </FormItem>
                                                 <FormItem className="flex items-center space-x-2 space-y-0">
@@ -234,7 +224,7 @@ export default function OnboardingPage() {
                                                         <RadioGroupItem value="female" />
                                                     </FormControl>
                                                     <FormLabel className="font-normal">
-                                                        Женский
+                                                        נקבה
                                                     </FormLabel>
                                                 </FormItem>
                                             </RadioGroup>
@@ -244,17 +234,15 @@ export default function OnboardingPage() {
                                 )}
                             />
 
-                            {/* Языки */}
                             <FormField
                                 control={form.control}
                                 name="languages"
                                 render={() => (
                                     <FormItem>
                                         <div className="mb-4">
-                                            <FormLabel>Языки</FormLabel>
+                                            <FormLabel>שפות</FormLabel>
                                             <FormDescription>
-                                                Выберите языки, которыми вы
-                                                владеете.
+                                                בחר את השפות שאתה דובר.
                                             </FormDescription>
                                         </div>
                                         <div className="grid grid-cols-2 gap-2">
@@ -317,8 +305,8 @@ export default function OnboardingPage() {
                                 disabled={form.formState.isSubmitting}
                             >
                                 {form.formState.isSubmitting
-                                    ? "Сохранение..."
-                                    : "Завершить"}
+                                    ? "שומר..."
+                                    : "סיום"}
                             </Button>
                         </form>
                     </Form>

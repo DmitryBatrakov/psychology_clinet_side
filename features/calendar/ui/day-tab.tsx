@@ -1,4 +1,5 @@
 import { ItemContent } from '@/components/ui/item';
+import { getSessionColor } from '@/features/calendar/lib/sessionColors';
 import { Separator } from '@/components/ui/separator';
 import { TabsContent } from '@/components/ui/tabs';
 import { format, isSameDay } from 'date-fns';
@@ -109,7 +110,7 @@ function DayTab({ workTimeLimit, schedule }: Props) {
                         <Card className="h-full overflow-y-auto">
                             {selectedMeeting ? (
                                 <>
-                                    <CardHeader className="gap-1 pb-3" style={{ borderBottom: `3px solid ${selectedMeeting.color}` }}>
+                                    <CardHeader className="gap-1 pb-3" style={{ borderBottom: `3px solid ${getSessionColor(selectedMeeting.type).accent}` }}>
                                         <CardTitle className="text-base">{selectedMeeting.name}</CardTitle>
                                         <p className="text-muted-foreground text-xs">
                                             {format(shownInterval, 'EEEE, MMMM d', { locale: he })}

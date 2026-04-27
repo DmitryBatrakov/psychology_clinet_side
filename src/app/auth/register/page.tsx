@@ -49,7 +49,7 @@ export default function RegisterPage() {
      const onSubmit = (data: RegisterFormValues) => {
         registerMutation.mutate(data, {
             onSuccess: () => {
-                notify.success("Регистрация успешна!");
+                notify.success("ההרשמה בוצעה בהצלחה!");
                 router.push("/auth/onboarding");
             },
             onError: (error) => {
@@ -59,14 +59,14 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
+        <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4" dir="rtl">
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-center">
-                        Регистрация
+                        הרשמה
                     </CardTitle>
                     <CardDescription className="text-center">
-                        Создайте аккаунт, чтобы продолжить
+                        צור חשבון כדי להמשיך
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -80,11 +80,12 @@ export default function RegisterPage() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>אימייל</FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="example@gmail.com"
                                                 type="email"
+                                                dir="ltr"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -98,11 +99,12 @@ export default function RegisterPage() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Пароль</FormLabel>
+                                        <FormLabel>סיסמה</FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="********"
                                                 type="password"
+                                                dir="ltr"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -118,19 +120,19 @@ export default function RegisterPage() {
                             >
                                 {registerMutation.isPending
                                     ? <Spinner/>
-                                    : "Зарегистрироваться"}
+                                    : "הרשמה"}
                             </Button>
                         </form>
                     </Form>
 
                     <div className="mt-4 text-center text-sm text-gray-500">
-                        Уже есть профиль?{" "}
+                        כבר יש לך חשבון?{" "}
                         <button
                             type="button"
                             className="text-primary hover:underline font-medium"
                             onClick={() => router.push("/auth/login")}
                         >
-                            Войти
+                            כניסה
                         </button>
                     </div>
                 </CardContent>

@@ -9,6 +9,7 @@ import { he } from 'date-fns/locale';
 import { Circle } from 'lucide-react';
 import React, { useContext, useMemo } from 'react';
 import { getWeekDates } from '../lib/halpers';
+import { toDateKey } from '@/lib/func/to-date-key/toDateKey';
 
 interface Props {
   schedule: Schedule;
@@ -18,18 +19,16 @@ interface Props {
 function ListTab({ schedule }: Props) {
   const {
     getter: { shownInterval },
-    setter: { setShownInterval, setCurrTab },
+    setter: { navigate },
   } = useContext(ShownDateInterval);
 
-  const openDate = (date: Date) => {
-    (setShownInterval(date), setCurrTab('day'));
-  };
+  const openDate = (date: Date) => navigate({ date, tab: 'day' });
 
   const listDates = useMemo(() => getWeekDates(shownInterval), [shownInterval]);
   const listSchedule = useMemo(() => {
     const result: Record<string, typeof schedule> = {};
     listDates.forEach((date) => {
-      const dateKey = format(date, 'yyyy-MM-dd');
+      const dateKey = toDateKey(date);
       result[dateKey] = schedule.filter((item) => item.date === dateKey);
     });
     return result;
@@ -63,12 +62,17 @@ function ListTab({ schedule }: Props) {
                   </TableRow>
 
                   {list.map((meet) => (
-                    <TableRow key={`meet-${meet.uid}`} className="hover:bg-white">
+                    <TableRow key={`meet-${meet.uid}`} className={`hover:bg-white ${meet.status === 'pending' ? 'opacity-70' : ''}`}>
                       <TableCell className="w-36 text-xs">{`${String(meet.time[0]).replace('.5', '')}:${meet.time[0] % 1 !== 0 ? '30' : '00'} - ${String(meet.time[1]).replace('.5', '')}:${meet.time[1] % 1 !== 0 ? '30' : '00'}`}</TableCell>
                       <TableCell className="text-xs">
                         <div className="flex items-center gap-2">
                           <Circle size={10} fill={meet.color} stroke={meet.color} />
                           <span>{meet.name}</span>
+                          {meet.status === 'pending' && (
+                            <span className="text-[10px] bg-amber-50 text-amber-600 border border-amber-300 rounded-full px-1.5 py-0.5 leading-tight">
+                              ממתין לאישור
+                            </span>
+                          )}
                         </div>
                       </TableCell>
                     </TableRow>

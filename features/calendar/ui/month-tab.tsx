@@ -6,6 +6,7 @@ import { ItemContent } from '@/components/ui/item';
 import { TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns';
+import { toDateKey } from '@/lib/func/to-date-key/toDateKey';
 import { he } from 'date-fns/locale';
 import { useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
@@ -23,14 +24,14 @@ function getCalendarDates(month: Date) {
 function MonthTab({ schedule }: Props) {
     const {
         getter: { shownInterval },
-        setter: { setShownInterval, setCurrTab },
+        setter: { navigate },
     } = useContext(ShownDateInterval);
 
     const monthDates = useMemo(() => getCalendarDates(shownInterval), [shownInterval]);
     const monthSchedule = useMemo(() => {
         const result: Record<string, typeof schedule> = {};
         monthDates.forEach((date) => {
-            const dateKey = format(date, 'yyyy-MM-dd');
+            const dateKey = toDateKey(date);
             result[dateKey] = schedule.filter((item) => item.date === dateKey);
         });
         return result;
@@ -69,13 +70,13 @@ function MonthTab({ schedule }: Props) {
                         },
                         DayButton: (props) => {
                             const BADGE_GAP = 4;
-                            const TOP_PADDING = 32 + 8; // header + CardContent py-2 top
-                            const BOTTOM_PADDING = 8; // CardContent py-2 bottom
+                            const TOP_PADDING = 32 + 8; 
+                            const BOTTOM_PADDING = 8;
                             const BADGE_HEIGHT = 20;
                             const { day, modifiers } = props;
                             const ref = useRef<HTMLDivElement>(null);
                             const [maxBadges, setMaxBadges] = useState(0);
-                            const dayTasks = monthSchedule[format(day.date, 'yyyy-MM-dd')] || [];
+                            const dayTasks = monthSchedule[toDateKey(day.date)] || [];
                             const extraTasks = dayTasks.length - maxBadges;
 
                             useLayoutEffect(() => {
@@ -102,15 +103,15 @@ function MonthTab({ schedule }: Props) {
                                     ref={ref}
                                     className={cn(
                                         'group size-full cursor-pointer gap-0 overflow-hidden rounded-sm border-none p-0 shadow-[0_0_15px_0] shadow-black/5 transition-all hover:bg-gray-200',
-                                        format(day.date, 'dd') === format(new Date(), 'dd') &&
+                                        toDateKey(day.date) === toDateKey(new Date()) &&
                                         'bg-accent shadow-[inset_0_0_4px_0]',
                                         modifiers.outside && 'opacity-30'
                                     )}
                                     onClick={() => {
-                                        setShownInterval(day.date);
-                                        if (!modifiers.outside) {
-                                            setCurrTab('day');
-                                        }
+                                        navigate({
+                                            date: day.date,
+                                            ...(modifiers.outside ? {} : { tab: 'day' }),
+                                        });
                                     }}
                                 >
                                     <CardHeader className="justify-end px-2 pt-1 group-hover:underline">
@@ -122,8 +123,11 @@ function MonthTab({ schedule }: Props) {
                                             .map((task, index) => (
                                                 <div key={index} className="flex items-center gap-1 px-2 justify-center xl:justify-start">
                                                     <div
-                                                        className="line-clamp-1 rounded-full bg-blue-400 px-2 py-0.5 text-xs font-normal text-white w-full text-center xl:text-start xl:w-auto"
-                                                        style={{ background: task.color }}
+                                                        className={`line-clamp-1 rounded-full px-2 py-0.5 text-xs font-normal text-white w-full text-center xl:text-start xl:w-auto ${task.status === 'pending' ? 'border border-dashed opacity-70' : ''}`}
+                                                        style={{
+                                                            background: task.color,
+                                                            borderColor: task.status === 'pending' ? task.color : undefined,
+                                                        }}
                                                     >
                                                         <span>
                                                             {String(task.time[0]).replace('.5', '')}:

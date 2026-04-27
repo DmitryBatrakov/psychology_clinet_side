@@ -69,20 +69,20 @@ export default function LoginPage() {
             router.push("/account/therapy");
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (err: any) {
-            setServerError("Неверный логин или пароль");
+            setServerError("אימייל או סיסמה שגויים");
             console.error(err);
         }
     };
 
     return (
-        <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4">
+        <div className="flex items-center justify-center min-h-screen bg-slate-50 p-4" dir="rtl">
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle className="text-2xl font-bold text-center">
-                        Login
+                        כניסה
                     </CardTitle>
                     <CardDescription className="text-center">
-                        Welcome back! Please sign in to your account
+                        ברוך הבא! אנא התחבר לחשבונך
                     </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -104,11 +104,12 @@ export default function LoginPage() {
                                 name="email"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Email</FormLabel>
+                                        <FormLabel>אימייל</FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="example@gmail.com"
                                                 type="email"
+                                                dir="ltr"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -122,11 +123,12 @@ export default function LoginPage() {
                                 name="password"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Password</FormLabel>
+                                        <FormLabel>סיסמה</FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="********"
                                                 type="password"
+                                                dir="ltr"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -146,7 +148,7 @@ export default function LoginPage() {
                                     {form.formState.isSubmitting ? (
                                         <Spinner />
                                     ) : (
-                                        "Sign In"
+                                        "כניסה"
                                     )}
                                 </Button>
                             </div>
@@ -161,30 +163,30 @@ export default function LoginPage() {
                             googleMutation.mutate(undefined, {
                                 onSuccess: () =>
                                     notify.success(
-                                        "Login with Google successful!",
+                                        "כניסה עם Google בוצעה בהצלחה!",
                                     ),
-                                   
+
                                 onError: (error) =>
                                     notify.error(getErrorMessage(error)),
                             })
                         }
                         disabled={googleMutation.isPending}
                     >
+                        <FcGoogle />
                         <span>
                             {googleMutation.isPending
-                                ? "Loading..."
-                                : "Sign In with Google"}
+                                ? "טוען..."
+                                : "כניסה עם Google"}
                         </span>
-                        <FcGoogle />
                     </Button>
                     <div className="mt-4 text-center text-sm text-gray-500">
-                        <span>Already have an account? </span>
+                        <span>אין לך חשבון? </span>
                         <button
                             type="button"
                             className="text-primary hover:underline font-medium"
                             onClick={() => router.push("/auth/register")}
                         >
-                            Sign up
+                            הרשמה
                         </button>
                     </div>
                 </CardContent>

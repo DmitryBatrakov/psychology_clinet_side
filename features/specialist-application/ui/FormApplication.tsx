@@ -49,7 +49,9 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
+import { he } from "date-fns/locale";
+import { toDateKey } from "@/lib/func/to-date-key/toDateKey";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Spinner } from "@/components/ui/spinner";
@@ -227,7 +229,7 @@ export const FormApplication = () => {
                                                 )}
                                             >
                                                 {field.value ? (
-                                                    format(field.value, "PPP")
+                                                    format(parseISO(field.value), "PPP", { locale: he })
                                                 ) : (
                                                     <span>בחר תאריך</span>
                                                 )}
@@ -238,18 +240,15 @@ export const FormApplication = () => {
                                     <PopoverContent
                                         className="w-auto p-0"
                                         align="start"
+                                        dir="rtl"
                                     >
                                         <Calendar
                                             mode="single"
                                             captionLayout="dropdown"
+                                            locale={he}
                                             onSelect={(date) =>
                                                 field.onChange(
-                                                    date
-                                                        ? format(
-                                                              date,
-                                                              "yyyy-MM-dd",
-                                                          )
-                                                        : "",
+                                                    date ? toDateKey(date) : "",
                                                 )
                                             }
                                             disabled={(date) =>

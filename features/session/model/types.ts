@@ -1,7 +1,7 @@
 import { SessionType } from "@/features/specialist/model/types";
 import { Timestamp } from "firebase-admin/firestore";
 
-type SessionStatus = "upcoming" | "completed" | "canceled";
+type SessionStatus = "upcoming" | "completed" | "canceled" | "pending";
 
 
 export interface Session {

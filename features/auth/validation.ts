@@ -15,31 +15,31 @@ export const registerSchema = z.object({
     email: z.string().email(),
     password: z
         .string()
-        .min(8, "Пароль должен быть не менее 8 символов")
-        .max(16, "Пароль должен быть не более 16 символов")
+        .min(8, "הסיסמה חייבת להכיל לפחות 8 תווים")
+        .max(16, "הסיסמה חייבת להכיל לכל היותר 16 תווים")
         .superRefine((val, ctx) => {
             if (!hasUppercase(val)) {
                 ctx.addIssue({
                     code: "custom",
-                    message: "Добавьте хотя бы 1 заглавную букву",
+                    message: "הוסף לפחות אות גדולה אחת",
                 });
             }
             if (!hasLowercase(val)) {
                 ctx.addIssue({
                     code: "custom",
-                    message: "Добавьте хотя бы 1 строчную букву",
+                    message: "הוסף לפחות אות קטנה אחת",
                 });
             }
             if (!hasDigit(val)) {
                 ctx.addIssue({
                     code: "custom",
-                    message: "Добавьте хотя бы 1 цифру",
+                    message: "הוסף לפחות ספרה אחת",
                 });
             }
             if (!hasSpecial(val)) {
                 ctx.addIssue({
                     code: "custom",
-                    message: "Добавьте хотя бы 1 спецсимвол",
+                    message: "הוסף לפחות תו מיוחד אחד",
                 });
             }
         }),

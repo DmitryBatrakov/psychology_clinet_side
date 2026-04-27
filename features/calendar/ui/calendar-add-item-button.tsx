@@ -18,6 +18,11 @@ function CalendarAddItemButton({
   const top = ((start - workTimeLimit.start) / rows) * 100;
   const height = ((end - start) / rows) * 100;
 
+  const sessionStart = new Date(date);
+  sessionStart.setHours(start, 0, 0, 0);
+  const twoHoursFromNow = new Date(Date.now() + 2 * 60 * 60 * 1000);
+  if (sessionStart < twoHoursFromNow) return null;
+
   return (
     <Button
       variant={'ghost'}

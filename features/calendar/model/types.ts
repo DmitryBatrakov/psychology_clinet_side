@@ -3,7 +3,6 @@ import { SessionType } from "@/features/specialist/model/types";
 export type VisitRecordStatus = 'pending' | 'upcoming' | 'completed' | 'canceled';
 
 export type VisitRecord = {
-    color: string;
     date: string;
     name: string;
     description: string;
@@ -11,6 +10,7 @@ export type VisitRecord = {
     uid: string;
     time: [number, number];
     status: VisitRecordStatus;
+    type: SessionType;
 };
 
 export type Schedule = VisitRecord[];

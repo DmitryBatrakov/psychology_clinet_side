@@ -64,7 +64,7 @@ function ModalContent({ x, y }: { x: number; y: number }) {
             description: SESSION_TYPE_LABELS[sessionType],
             meet_url: '',
             time: [newSession.startHour, newSession.endHour],
-            color: '#f59e0b',
+            type: sessionType,
             status: 'pending',
         });
         setNewSession(null);

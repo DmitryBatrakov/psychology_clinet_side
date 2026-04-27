@@ -1,5 +1,7 @@
 'use client';
+
 import { Schedule, ShownDateInterval } from '@/src/app/(specialist)/calendar/page';
+import { getSessionColor } from '@/features/calendar/lib/sessionColors';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ItemContent } from '@/components/ui/item';
@@ -7,7 +9,7 @@ import { TabsContent } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
 import { eachDayOfInterval, endOfMonth, format, startOfMonth } from 'date-fns';
 import { toDateKey } from '@/lib/func/to-date-key/toDateKey';
-import { he } from 'date-fns/locale';
+import { he, is } from 'date-fns/locale';
 import { useContext, useLayoutEffect, useMemo, useRef, useState } from 'react';
 
 interface Props {
@@ -97,6 +99,7 @@ function MonthTab({ schedule }: Props) {
                                 return () => ro.disconnect();
                             }, []);
 
+
                             return (
                                 <Card
                                     role="button"
@@ -120,23 +123,34 @@ function MonthTab({ schedule }: Props) {
                                     <CardContent className="m-0 flex flex-col gap-1 overflow-hidden px-1 py-2">
                                         {dayTasks
                                             .slice(0, extraTasks ? maxBadges - 1 : maxBadges)
-                                            .map((task, index) => (
+                                            .map((task, index) => {
+                                                const taskCanceled = task.status === 'canceled';
+                                                const taskCompleted = task.status === 'completed';
+                                                const taskPending = task.status === 'pending';
+                                                return (
                                                 <div key={index} className="flex items-center gap-1 px-2 justify-center xl:justify-start">
                                                     <div
-                                                        className={`line-clamp-1 rounded-full px-2 py-0.5 text-xs font-normal text-white w-full text-center xl:text-start xl:w-auto ${task.status === 'pending' ? 'border border-dashed opacity-70' : ''}`}
+                                                        className={`relative overflow-hidden line-clamp-1 rounded-full px-2 py-0.5 text-xs font-normal text-white w-full text-center xl:text-start xl:w-auto ${taskPending ? 'border border-dashed opacity-70' : ''} ${taskCompleted ? 'opacity-90' : ''} `}
                                                         style={{
-                                                            background: task.color,
-                                                            borderColor: task.status === 'pending' ? task.color : undefined,
+                                                            background: getSessionColor(task.type).accent,
+                                                            borderColor: task.status === 'pending' ? getSessionColor(task.type).accent : undefined,
                                                         }}
                                                     >
-                                                        <span>
+                                                        {taskCanceled && (
+                                                            <div
+                                                                className="absolute inset-0 pointer-events-none"
+                                                                style={{ background: 'repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255, 255, 255, 0.5) 3px, rgba(255, 255, 255, 0.5) 4px)' }}
+                                                            />
+                                                        )}
+                                                        <span className={cn('font-semibold hidden xl:inline text-white', taskCompleted ? 'opacity-70' : '', taskCanceled ? 'opacity-70' : '')}>
                                                             {String(task.time[0]).replace('.5', '')}:
                                                             {task.time[0] % 1 !== 0 ? '30' : '00'}{' '}
                                                         </span>
-                                                        <span className="font-semibold hidden xl:inline text-white">{task.name}</span>
+                                                        <span className={cn('font-semibold hidden xl:inline text-white', taskCompleted ? 'opacity-70' : '', taskCanceled ? 'opacity-70' : '')}>{task.name}</span>
                                                     </div>
                                                 </div>
-                                            ))}
+                                                );
+                                            })}
                                         {extraTasks > 0 && (
                                             <div className="flex items-center gap-1 px-2">
                                                 <div className="line-clamp-1 rounded-full bg-blue-400 px-2 py-0.5 text-xs font-normal text-white">

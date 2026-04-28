@@ -37,7 +37,7 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
     return (
         <Item
             onClick={onClick}
-            className={`absolute flex shrink-0 cursor-pointer flex-col gap-0 overflow-hidden rounded-sm bg-blue-200 p-0 transition-all *:w-full ${isPending ? 'border-2 border-red-700' : 'border-0'} ${isCompleted ? ' grayscale-30' : ''} ${isCanceled ? 'grayscale-30' : ''} ${isSelected ? "brightness-110" : "brightness-95 hover:brightness-110"}`}
+            className={`absolute flex shrink-0 cursor-pointer flex-col gap-0 overflow-hidden rounded-sm bg-blue-200 p-0 transition-all *:w-full ${isPending ? 'border-2 border-red-700' : 'border-0'} ${isCompleted ? 'grayscale-60 opacity-100' : ''} ${isCanceled ? 'grayscale-60 brightness-75' : ''} ${isSelected ? "brightness-110" : "brightness-95 hover:brightness-110"}`}
             style={{
                 background: bg,
                 opacity: isPending ? 0.80 : undefined,
@@ -69,6 +69,12 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
                 <Badge className="absolute bottom-1 left-1 bg-red-500 w-auto z-50">מבוטל</Badge>
             )}
             </ItemContent>
+            {isCanceled && (
+                <div
+                    className="absolute inset-0 pointer-events-none"
+                    style={{ background: 'repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255, 255, 255, 0.5) 3px, rgba(255, 255, 255, 0.5) 4px)' }}
+                />
+            )}
             {isPending && (
                 <div className="absolute bottom-0 right-0 bg-red-700 w-full text-start text-white text-[10px] px-2 py-1 font-semibold leading-tight pointer-events-none">
                     ממתין לאישור ממטופל

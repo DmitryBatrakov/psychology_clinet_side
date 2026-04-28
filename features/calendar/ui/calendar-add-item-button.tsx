@@ -1,7 +1,7 @@
 import { ShownDateInterval } from '@/src/app/(specialist)/calendar/page';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { Plus } from 'lucide-react';
+import { Ban, Plus } from 'lucide-react';
 import { useContext } from 'react';
 
 function CalendarAddItemButton({
@@ -21,7 +21,21 @@ function CalendarAddItemButton({
   const sessionStart = new Date(date);
   sessionStart.setHours(start, 0, 0, 0);
   const twoHoursFromNow = new Date(Date.now() + 2 * 60 * 60 * 1000);
-  if (sessionStart < twoHoursFromNow) return null;
+  const isPast = sessionStart < twoHoursFromNow;
+
+  if (isPast) {
+    return (
+      <div
+        className="group absolute left-0 w-full shrink border-2 border-dashed border-transparent hover:border-gray-300 hover:bg-gray-100 rounded-lg"
+        style={{
+          top: `calc(${top}% + 3px)`,
+          height: `calc(${height}% - 6px)`,
+        }}
+      >
+        <Ban className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 stroke-gray-300 opacity-0 transition-all group-hover:opacity-100" />
+      </div>
+    );
+  }
 
   return (
     <Button

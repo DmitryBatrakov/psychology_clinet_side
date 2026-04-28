@@ -106,7 +106,7 @@ function MonthTab({ schedule }: Props) {
                                     ref={ref}
                                     className={cn(
                                         'group size-full cursor-pointer gap-0 overflow-hidden rounded-sm border-none p-0 shadow-[0_0_15px_0] shadow-black/5 transition-all hover:bg-gray-200',
-                                        toDateKey(day.date) === toDateKey(new Date()) &&
+                                        toDateKey(day.date) === toDateKey(new Date()) && !modifiers.outside &&
                                         'bg-accent shadow-[inset_0_0_4px_0]',
                                         modifiers.outside && 'opacity-30'
                                     )}
@@ -130,7 +130,7 @@ function MonthTab({ schedule }: Props) {
                                                 return (
                                                 <div key={index} className="flex items-center gap-1 px-2 justify-center xl:justify-start">
                                                     <div
-                                                        className={`relative overflow-hidden line-clamp-1 rounded-full px-2 py-0.5 text-xs font-normal text-white w-full text-center xl:text-start xl:w-auto ${taskPending ? 'border border-dashed opacity-70' : ''} ${taskCompleted ? 'opacity-90' : ''} `}
+                                                        className={`relative overflow-hidden line-clamp-1 rounded-full px-2 py-0.5 text-xs font-normal text-white w-full text-center xl:text-start xl:w-auto ${taskPending ? 'border border-dashed' : ''} ${taskCompleted ? 'grayscale-60 opacity-70' : ''} ${taskCanceled ? 'grayscale-60 brightness-75' : ''}`}
                                                         style={{
                                                             background: getSessionColor(task.type).accent,
                                                             borderColor: task.status === 'pending' ? getSessionColor(task.type).accent : undefined,
@@ -142,11 +142,11 @@ function MonthTab({ schedule }: Props) {
                                                                 style={{ background: 'repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255, 255, 255, 0.5) 3px, rgba(255, 255, 255, 0.5) 4px)' }}
                                                             />
                                                         )}
-                                                        <span className={cn('font-semibold hidden xl:inline text-white', taskCompleted ? 'opacity-70' : '', taskCanceled ? 'opacity-70' : '')}>
+                                                        <span className={cn('font-semibold hidden xl:inline text-white')}>
                                                             {String(task.time[0]).replace('.5', '')}:
                                                             {task.time[0] % 1 !== 0 ? '30' : '00'}{' '}
                                                         </span>
-                                                        <span className={cn('font-semibold hidden xl:inline text-white', taskCompleted ? 'opacity-70' : '', taskCanceled ? 'opacity-70' : '')}>{task.name}</span>
+                                                        <span className={cn('font-semibold hidden xl:inline text-white')}>{task.name}</span>
                                                     </div>
                                                 </div>
                                                 );

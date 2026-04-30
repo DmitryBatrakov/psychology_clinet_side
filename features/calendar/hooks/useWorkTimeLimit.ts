@@ -7,7 +7,7 @@ export const useWorkTimeLimit = (uid: string | null, authLoading: boolean) => {
     return useQuery<{ data: WorkTimeLimit } | null>({
         queryKey: ["work-time-limit", uid],
         // queryFn: fetchWorkTimeLimit,
-        queryFn: () => Promise.resolve({ data: { start: 6, end: 18 } }),
+        queryFn: () => Promise.resolve({ data: { start: 6, end: 23 } }),
         enabled: !authLoading && !!uid,
         staleTime: 1000 * 60 * 5,
         gcTime: 1000 * 60 * 30,

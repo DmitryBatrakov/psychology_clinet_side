@@ -2,6 +2,7 @@
 
 import { Schedule, ShownDateInterval } from '@/src/app/(specialist)/calendar/page';
 import { getSessionColor } from '@/features/calendar/lib/sessionColors';
+import { getSessionStatus } from '@/features/calendar/lib/sessionStatus';
 import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ItemContent } from '@/components/ui/item';
@@ -124,16 +125,14 @@ function MonthTab({ schedule }: Props) {
                                         {dayTasks
                                             .slice(0, extraTasks ? maxBadges - 1 : maxBadges)
                                             .map((task, index) => {
-                                                const taskCanceled = task.status === 'canceled';
-                                                const taskCompleted = task.status === 'completed';
-                                                const taskPending = task.status === 'pending';
+                                                const { isPending: taskPending, isCompleted: taskCompleted, isCanceled: taskCanceled } = getSessionStatus(task.status);
                                                 return (
                                                 <div key={index} className="flex items-center gap-1 px-2 justify-center xl:justify-start">
                                                     <div
                                                         className={`relative overflow-hidden line-clamp-1 rounded-full px-2 py-0.5 text-xs font-normal text-white w-full text-center xl:text-start xl:w-auto ${taskPending ? 'border border-dashed' : ''} ${taskCompleted ? 'grayscale-60 opacity-70' : ''} ${taskCanceled ? 'grayscale-60 brightness-75' : ''}`}
                                                         style={{
                                                             background: getSessionColor(task.type).accent,
-                                                            borderColor: task.status === 'pending' ? getSessionColor(task.type).accent : undefined,
+                                                            borderColor: taskPending ? getSessionColor(task.type).accent : undefined,
                                                         }}
                                                     >
                                                         {taskCanceled && (
@@ -142,11 +141,11 @@ function MonthTab({ schedule }: Props) {
                                                                 style={{ background: 'repeating-linear-gradient(45deg, transparent, transparent 3px, rgba(255, 255, 255, 0.5) 3px, rgba(255, 255, 255, 0.5) 4px)' }}
                                                             />
                                                         )}
-                                                        <span className={cn('font-semibold hidden xl:inline text-white')}>
+                                                        <span className={cn('font-semibold text-white')}>
                                                             {String(task.time[0]).replace('.5', '')}:
                                                             {task.time[0] % 1 !== 0 ? '30' : '00'}{' '}
                                                         </span>
-                                                        <span className={cn('font-semibold hidden xl:inline text-white')}>{task.name}</span>
+                                                        <span className={cn('font-semibold text-white')}>{task.patient.firstName} {task.patient.lastName}</span>
                                                     </div>
                                                 </div>
                                                 );

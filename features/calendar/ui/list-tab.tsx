@@ -1,6 +1,7 @@
 'use client';
 import { Schedule, ShownDateInterval } from '@/src/app/(specialist)/calendar/page';
 import { getSessionColor } from '@/features/calendar/lib/sessionColors';
+import { getSessionStatus } from '@/features/calendar/lib/sessionStatus';
 import { ItemContent } from '@/components/ui/item';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { TabsContent } from '@/components/ui/tabs';
@@ -63,15 +64,15 @@ function ListTab({ schedule }: Props) {
                   </TableRow>
 
                   {list.map((meet) => {
-                    const isCompleted = meet.status === 'completed';
+                    const { isPending, isCompleted } = getSessionStatus(meet.status);
                     return (
-                      <TableRow key={`meet-${meet.uid}`} className={`hover:bg-white ${meet.status === 'pending' ? 'opacity-70' : ''} ${isCompleted ? 'opacity-50' : ''}`}>
+                      <TableRow key={`meet-${meet.uid}`} className={`hover:bg-white ${isPending ? 'opacity-70' : ''} ${isCompleted ? 'opacity-50' : ''}`}>
                         <TableCell className={`w-36 text-xs ${isCompleted ? 'text-muted-foreground' : ''}`}>{`${String(meet.time[0]).replace('.5', '')}:${meet.time[0] % 1 !== 0 ? '30' : '00'} - ${String(meet.time[1]).replace('.5', '')}:${meet.time[1] % 1 !== 0 ? '30' : '00'}`}</TableCell>
                         <TableCell className="text-xs">
                           <div className="flex items-center gap-2">
                             <Circle size={10} fill={getSessionColor(meet.type).accent} stroke={getSessionColor(meet.type).accent} />
                             <span className={isCompleted ? 'text-muted-foreground' : ''}>{meet.name}</span>
-                            {meet.status === 'pending' && (
+                            {isPending && (
                               <span className="text-[10px] bg-amber-50 text-amber-600 border border-amber-300 rounded-full px-1.5 py-0.5 leading-tight">
                                 ממתין לאישור
                               </span>

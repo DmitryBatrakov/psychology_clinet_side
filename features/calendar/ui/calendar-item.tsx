@@ -2,13 +2,15 @@ import { AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Item, ItemContent, ItemHeader } from '@/components/ui/item';
 import { getSessionColor } from '@/features/calendar/lib/sessionColors';
+import { getSessionStatus } from '@/features/calendar/lib/sessionStatus';
 import { SESSION_TYPE_LABELS } from '@/features/specialist/model/specialistLabels';
 import { SessionType } from '@/features/specialist/model/types';
+import { VisitRecordStatus } from '@/features/calendar/model/types';
 import { Avatar } from '@radix-ui/react-avatar';
 
 interface CalendarItemProps {
     workTimeLimit: { start: number; end: number };
-    meeting: { name: string; time: [number, number]; status?: string; type: SessionType };
+    meeting: { patient: { firstName: string; lastName: string; photoUrl?: string | null }; time: [number, number]; status?: VisitRecordStatus; type: SessionType };
     columnIndex: number;
     totalColumns: number;
     onClick?: () => void;
@@ -17,7 +19,7 @@ interface CalendarItemProps {
 
 function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onClick, isSelected }: CalendarItemProps) {
     const {
-        name,
+        patient,
         time: [s, e],
         status,
         type,
@@ -25,9 +27,7 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
 
     const { bg, header, accent } = getSessionColor(type);
 
-    const isPending = status === 'pending';
-    const isCompleted = status === 'completed';
-    const isCanceled = status === 'canceled';
+    const { isPending, isCompleted, isCanceled } = getSessionStatus(status);
     const rows = workTimeLimit.end - workTimeLimit.start;
     const top = ((s - workTimeLimit.start) / rows) * 100;
     const height = ((e - s) / rows) * 100;
@@ -51,9 +51,9 @@ function CalendarItem({ workTimeLimit, meeting, columnIndex, totalColumns, onCli
             <ItemHeader className="basis-0 justify-start p-1" style={{ background: header }}>
                 <Avatar className="h-5.5 w-5.5 min-w-5.5">
                     <AvatarImage className="rounded-full" src={'https://ui.shadcn.com/avatars/shadcn.jpg'} />
-                    <AvatarFallback className="size-full text-xs">JD</AvatarFallback>
+                    <AvatarFallback className="size-full text-xs">{patient.firstName.charAt(0)}{patient.lastName.charAt(0)}</AvatarFallback>
                 </Avatar>
-                <span className="line-clamp-1 pr-1">{name}</span>
+                <span className="line-clamp-1 pr-1">{patient.firstName} {patient.lastName}</span>
             </ItemHeader>
             <ItemContent className="flex h-fit max-w-full overflow-hidden p-1 text-xs text-gray-700 relative items-start justify-start">
                 <span className="line-clamp-1 h-fit max-w-full overflow-hidden text-ellipsis">

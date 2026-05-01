@@ -11,30 +11,27 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
 
     useLayoutEffect(() => {
         const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
-            if (currentUser) {
-                setAuth({ user: currentUser, role: "patient", loading: false });
-                console.log(currentUser);
-                
-            } else {
+            if (!currentUser) {
                 fetch("/api/auth/session-cookies/logout", { method: "POST" });
                 setAuth({ user: null, role: null, loading: false });
             }
         });
 
-       const unsubscribeToken = onIdTokenChanged(auth, async (user) => {
-    if (user) {
-        const tokenResult = await user.getIdTokenResult();
-        console.log("claims:", tokenResult.claims);
-        console.log("role:", tokenResult.claims.role);
+        const unsubscribeToken = onIdTokenChanged(auth, async (user) => {
+            if (user) {
+                const tokenResult = await user.getIdTokenResult();
+                const role = tokenResult.claims.role as "patient" | "specialist" | null ?? null;
 
-        const idToken = tokenResult.token;
-        await fetch("/api/auth/session-cookies/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ idToken }),
+                const idToken = tokenResult.token;
+                await fetch("/api/auth/session-cookies/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ idToken }),
+                });
+
+                setAuth({ user, role, loading: false });
+            }
         });
-    }
-});
 
 
         return () => {

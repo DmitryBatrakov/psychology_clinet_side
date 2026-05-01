@@ -10,6 +10,7 @@ import type { SessionDTO } from "@/features/session/model/types";
 import { SESSION_TYPE_LABELS } from "@/features/session/lib/sessionTypeLabels";
 import { formatSessionDate, formatSessionTime } from "@/features/session/lib/formatSession";
 import { SessionInfoDialog } from "./SessionInfoDialog";
+import { canJoinSession, getJoinBlockReason } from "@/lib/func/can-join-session/canJoinSession";
 
 type PatientNextSessionProps = {
     sessions: SessionDTO[];
@@ -118,17 +119,32 @@ export function PatientNextSession({ sessions }: PatientNextSessionProps) {
                                 </Badge>
                             </div>
 
-                            <div className="flex gap-2 justify-between">
-                                <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setCurrentOpen(true)}>
-                                    <NotebookPen size={14} />
-                                    {current.notes ? "ערוך הערות" : "הוסף הערות"}
-                                </Button>
-                                {current.meetingUrl && (
-                                    <Button size="sm" asChild>
-                                        <a href={current.meetingUrl} target="_blank" rel="noopener noreferrer">
-                                            כניסה לפגישה
-                                        </a>
+                            <div className="flex flex-col gap-2">
+                                <div className="flex gap-2 justify-between">
+                                    <Button size="sm" variant="outline" className="gap-1.5" onClick={() => setCurrentOpen(true)}>
+                                        <NotebookPen size={14} />
+                                        {current.notes ? "ערוך הערות" : "הוסף הערות"}
                                     </Button>
+                                    {current.meetingUrl && (
+                                        <Button
+                                            size="sm"
+                                            disabled={!canJoinSession(current.startAt)}
+                                            asChild={canJoinSession(current.startAt)}
+                                        >
+                                            {canJoinSession(current.startAt) ? (
+                                                <a href={current.meetingUrl} target="_blank" rel="noopener noreferrer">
+                                                    כניסה לפגישה
+                                                </a>
+                                            ) : (
+                                                <span>כניסה לפגישה</span>
+                                            )}
+                                        </Button>
+                                    )}
+                                </div>
+                                {current.meetingUrl && !canJoinSession(current.startAt) && (
+                                    <p className="text-xs text-muted-foreground text-center">
+                                        {getJoinBlockReason(current.startAt)}
+                                    </p>
                                 )}
                             </div>
 

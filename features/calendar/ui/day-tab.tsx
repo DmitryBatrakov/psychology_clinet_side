@@ -3,7 +3,7 @@ import { getSessionColor } from '@/features/calendar/lib/sessionColors';
 import { Separator } from '@/components/ui/separator';
 import { TabsContent } from '@/components/ui/tabs';
 import { format, isSameDay } from 'date-fns';
-import { he, is } from 'date-fns/locale';
+import { he } from 'date-fns/locale';
 import { useContext, useMemo } from 'react';
 import CalendarItem from './calendar-item';
 import { cn } from '@/lib/utils';
@@ -21,6 +21,7 @@ import { SESSION_TYPE_LABELS } from '@/features/specialist/model/specialistLabel
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { GENDER_LABELS } from '../../../lib/labels/genderLabels';
 import { calculateAge } from '@/lib/func/calculate-age/calculateAge';
+import { canJoinSession, getJoinBlockReason } from '@/lib/func/can-join-session/canJoinSession';
 
 interface Props {
     schedule: Schedule;
@@ -44,6 +45,14 @@ export default function DayTab({ workTimeLimit, schedule }: Props) {
 
     const { isPending, isCompleted, isCanceled } = getSessionStatus(selectedMeeting?.status);
 
+    const sessionStartDate = useMemo(() => {
+        if (!selectedMeeting) return null;
+        const [year, month, day] = selectedMeeting.date.split('-').map(Number);
+        const hours = Math.floor(selectedMeeting.time[0]);
+        const minutes = selectedMeeting.time[0] % 1 !== 0 ? 30 : 0;
+        return new Date(year, month - 1, day, hours, minutes);
+    }, [selectedMeeting]);
+
 
 
 
@@ -63,7 +72,7 @@ export default function DayTab({ workTimeLimit, schedule }: Props) {
                 </section>
 
                 <div className="flex-1 min-h-0 flex gap-5 pr-0.5 pl-3">
-                    <section className="custom-scrollbar h-full overflow-y-auto w-full max-w-1/3 py-3">
+                    <section className="custom-scrollbar h-full overflow-y-auto w-full max-w-1/3 py-3 ">
                         <div className="grid grid-cols-[46px_1fr] grid-rows-1" style={{ height: `${rows * 84}px` }}>
                             <div className="relative pr-2 text-center" style={{ height: '100%' }}>
                                 {Array.from({ length: rows + 1 }).map((_, index) => (
@@ -120,7 +129,7 @@ export default function DayTab({ workTimeLimit, schedule }: Props) {
                         </div>
                     </section>
                     <section className="h-full w-full max-w-2/3 px-4">
-                        <Card className=" overflow-y-auto gap-0">
+                        <Card className=" overflow-y-auto gap-0 custom-scrollbar">
                             {selectedMeeting ? (
                                 <>
                                     <CardHeader className="gap-20 pb-3 flex justify-start items-center" style={{ borderBottom: `3px solid ${getSessionColor(selectedMeeting.type).accent}` }}>
@@ -159,10 +168,10 @@ export default function DayTab({ workTimeLimit, schedule }: Props) {
                                         <CardContent className="flex flex-col gap-4 pt-4">
                                             <div>
                                                 {selectedMeeting.notes ? (
-                                                    <div className='flex flex-col gap-3 max-h-[50vh] overflow-y-auto'>
+                                                    <div className='flex flex-col gap-3 max-h-[50vh] overflow-y-auto px-6 custom-scrollbar'>
                                                         <p className="text-muted-foreground text-sm">הערות מהפגישות הקודמות:</p>
                                                         {selectedMeeting.notes.map((note, index) => (
-                                                            <Card key={index}>
+                                                            <Card key={index} className="min-h-[15vh] max-h-[30vh] h-full overflow-auto">
                                                                 <CardHeader>
                                                                     <CardTitle>{formatDateTime(note.date)}</CardTitle>
                                                                 </CardHeader>
@@ -186,16 +195,34 @@ export default function DayTab({ workTimeLimit, schedule }: Props) {
                                                 <div className=' w-full'>
                                                     <p className="text-muted-foreground mb-1 text-xs font-medium uppercase tracking-wide">קישור לפגישה</p>
                                                     <div className='w-full flex items-center justify-start gap-5'>
-                                                        <Button asChild variant="outline" size="sm" className="gap-2">
-                                                            <a href={selectedMeeting.meet_url} target="_blank" rel="noopener noreferrer">
-                                                                <ExternalLink className="h-3.5 w-3.5" />
-                                                                הצטרף לפגישה
-                                                            </a>
+                                                        <Button
+                                                            variant="outline"
+                                                            size="sm"
+                                                            className="gap-2"
+                                                            disabled={!sessionStartDate || !canJoinSession(sessionStartDate)}
+                                                            asChild={!!sessionStartDate && canJoinSession(sessionStartDate)}
+                                                        >
+                                                            {sessionStartDate && canJoinSession(sessionStartDate) ? (
+                                                                <a href={selectedMeeting.meet_url} target="_blank" rel="noopener noreferrer">
+                                                                    <ExternalLink className="h-3.5 w-3.5" />
+                                                                    הצטרף לפגישה
+                                                                </a>
+                                                            ) : (
+                                                                <span className="flex items-center gap-2">
+                                                                    <ExternalLink className="h-3.5 w-3.5" />
+                                                                    הצטרף לפגישה
+                                                                </span>
+                                                            )}
                                                         </Button>
                                                         <Button variant='destructive' size='sm' className=''>
                                                             ביטול פגישה
                                                         </Button>
                                                     </div>
+                                                    {sessionStartDate && !canJoinSession(sessionStartDate) && (
+                                                        <p className="text-xs text-muted-foreground mt-2">
+                                                            {getJoinBlockReason(sessionStartDate)}
+                                                        </p>
+                                                    )}
                                                 </div>
                                             )}
                                         </CardContent>

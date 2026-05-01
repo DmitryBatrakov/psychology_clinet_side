@@ -134,7 +134,7 @@ export const mockSchedule: Schedule = [
 
     // ─── April 2026 — completed (Apr 1–27) ───────────────────────────────────
     { date: '2026-04-01', patient: P('Alice Petrova'),   description: 'Kickoff.',             meet_url: 'https://meet.google.com/abc-defg-hij', uid: 'apr-001', time: [8,  9],  status: 'completed', type: 'individual', notes: [
-        { date: ts('2026-04-26'), note: 'Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques.' },
+        { date: ts('2026-04-26'), note: 'Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques. Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques. Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques. Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques. Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques. Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques. Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques.' },
         { date: ts('2026-04-22'), note: 'Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques.' },
         { date: ts('2026-04-21'), note: 'Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques.' },
         { date: ts('2026-04-12'), note: 'Anxiety triggers mapped. Work deadlines are the main stressor. Started relaxation techniques.' },

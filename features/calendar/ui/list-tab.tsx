@@ -71,7 +71,7 @@ function ListTab({ schedule }: Props) {
                         <TableCell className="text-xs">
                           <div className="flex items-center gap-2">
                             <Circle size={10} fill={getSessionColor(meet.type).accent} stroke={getSessionColor(meet.type).accent} />
-                            <span className={isCompleted ? 'text-muted-foreground' : ''}>{meet.name}</span>
+                            <span className={isCompleted ? 'text-muted-foreground' : ''}>{`${meet.patient.firstName} ${meet.patient.lastName}`}</span>
                             {isPending && (
                               <span className="text-[10px] bg-amber-50 text-amber-600 border border-amber-300 rounded-full px-1.5 py-0.5 leading-tight">
                                 ממתין לאישור

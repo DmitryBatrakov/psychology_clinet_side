@@ -10,8 +10,8 @@ import { useTimeUntil } from "@/features/dashboard/lib/useTimeUntil";
 import { getDisplayTimes } from "@/features/dashboard/lib/sessionDisplayTime";
 import { CircleUser } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { canJoinSession, getJoinBlockReason } from "@/lib/func/can-join-session/canJoinSession";
 
 export function NextSessionBody() {
     const { user, loading: authLoading } = useAtomValue(authAtom);
@@ -65,18 +65,34 @@ export function NextSessionBody() {
                     )}
                 </div>
             </div>
-            <div className="flex gap-2">
-                <Button size="sm" variant="outline" className="flex-1" asChild>
-                    <Link href={`/patient-view/${patient.id}`}>
-                        פרטים
-                    </Link>
-                </Button>
-                {session.meetingUrl && (
-                    <Button size="sm" className="flex-1" asChild>
-                        <a href={session.meetingUrl} target="_blank" rel="noopener noreferrer">
-                            כניסה
-                        </a>
+            <div className="flex flex-col gap-2">
+                <div className="flex gap-2">
+                    <Button size="sm" variant="outline" className="flex-1" asChild>
+                        <Link href={`/patient-view/${patient.id}`}>
+                            פרטים
+                        </Link>
                     </Button>
+                    {session.meetingUrl && (
+                        <Button
+                            size="sm"
+                            className="flex-1"
+                            disabled={!canJoinSession(session.startAt)}
+                            asChild={canJoinSession(session.startAt)}
+                        >
+                            {canJoinSession(session.startAt) ? (
+                                <a href={session.meetingUrl} target="_blank" rel="noopener noreferrer">
+                                    כניסה
+                                </a>
+                            ) : (
+                                <span>כניסה</span>
+                            )}
+                        </Button>
+                    )}
+                </div>
+                {session.meetingUrl && !canJoinSession(session.startAt) && (
+                    <p className="text-xs text-muted-foreground text-center">
+                        {getJoinBlockReason(session.startAt)}
+                    </p>
                 )}
             </div>
         </div>

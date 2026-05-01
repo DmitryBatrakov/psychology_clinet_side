@@ -60,7 +60,14 @@ function ModalContent({ x, y }: { x: number; y: number }) {
         addPendingSession({
             uid: `pending-${Date.now()}`,
             date: toDateKey(newSession.date),
-            name: `${selectedClient.firstName} ${selectedClient.lastName}`,
+            patient: {
+                firstName: selectedClient.firstName,
+                lastName: selectedClient.lastName,
+                photoUrl: selectedClient.photoUrl ?? null,
+                gender: 'male',
+                languages: [],
+                birthDate: '',
+            },
             description: SESSION_TYPE_LABELS[sessionType],
             meet_url: '',
             time: [newSession.startHour, newSession.endHour],

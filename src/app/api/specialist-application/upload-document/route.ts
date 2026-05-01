@@ -1,12 +1,15 @@
 import { NextResponse } from "next/server";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
 import { r2Client, R2_BUCKET, R2_PUBLIC_URL } from "@/src/server/r2/client";
+import { requireAuth } from "@/src/server/authToken/requireAuth";
 
 const ALLOWED_TYPES = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 
 export async function POST(req: Request) {
     try {
+        await requireAuth(req);
+
         const formData = await req.formData();
         const file = formData.get("file") as File | null;
 

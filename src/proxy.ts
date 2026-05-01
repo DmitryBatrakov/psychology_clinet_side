@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { adminAuth } from "./server/firebase/admin";
 
-
 export async function proxy(_req: NextRequest) {
     const session = _req.cookies.get("__session")?.value;
 

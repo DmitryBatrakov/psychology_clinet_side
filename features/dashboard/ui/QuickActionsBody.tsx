@@ -1,13 +1,14 @@
 'use client';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import {
-  Bell,
   CalendarPlus,
   LucideIcon,
   Shredder,
   UserPlus,
 } from 'lucide-react';
+import { QuickBookingModal } from './QuickBookingModal';
 
 type Action = {
   icon: LucideIcon;
@@ -16,32 +17,34 @@ type Action = {
   color: { text: string; bg: string };
 };
 
-const actions: Action[] = [
-  {
-    icon: CalendarPlus,
-    title: 'New Booking',
-    action: () => console.log('trigger'),
-    color: { text: 'text-green-500', bg: 'bg-green-100!' },
-  },
-  {
-    icon: UserPlus,
-    title: 'Add client',
-    action: () => console.log('trigger'),
-    color: { text: 'text-blue-500', bg: 'bg-blue-100!' },
-  },
-  {
-    icon: Shredder,
-    title: 'Cancellation',
-    action: () => console.log('trigger'),
-    color: { text: 'text-red-500', bg: 'bg-red-100!' },
-  },
-];
-
 export default function QuickActionsBody() {
+  const [bookingOpen, setBookingOpen] = useState(false);
+
+  const actions: Action[] = [
+    {
+      icon: CalendarPlus,
+      title: 'New Booking',
+      action: () => setBookingOpen(true),
+      color: { text: 'text-green-500', bg: 'bg-green-100!' },
+    },
+    {
+      icon: UserPlus,
+      title: 'Add client',
+      action: () => console.log('trigger'),
+      color: { text: 'text-blue-500', bg: 'bg-blue-100!' },
+    },
+    {
+      icon: Shredder,
+      title: 'Cancellation',
+      action: () => console.log('trigger'),
+      color: { text: 'text-red-500', bg: 'bg-red-100!' },
+    },
+  ];
+
   return (
-    <div className="grid size-full grid-cols-3 gap-2">
-      {actions.map(({ action, title, icon: Icon, color }, index) => {
-        return (
+    <>
+      <div className="grid size-full grid-cols-3 gap-2">
+        {actions.map(({ action, title, icon: Icon, color }, index) => (
           <Button
             onClick={action}
             variant={'secondary'}
@@ -55,9 +58,11 @@ export default function QuickActionsBody() {
             <Icon className="size-6" />
             <span>{title}</span>
           </Button>
-        );
-      })}
-    </div>
+        ))}
+      </div>
+
+      <QuickBookingModal open={bookingOpen} onClose={() => setBookingOpen(false)} />
+    </>
   );
 }
 

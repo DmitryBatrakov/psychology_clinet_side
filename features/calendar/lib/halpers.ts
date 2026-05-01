@@ -6,7 +6,7 @@ import {
   startOfWeek,
 } from 'date-fns';
 
-type Meeting = { name: string; time: [number, number] };
+type Meeting = { time: [number, number] };
 type Gap = { start: number; end: number };
 
 function pushChunked(gaps: Gap[], from: number, to: number) {

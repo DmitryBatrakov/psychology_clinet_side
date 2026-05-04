@@ -9,6 +9,7 @@ export type AuthState = {
 export interface RegisterCredentials {
     email: string;
     password: string;
+    inviteToken?: string;
 }
 
 export interface GoogleAuthResponse {

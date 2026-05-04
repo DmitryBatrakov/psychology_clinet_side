@@ -5,10 +5,10 @@ import { toDateKey } from '@/lib/func/to-date-key/toDateKey';
 export type TimeSlot = { startHour: number; endHour: number };
 
 // SWAP POINT: replace with ScheduleRule fetched from the API
-const MOCK_WORK_HOURS: Record<number, { start: number; end: number } | null> = {
+export const MOCK_WORK_HOURS: Record<number, { start: number; end: number } | null> = {
     0: null,                    // Sunday  — off
     1: { start: 9, end: 18 },   // Monday
-    2: { start: 9, end: 18 },   // Tuesday
+    2: { start: 6, end: 23 },   // Tuesday
     3: { start: 9, end: 18 },   // Wednesday
     4: { start: 9, end: 18 },   // Thursday
     5: { start: 9, end: 14 },   // Friday

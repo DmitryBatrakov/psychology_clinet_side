@@ -25,17 +25,28 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { notify } from "@/lib/notify";
 import { getErrorMessage } from "@/lib/api-error";
 import { useRegister } from "@/features/auth/hooks/userRegister";
 import { Spinner } from "@/components/ui/spinner";
-
+import { Suspense, useEffect } from "react";
 
 export default function RegisterPage() {
-    const router = useRouter();
+    return (
+        <Suspense>
+            <RegisterForm />
+        </Suspense>
+    );
+}
 
-     const registerMutation = useRegister();
+function RegisterForm() {
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const inviteToken = searchParams.get("invite") ?? undefined;
+    const inviteEmail = searchParams.get("email") ?? undefined;
+
+    const registerMutation = useRegister();
 
     const form = useForm<RegisterFormValues>({
         resolver: zodResolver(registerSchema),
@@ -46,8 +57,14 @@ export default function RegisterPage() {
         mode: "onTouched",
     });
 
-     const onSubmit = (data: RegisterFormValues) => {
-        registerMutation.mutate(data, {
+    useEffect(() => {
+        if (inviteEmail) {
+            form.setValue("email", inviteEmail);
+        }
+    }, [inviteEmail, form]);
+
+    const onSubmit = (data: RegisterFormValues) => {
+        registerMutation.mutate({ ...data, inviteToken }, {
             onSuccess: () => {
                 notify.success("ההרשמה בוצעה בהצלחה!");
                 router.push("/auth/onboarding");
@@ -86,6 +103,7 @@ export default function RegisterPage() {
                                                 placeholder="example@gmail.com"
                                                 type="email"
                                                 dir="ltr"
+                                                readOnly={!!inviteEmail}
                                                 {...field}
                                             />
                                         </FormControl>

@@ -62,6 +62,11 @@ export const loginSchema = z.object({
     password: z.string().min(8).max(16),
 });
 
+export const registerWithInviteSchema = registerSchema.extend({
+    inviteToken: z.string().optional(),
+});
+
 export type RegisterFormValues = z.infer<typeof registerSchema>;
+export type RegisterWithInviteValues = z.infer<typeof registerWithInviteSchema>;
 
 export type LoginFormValues = z.infer<typeof loginSchema>;

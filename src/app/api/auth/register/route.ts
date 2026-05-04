@@ -4,13 +4,13 @@ import {
     adminDb,
     adminFieldValue,
 } from "@/src/server/firebase/admin";
-import { registerSchema } from "@/features/auth/validation";
+import { registerWithInviteSchema } from "@/features/auth/validation";
 import { ApiError, getErrorMessage } from "@/lib/api-error";
 
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const { email, password } = registerSchema.parse(body);
+        const { email, password, inviteToken } = registerWithInviteSchema.parse(body);
 
         const user = await adminAuth.createUser({ email, password });
 
@@ -23,6 +23,26 @@ export async function POST(req: Request) {
             balance: 0,
             createdAt: adminFieldValue.serverTimestamp(),
         });
+
+        if (inviteToken) {
+            const inviteRef = adminDb.collection("invitations").doc(inviteToken);
+            const inviteDoc = await inviteRef.get();
+            const invite = inviteDoc.data();
+
+            const isValid =
+                inviteDoc.exists &&
+                invite?.status === "pending" &&
+                invite?.email === email &&
+                invite?.expiresAt?.toDate() > new Date();
+
+            if (isValid) {
+                await inviteRef.update({
+                    status: "accepted",
+                    acceptedAt: adminFieldValue.serverTimestamp(),
+                    acceptedUid: uid,
+                });
+            }
+        }
 
         const customToken = await adminAuth.createCustomToken(uid);
         return NextResponse.json({ customToken }, { status: 201 });

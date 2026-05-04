@@ -6,6 +6,6 @@ import { useMutation } from "@tanstack/react-query";
 
 export const useRegister = () => {
     return useMutation<unknown, ApiError, RegisterCredentials>({
-        mutationFn: ({ email, password }) => registerUser(email, password),
+        mutationFn: ({ email, password, inviteToken }) => registerUser(email, password, inviteToken),
     });
 };

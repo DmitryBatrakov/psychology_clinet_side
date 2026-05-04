@@ -30,10 +30,17 @@ import { notify } from "@/lib/notify";
 import { getErrorMessage } from "@/lib/api-error";
 import { useRegister } from "@/features/auth/hooks/userRegister";
 import { Spinner } from "@/components/ui/spinner";
-import { useEffect } from "react";
-
+import { Suspense, useEffect } from "react";
 
 export default function RegisterPage() {
+    return (
+        <Suspense>
+            <RegisterForm />
+        </Suspense>
+    );
+}
+
+function RegisterForm() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const inviteToken = searchParams.get("invite") ?? undefined;

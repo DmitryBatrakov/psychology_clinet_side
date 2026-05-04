@@ -26,7 +26,7 @@ import { CheckCircle, XCircle } from 'lucide-react';
 interface Props {
     open: boolean;
     onClose: () => void;
-}
+} 
 
 export function QuickAddClientsModal({ open, onClose }: Props) {
     const { mutate, isPending, isSuccess, isError, error, reset: resetMutation } = useSendInvitation();

@@ -1,9 +1,11 @@
 "use client";
+
 import { authAtom } from "@/src/store/auth/authAtom";
 import { useAtomValue } from "jotai";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { CircleUser, Menu, X } from "lucide-react";
+import { IoMenu } from "react-icons/io5";
 import { useState } from "react";
 import {
     Drawer,
@@ -16,7 +18,9 @@ import {
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useUserData } from "@/features/user/hooks/useUserData";
-import Dashboard from "../../src/app/(specialist)/dashboard/page";
+import starIcon from "@/assets/header/navigation-star.svg";
+
+// import Dashboard from "../../src/app/(specialist)/dashboard/page";
 
 export const Header = () => {
     const { user, loading: authLoading } = useAtomValue(authAtom);
@@ -27,6 +31,13 @@ export const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const pathname = usePathname();
     const isMainPage = pathname === "/";
+
+    const navLinks = [
+        { href: "/", label: "עמוד הבית" },
+        { href: "/about", label: "קצת עלינו" },
+        { href: "/catalog", label: "אנשי מקצוע" },
+        { href: "/for-specialists", label: "מידע למטפלים" },
+    ];
 
     const handleAuthClick = () => {
         if (user) {
@@ -44,12 +55,12 @@ export const Header = () => {
     return (
         <header
             className={cn(
-                "flex items-center justify-between px-4 h-20 max-w-480 w-full mx-auto top-0 left-0 z-30",
+                "flex items-center justify-between px-2 lg:px-15 py-2 md:py-5 max-w-480 w-full mx-auto top-0 left-0 z-30",
                 isMainPage ? "absolute" : "relative",
             )}
         >
             <div className="hidden lg:flex items-center justify-between w-full">
-                <div className="flex flex-col items-center justify-center min-w-40">
+                <div className="flex flex-col items-start justify-center min-w-40">
                     {authLoading ? (
                         <CircleUser
                             color="gray"
@@ -82,15 +93,25 @@ export const Header = () => {
                         </button>
                     )}
                 </div>
-                <Link href="/dashboard">Dashboard</Link>
+                {/* <Link href="/dashboard">Dashboard</Link> */}
 
-                <nav className="flex items-center gap-10 text-[1.1rem] font-normal [&>a]:transition-colors [&>a:hover]:text-accent">
-                    <Link className="hover:text-accent" href="/">
-                        עמוד הבית
-                    </Link>
-                    <Link href="/about">קצת עלינו</Link>
-                    <Link href="/catalog">אנשי מקצוע</Link>
-                    <Link href="/for-specialists">מידע למטפלים</Link>
+                <nav className="bg-[#CAE1F130] rounded-[150px] flex items-center gap-2 text-xl font-normal">
+                    {navLinks.map(({ href, label }) => (
+                        <Link
+                            key={href}
+                            href={href}
+                            className={cn("hover:text-accent px-5 py-2 flex items-center gap-3", pathname === href && "bg-[#FBFBFB] rounded-[150px]")}
+                        >
+                            {label}
+                            <Image
+                                alt="star"
+                                src={starIcon}
+                                width={16}
+                                height={16}
+                                className={cn(pathname !== href && "invisible")}
+                            />
+                        </Link>
+                    ))}
                 </nav>
 
                 <div className="flex items-center justify-center">
@@ -100,25 +121,23 @@ export const Header = () => {
                 </div>
             </div>
 
+
+            {/* Mobile Navigation */}
             <div className="flex items-center justify-between lg:hidden w-full relative">
-                <div className="flex items-center justify-center">
-                    <span className="font-bold text-3xl text-foreground">
-                        Logo
-                    </span>
-                </div>
+
                 <Drawer
                     open={isMenuOpen}
                     onOpenChange={setIsMenuOpen}
-                    direction="left"
+                    direction="right"
                 >
                     <DrawerTrigger asChild>
                         <button
                             type="button"
-                            className="inline-flex items-center justify-center rounded-md p-2"
+                            className="inline-flex items-center justify-center rounded-md"
                             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                             aria-expanded={isMenuOpen}
                         >
-                            <Menu size={24} />
+                            <IoMenu className="text-accent w-13 h-auto " />
                         </button>
                     </DrawerTrigger>
                     <DrawerContent className="">
@@ -159,6 +178,11 @@ export const Header = () => {
                         </div>
                     </DrawerContent>
                 </Drawer>
+                <div className="flex items-center justify-center">
+                    <span className="font-bold text-3xl text-foreground">
+                        Logo
+                    </span>
+                </div>
             </div>
         </header>
     );

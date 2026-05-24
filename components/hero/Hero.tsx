@@ -1,75 +1,81 @@
 import Image from "next/image";
+import blueSpot from '@/assets/hero/blue-spot.svg'
+import greenSpot from '@/assets/hero/green-spot.svg'
+import blueLine from '@/assets/hero/blue-line.svg'
+import pinkLines from '@/assets/hero/pink-lines.svg'
+import claudeSmile from '@/assets/mascots/cloud-smile.svg'
+import { motion } from "motion/react";
 
 export const Hero = () => {
     return (
-        <section className="w-full h-full  flex flex-col items-center justify-center overflow-x-clip">
-            <div className="flex flex-col lg:flex-row-reverse items-center justify-center lg:justify-around gap-15 pt-10 w-full px-4 min-h-screen relative">
-                <div className="absolute inset-0 z-0 pointer-events-none">
-                    <div className="absolute top-0 left-0 lg:-top-17 lg:-left-4 w-[340px] h-[340px] md:w-[560px] md:h-[560px] lg:w-[1100px] lg:h-[1100px] z-10 rotate-2">
-                        <Image
-                            src="/assets/images/hero/VectorGreen.png"
-                            alt=""
-                            fill
-                            className="object-contain object-top-left"
-                        />
-                    </div>
-                    <div className="absolute top-0 left-0 lg:-top-25 lg:-left-10 lg:rotate-7 w-[340px] h-[340px] md:w-[530px] md:h-[530px] lg:w-[1000px] lg:h-[1000px]">
-                        <Image
-                            src="/assets/images/hero/VectorYellow.png"
-                            alt=""
-                            fill
-                            className="object-contain object-top-left"
-                        />
-                    </div>
-                </div>
-                <div className="relative w-[200px] h-[200px] md:w-[250px] md:h-[250px] lg:w-[380px] lg:h-[380px] top-5 left-5 md:left-0 md:top-0 lg:top-35 lg:left-45 z-20">
-                    <Image
-                        src="/assets/images/hero/imageHero.png"
-                        alt="Hero"
-                        fill
-                        className="object-cover absolute bottom-0 left-0 "
-                    />
-                <div className="relative w-[150px] h-[150px] -left-9 top-31 md:w-[200px] md:h-[200px] md:-left-10 md:top-37 lg:w-[250px] lg:h-[200px] lg:-left-20 lg:top-70 -z-10">
-                    <Image
-                        src="/assets/images/hero/EllipseGray.svg"
-                        alt="Elips Gray"
-                        fill
-                        className="object-contain absolute"
-                    />
-                </div>
-                </div>
-                <div className="flex flex-col items-center justify-center gap-5 realtive z-30">
-                    <div className="flex flex-col items-start justify-start gap-5 w-full">
-                        <h1 className="text-[2rem] font-normal">
+        <section className="w-full min-h-screen  flex flex-col items-center justify-center overflow-x-clip relative">
+            <div className="relative z-20 flex flex-col items-center justify-start pt-40 md:justify-center md:pt-10 gap-15  w-full px-4 min-h-screen">
+                <motion.div
+                    className="flex flex-col items-center justify-center gap-12 max-w-xl"
+                    transition={{ duration: 0.5, ease: 'circInOut' }}
+                    initial={{ opacity: 0, y: 40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 40 }}
+                >
+                    <div className="flex flex-col items-center justify-start gap-5 w-full text-center">
+                        <h1 className="text-[1.8rem] font-normal">
                             <strong>Logo</strong> - זה המקום הבטוח שלך
                         </h1>
-                        <div className="flex flex-col items-start justify-start md:items-center md:justify-center lg:items-start lg:justify-start gap-2 w-full">
-                            <span className="text-[1rem] font-base text-muted-foreground">
+                        <div className="flex flex-wrap flex-col items-center justify-center gap-0 max-w-70 w-full ">
+                            <span className="font-base text-muted-foreground text-[1.4rem]">
                                 המסע אל עצמך מתחיל בצעד אחד קטן.
-                            </span>
-                            <span className="text-[1rem] font-base text-muted-foreground">
                                 פשוט לדבר על זה
                             </span>
                         </div>
                     </div>
-                    <div className="flex flex-col items-center justify-center lg:justify-start lg:items-start  gap-4 w-full">
-                        <button className="bg-primary text-foreground px-4 py-3 rounded-full w-full max-w-xs hover:bg-primary/80 cursor-pointer shadow-md">
+                    <div className="flex flex-col items-center justify-center gap-4 w-full text-[16px] max-w-50 md:max-w-none">
+                        <button className="bg-accent text-accent-foreground px-4 py-2 rounded-full w-full max-w-xs cursor-pointer shadow-md">
                             לתאמת טיפול
                         </button>
-                        <button className="bg-secondary text-foreground px-4 py-3 rounded-full w-full max-w-xs hover:bg-secondary/80 cursor-pointer shadow-md">
+                        <button className="bg-border text-accent-foreground px-4 py-2 rounded-full w-full max-w-xs cursor-pointer shadow-md">
                             אנשי מקצוע
                         </button>
                     </div>
-                </div>
-                <div className="absolute top-10 left-0 md:left-0 md:top-45 lg:top-0 lg:left-0 w-full md:h-[450px] lg:h-[1000px] rotate-3 z-0 hidden md:block">
+                </motion.div>
+                <motion.div
+                    className="flex items-end justify-end absolute bottom-30 w-full lg:left-[8%] lg:top-1/2 lg:-translate-y-1/2"
+                    transition={{ duration: 0.5, ease: 'circInOut', delay: 0.1 }}
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                >
                     <Image
-                        src="/assets/images/hero/VectorPinkLine.svg"
+                        src={claudeSmile}
                         alt=""
-                        fill
-                        className="object-fill"
+                        className="w-75 md:w-90 lg:w-120 h-auto relative z-30"
+                        priority
                     />
-                </div>
+                </motion.div>
             </div>
+            <Image
+                src={greenSpot} 
+                alt=""
+                className="absolute top-0 right-0 z-0 max-w-206.75 h-auto w-76  md:w-110  lg:w-206.75"
+                priority
+            />
+            <Image
+                src={blueSpot}
+                alt=""
+                className="absolute top-0 right-0 z-10 max-w-174 h-auto w-65 md:w-90 lg:w-174"
+                priority
+            />
+            <Image
+                src={blueLine}
+                alt=""
+                className="absolute top-40 md:top-55 lg:top-72 right-0 z-20 max-w-43 w-13 md:w-20 lg:w-43 h-auto"
+                priority
+            />
+            <Image
+                src={pinkLines}
+                alt=""
+                className="absolute bottom-25 md:top-55 lg:top-120 left-0 z-10 max-w-43 w-31 md:w-20 lg:w-67 h-auto"
+                priority
+            />
         </section>
     );
 };

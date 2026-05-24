@@ -1,20 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import { Header } from "../../components/header/Header";
 import MainProvider from "@/components/providers/MainProvider";
 import { Toaster } from "@/components/ui/sonner";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-    variable: "--font-geist-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-    variable: "--font-geist-mono",
-    subsets: ["latin"],
-});
 
 export const ubuntu = Ubuntu({
     subsets: ["latin", "cyrillic"],
@@ -35,7 +23,7 @@ export default function RootLayout({
     return (
         <html lang="he" dir="rtl">
             <body className={`${ubuntu.variable} font-sans antialiased w-full`}>
-                <main className="max-w-480 w-full mx-auto">
+                <main className="max-w-480 w-full mx-auto bg-[#F4F9FC]">
                     <MainProvider>
                         
                         {children}

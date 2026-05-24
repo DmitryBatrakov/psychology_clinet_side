@@ -28,7 +28,7 @@ import { he } from 'date-fns/locale';
 import { ChevronLeft, ChevronRight, Plus } from 'lucide-react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { createContext, Dispatch, SetStateAction, Suspense, useCallback, useMemo, useState } from 'react';
-import { NewSessionModal } from '@/features/calendar/ui/create-new-session-modal';
+import { CreateSessionModal } from '@/features/calendar/ui/create-session-modal';
 import { useWorkTimeLimit } from '@/features/calendar/hooks/useWorkTimeLimit';
 import { authAtom } from '@/src/store/auth/authAtom';
 import { useAtomValue } from 'jotai';
@@ -160,7 +160,7 @@ function CalendarContent() {
                 className="relative m-2 flex max-h-[calc(100%-16px)] min-h-0 flex-1 flex-col gap-0"
             >
                 {newSession && (
-                    <NewSessionModal />
+                    <CreateSessionModal />
                 )}
                 <Widget.Content className="max-h-full *:max-h-full">
                     <Tabs
@@ -180,7 +180,7 @@ function CalendarContent() {
                             </TabsList>
 
                             <div className="flex justify-end gap-2 *:cursor-pointer *:shadow-sm">
-                                <Button variant="ghost" className="mx-3 bg-white" size={'icon'}><Plus /></Button>
+                                <Button variant="ghost" className="mx-3 bg-white" size={'icon'} onClick={() =>  {alert("click")}}><Plus /></Button>
                                 <Button onClick={() => intervalStep(-1)} variant="ghost" size={'icon'} className='bg-white'>
                                     <ChevronLeft className='rotate-180' />
                                 </Button>

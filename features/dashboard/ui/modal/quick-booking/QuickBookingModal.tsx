@@ -16,12 +16,10 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Calendar } from '@/components/ui/calendar';
-import {
-    Dialog,
-    DialogContent,
-    DialogHeader,
-    DialogTitle,
-} from '@/components/ui/dialog';
+import { Sheet, SheetHeader, SheetTitle, SheetFooter } from '@/components/ui/sheet';
+import * as SheetPrimitive from '@radix-ui/react-dialog';
+import { XIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { useAvailableSlots } from '../../../hooks/useAvailableSlots';
 import { TimeSlot, MOCK_WORK_HOURS } from '../../../lib/getAvailableSlots';
 import { he } from 'date-fns/locale';
@@ -144,144 +142,154 @@ export function QuickBookingModal({ open, onClose, sessionTypes }: Props) {
     const canCreate = !!selectedDate && !!selectedSlot && !!selectedClient && !!sessionType;
 
     return (
-        <Dialog open={open} onOpenChange={(o) => !o && handleClose()}>
-            <DialogContent dir="rtl" className="sm:max-w-220 *:data-[slot=dialog-close]:right-auto *:data-[slot=dialog-close]:left-5 *:data-[slot=dialog-close]:top-5 *:data-[slot=dialog-close]:bg-primary *:data-[slot=dialog-close]:p-1 *:data-[slot=dialog-close]:rounded-sm *:data-[slot=dialog-close]:text-foreground">
-                <DialogHeader>
-                    <DialogTitle className="text-right">פגישה חדשה</DialogTitle>
-                </DialogHeader>
+        <Sheet open={open} onOpenChange={(o) => !o && handleClose()}>
+            <SheetPrimitive.Portal>
+                <SheetPrimitive.Overlay className="fixed inset-0 z-50 bg-black/30 backdrop-blur-[3px] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+                <SheetPrimitive.Content
+                    dir="rtl"
+                    onOpenAutoFocus={(e) => e.preventDefault()}
+                    className={cn(
+                        'bg-background fixed inset-y-0 right-0 z-50 flex h-full w-3/4 flex-col gap-0 border-l shadow-lg transition ease-in-out sm:max-w-md',
+                        'data-[state=open]:animate-in data-[state=closed]:animate-out',
+                        'data-[state=closed]:duration-300 data-[state=open]:duration-500',
+                        'data-[state=closed]:slide-out-to-right data-[state=open]:slide-in-from-right',
+                        'overflow-hidden',
+                    )}
+                >
+                <SheetPrimitive.Close className="absolute top-4 left-4 rounded-sm transition-all duration-200 bg-primary hover:brightness-105 cursor-pointer p-1 focus:outline-hidden disabled:pointer-events-none">
+                    <XIcon className="size-4" />
+                    <span className="sr-only">סגור</span>
+                </SheetPrimitive.Close>
 
-                <div className="flex w-full justify-between items-start p-2 gap-5">
-                    {/* Date */}
-                    <div className=" flex flex-col items-center justify-start  w-1/2 p-4 shadow-[inset_0_0_10px_0] shadow-black/10 rounded-lg">
-                        <label className="text-sm font-medium text-foreground w-full">תאריך</label>
-                        <div className="flex justify-center min-h-95">
+                <SheetHeader className="border-b pb-4 shrink-0">
+                    <SheetTitle>פגישה חדשה</SheetTitle>
+                </SheetHeader>
+
+                <div className="flex flex-col gap-6 overflow-y-auto flex-1 px-4 py-4">
+                    {/* Client search */}
+                    <div className="space-y-1.5 flex flex-col gap-1">
+                        <label className="text-sm font-medium text-foreground">לקוח</label>
+                        <div className="relative">
+                            <Search className="pointer-events-none absolute right-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                            <Input
+                                placeholder="חיפוש לפי שם..."
+                                value={clientSearch}
+                                onChange={handleClientInput}
+                                onFocus={() => setDropdownOpen(true)}
+                                onBlur={() => setTimeout(() => setDropdownOpen(false), 150)}
+                                className="pr-9 text-right"
+                            />
+                            {dropdownOpen && filteredClients.length > 0 && (
+                                <div className="absolute top-full z-50 mt-1 w-full overflow-hidden rounded-lg border bg-white shadow-lg">
+                                    {filteredClients.map((client) => (
+                                        <button
+                                            key={client.uid}
+                                            onMouseDown={() => handleSelectClient(client)}
+                                            className="flex w-full cursor-pointer items-center gap-3 px-3 py-2.5 text-sm transition-colors hover:bg-primary/5"
+                                        >
+                                            <ClientAvatar client={client} />
+                                            <div className="flex flex-col items-start">
+                                                <span className="font-medium text-foreground">
+                                                    {client.firstName} {client.lastName}
+                                                </span>
+                                                <span className="text-xs text-muted-foreground">
+                                                    {client.phoneNumber}
+                                                </span>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Session type */}
+                    <div className="space-y-1.5 flex flex-col gap-1">
+                        <label className="text-sm font-medium text-foreground">סוג פגישה</label>
+                        <div className="grid grid-cols-2 gap-2">
+                            {sessionTypes.map((type) => (
+                                <button
+                                    key={type}
+                                    onClick={() => setSessionType(type)}
+                                    className={`flex cursor-pointer items-center justify-center rounded-lg border py-2 text-sm font-medium transition-colors
+                                        ${sessionType === type
+                                            ? 'border-primary bg-primary text-foreground'
+                                            : 'border-border text-muted-foreground hover:border-primary hover:bg-primary/30'
+                                        }`}
+                                >
+                                    {SESSION_TYPE_LABELS[type]}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Date picker */}
+                    <div className="space-y-1.5 flex flex-col gap-1">
+                        <label className="text-sm font-medium text-foreground">תאריך</label>
+                        <div className="flex justify-center rounded-lg shadow-[inset_0_0_10px_0] shadow-black/10 p-2">
                             <Calendar
                                 locale={he}
                                 mode="single"
                                 selected={selectedDate}
                                 onSelect={handleDateSelect}
                                 disabled={(d) => d < today || !MOCK_WORK_HOURS[d.getDay()]}
-                                className="rounded-lg [--cell-size:--spacing(10)]  p-0"
-                                classNames={{ week: "flex w-full mt-2 gap-x-2" }}
+                                className="rounded-lg [--cell-size:--spacing(9)] p-0"
+                                classNames={{ week: 'flex w-full mt-2 gap-x-1' }}
                             />
                         </div>
-
-                        {/* Time slots — shown only after date is picked */}
-                        <div className="min-h-50 space-y-2 flex flex-col items-start justify-start w-full">
-                            <label className="flex items-center gap-1.5 text-sm font-medium text-foreground">
-                                <Clock className="h-3.5 w-3.5" />
-                                שעת התחלה
-                            </label>
-                            {slotsLoading ? (
-                                <SlotsSkeleton />
-                            ) : slots.length === 0 ? (
-                                <div className='w-full flex items-center justify-center'>
-                                    <p className="py-2 text-sm text-muted-foreground">
-                                        אין זמנים פנויים ביום זה
-                                    </p>
-                                </div>
-                            ) : (
-                                <AnimatePresence mode="wait">
-                                    <motion.div
-                                        key={selectedDate?.toISOString()}
-                                        className="grid grid-cols-5 gap-2 w-full"
-                                    >
-                                        {slots.map((slot, index) => (
-                                            <motion.button
-                                                key={slot.startHour}
-                                                initial={{ opacity: 0, y: -10 }}
-                                                animate={{ opacity: 1, y: 0 }}
-                                                transition={{ duration: 0.18, ease: 'easeOut', delay: index * 0.04 }}
-                                                onClick={() => setSelectedSlot(slot)}
-                                                className={`cursor-pointer rounded-full border py-1.5 text-sm font-medium transition-colors text-center
-                                                    ${selectedSlot?.startHour === slot.startHour
-                                                        ? 'border-primary bg-primary text-foreground'
-                                                        : 'border-border text-muted-foreground hover:border-primary hover:bg-primary/10'
-                                                    }`}
-                                            >
-                                                {String(slot.startHour).padStart(2, '0')}:00
-                                            </motion.button>
-                                        ))}
-                                    </motion.div>
-                                </AnimatePresence>
-                            )}
-                        </div>
                     </div>
 
-                    <div className="flex flex-col justify-between gap-6 w-1/2 h-full">
-                        {/* Client search */}
-                        <div className="flex flex-col items-start justify-start w-full p-4">
-                            <div className="space-y-1.5 w-full">
-                                <label className="text-sm font-medium text-foreground ">לקוח</label>
-                                <div className="relative py-2">
-                                    <Search className="pointer-events-none absolute right-3 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                                    <Input
-                                        placeholder="חיפוש לפי שם..."
-                                        value={clientSearch}
-                                        onChange={handleClientInput}
-                                        onFocus={() => setDropdownOpen(true)}
-                                        onBlur={() => setTimeout(() => setDropdownOpen(false), 150)}
-                                        className="pr-9 text-right"
-                                    />
-                                    {dropdownOpen && filteredClients.length > 0 && (
-                                        <div className="absolute top-full z-50 mt-1 w-full overflow-hidden rounded-lg border bg-white shadow-lg">
-                                            {filteredClients.map((client) => (
-                                                <button
-                                                    key={client.uid}
-                                                    onMouseDown={() => handleSelectClient(client)}
-                                                    className="flex w-full cursor-pointer items-center gap-3 px-3 py-2.5 text-sm transition-colors hover:bg-primary/5"
-                                                >
-                                                    <ClientAvatar client={client} />
-                                                    <div className="flex flex-col items-start">
-                                                        <span className="font-medium text-foreground">
-                                                            {client.firstName} {client.lastName}
-                                                        </span>
-                                                        <span className="text-xs text-muted-foreground">
-                                                            {client.phoneNumber}
-                                                        </span>
-                                                    </div>
-                                                </button>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Session type */}
-                            <div className="space-y-1.5 w-full">
-                                <label className="text-sm font-medium text-foreground">סוג פגישה</label>
-                                <div className="grid grid-cols-2 gap-2 py-2">
-                                    {sessionTypes.map((type) => (
-                                        <button
-                                            key={type}
-                                            onClick={() => setSessionType(type)}
-                                            className={`flex cursor-pointer items-center justify-center rounded-lg border py-2 text-sm font-medium transition-colors
-                                        ${sessionType === type
+                    {/* Time slots */}
+                    <div className="space-y-2 flex flex-col gap-1">
+                        <label className="flex items-center gap-1.5 text-sm font-medium text-foreground">
+                            <Clock className="h-3.5 w-3.5" />
+                            שעת התחלה
+                        </label>
+                        {!selectedDate ? (
+                            <p className="text-sm text-muted-foreground">בחר תאריך כדי לראות זמנים פנויים</p>
+                        ) : slotsLoading ? (
+                            <SlotsSkeleton />
+                        ) : slots.length === 0 ? (
+                            <p className="py-2 text-sm text-muted-foreground">אין זמנים פנויים ביום זה</p>
+                        ) : (
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={selectedDate?.toISOString()}
+                                    className="grid grid-cols-4 gap-2"
+                                >
+                                    {slots.map((slot, index) => (
+                                        <motion.button
+                                            key={slot.startHour}
+                                            initial={{ opacity: 0, y: -10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ duration: 0.18, ease: 'easeOut', delay: index * 0.04 }}
+                                            onClick={() => setSelectedSlot(slot)}
+                                            className={`cursor-pointer rounded-full border py-1.5 text-sm font-medium transition-colors text-center
+                                                ${selectedSlot?.startHour === slot.startHour
                                                     ? 'border-primary bg-primary text-foreground'
-                                                    : 'border-border text-muted-foreground hover:border-primary hover:bg-primary/30'
+                                                    : 'border-border text-muted-foreground hover:border-primary hover:bg-primary/10'
                                                 }`}
                                         >
-                                            {SESSION_TYPE_LABELS[type]}
-                                        </button>
+                                            {String(slot.startHour).padStart(2, '0')}:00
+                                        </motion.button>
                                     ))}
-                                </div>
-                            </div>
-                        </div>
-
-
-                        {/* Actions */}
-                        <div className="flex gap-2 pt-2">
-                            <Button
-                                className="flex-1 cursor-pointer bg-green-500 text-foreground"
-                                onClick={handleCreate}
-                                disabled={!canCreate}
-                            >
-                                לקבוע פגישה
-                            </Button>
-                        </div>
+                                </motion.div>
+                            </AnimatePresence>
+                        )}
                     </div>
                 </div>
-            </DialogContent>
-        </Dialog>
+
+                <SheetFooter className="border-t pt-4 shrink-0">
+                    <Button
+                        className="w-full cursor-pointer bg-green-500 text-foreground"
+                        onClick={handleCreate}
+                        disabled={!canCreate}
+                    >
+                        לקבוע פגישה
+                    </Button>
+                </SheetFooter>
+                </SheetPrimitive.Content>
+            </SheetPrimitive.Portal>
+        </Sheet>
     );
 }

@@ -208,7 +208,7 @@ function ModalContent({ x, y }: { x: number; y: number }) {
     );
 }
 
-export function NewSessionModal() {
+export function CreateSessionModal() {
     const { getter: { newSession }, setter: { setNewSession } } = useContext(ShownDateInterval);
     const vw = window.innerWidth;
     const vh = window.innerHeight;
@@ -217,7 +217,7 @@ export function NewSessionModal() {
         <AnimatePresence>
             {newSession && (
                 <div
-                    className="fixed inset-0 z-40 bg-black/10"
+                    className="fixed inset-0 z-40 bg-black/10 backdrop-blur-[1px]"
                     style={{ width: vw, height: vh }}
                 >
                     <div className="fixed inset-0 z-40" onClick={() => setNewSession(null)} />
